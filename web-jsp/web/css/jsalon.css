@@ -1,0 +1,188 @@
+body {
+    font: 10pt Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+#header {
+    background: #662c62;
+    background: linear-gradient(to right, #ae1db1, #662c62);
+    background: -webkit-gradient(linear, left top, right top, from(#ae1db1), to(#662c62));
+    background: -webkit-linear-gradient(left, #ae1db1, #662c62);
+    background: -moz-linear-gradient(left, #ae1db1, #662c62);
+    background: -ms-linear-gradient(left, #ae1db1, #662c62);
+    background: -o-linear-gradient(left, #ae1db1, #662c62);
+    color: #ffffff;
+    width: 100%;
+    display: inline-block;
+    margin: 5px 0;
+}
+
+.header-title {
+    font-size: 16pt;
+    display: inline-block;
+    min-width: 250px;
+    margin: 20px 5px 0 30px;
+}
+
+.header-table {
+    float: right;
+    min-width: 250px;
+    margin: 5px;
+}
+
+table.header-table a {
+    color: #ffffff;
+}
+
+#menu {
+    float: left;
+    width: 220px;
+    margin: 0 5px 5px;
+}
+
+#content {
+    margin: 0 5px 5px 235px ;
+}
+
+.content-table {
+    display: inline-block;
+    width: 100%;
+}
+
+.content-title {
+    font-size: 13pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin: 10px 0 20px 0;
+}
+
+#footer {
+    clear: left;
+    text-align: center;
+    color: darkgray;
+    margin: 20px 0;
+}
+
+.err {
+    color: red;
+    font-weight: bold;
+}
+
+.norm {
+    color: green;
+    font-weight: bold;
+}
+
+.warn {
+    color: #f2bd00;
+    font-weight: bold;
+}
+
+.create, .edit {
+    display: none;
+}
+
+#hiddenForm {
+    float: left;
+    margin: 15px 0;
+}
+
+.form-field {
+    clear: both;
+    text-align: right;
+    line-height: 25px;
+    margin-bottom: 5px;
+}
+
+div.form-field label {
+    float: left;
+    padding-right: 20px;
+}
+
+div.form-field input {
+    width: 205px;
+}
+
+div.form-field select {
+    width: 210px;
+    font-size: 10pt;
+}
+
+#deleteConfirm {
+    display: none;
+}
+
+#buttonset {
+    margin-top: 10px;
+}
+
+.dt-col-center {
+    text-align: center;
+}
+.dt-col-right {
+    text-align: right;
+}
+
+/*
+ * Вертикальное меню в стиле аккордеон, раскрывающиеся по клику,
+ * со встроенным счётчиком подпунктов меню
+ */
+
+#main-menu {
+    max-width: 220px;
+    margin: 0 auto;
+    border: 1px solid #222;
+    box-shadow: 0 0 10px #000;
+    font-size: 11pt;
+}
+
+#menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#main-menu li {
+    position: relative;
+}
+
+#main-menu li a {
+    display: block;
+    padding: 10px 15px;
+    border-bottom: 1px solid #222;
+    text-decoration: none;
+    color:#C9C9C9;
+    text-shadow: 1px 1px 3px #111;
+    background: #333;
+    box-shadow:inset 0 1px 0 0 rgba(250,250,250,0.1);
+    background-image: linear-gradient(#444, #333);
+    background-image: -ms-linear-gradient(#444, #333);
+}
+
+#main-menu li a:hover, #main-menu li a.active {
+    color:#f2bd00;
+}
+
+#main-menu li ul {
+    display: none;
+}
+
+#main-menu li ul li a {
+    padding: 6px 12px;
+    background: #ececec;
+    color: #514B92;
+    text-shadow: 1px 1px 3px #ccc;
+    border-bottom: 1px dotted #ccc;
+}
+
+#main-menu li ul li a:hover {
+    background: #ccc;
+    color: darkred;
+    padding-left: 18px;
+}
+
+#main-menu li ul li a:after {
+    content: "»";
+    float: left;
+    margin-right: 4px;
+}

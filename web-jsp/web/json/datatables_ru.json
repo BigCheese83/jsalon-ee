@@ -1,0 +1,14 @@
+{
+    "lengthMenu": "Показать _MENU_ строк",
+    "zeroRecords": "Ничего не найдено :(",
+    "info": "Страница _PAGE_ из _PAGES_",
+    "search": "Поиск:",
+    "loadingRecords": "Загрузка...",
+    "processing": "Обработка...",
+    "paginate": {
+        "first": "Первая",
+        "last": "Последняя",
+        "next": "Вперед",
+        "previous": "Назад"
+    }
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <definition name="base.admin.template" template="/WEB-INF/tiles/base_template.jsp">
+        <put-attribute name="title" value="Welcome to Admin Page"/>
+        <put-attribute name="header" value="/WEB-INF/tiles/header_admin.jsp"/>
+        <put-attribute name="menu" value="/WEB-INF/tiles/menu_admin.jsp"/>
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"/>
+        <put-attribute name="scripts" value=""/>
+    </definition>
+    <definition name="admin.users" extends="base.admin.template">
+        <put-attribute name="title" value="Консоль администратора - Все пользователи"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_users_all.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_table_serverside.jsp"/>
+    </definition>
+    <definition name="admin.user.crud" extends="base.admin.template">
+        <put-attribute name="title" value="Консоль администратора - Поиск/Редактирование пользователя"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_user_crud.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_model_crud.jsp"/>
+    </definition>
+    <definition name="admin.table.discounts" extends="base.admin.template">
+        <put-attribute name="title" value="Консоль администратора - Справочники/Скидки"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_table_discounts.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_table_crud.jsp"/>
+    </definition>
+    <definition name="admin.table.posts" extends="base.admin.template">
+        <put-attribute name="title" value="Консоль администратора - Справочники/Должности"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_table_posts.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_table_crud.jsp"/>
+    </definition>
+    <definition name="admin.table.services" extends="base.admin.template">
+        <put-attribute name="title" value="Консоль администратора - Справочники/Услуги"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_table_services.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_table_crud.jsp"/>
+    </definition>
+    <definition name="admin.settings" extends="base.admin.template">
+        <put-attribute name="title" value="Консоль администратора - Настройки"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_settings.jsp"/>
+    </definition>
+    <definition name="admin.sysinfo" extends="base.admin.template">
+        <put-attribute name="title" value="Консоль администратора - Системная информация"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_sysinfo.jsp"/>
+    </definition>
+</tiles-definitions>

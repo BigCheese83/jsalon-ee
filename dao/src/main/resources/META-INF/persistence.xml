@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+    <persistence-unit name="Salon_PU" transaction-type="JTA">
+        <jta-data-source>jdbc/salon</jta-data-source>
+            <class>ru.bigcheese.jsalon.ee.dao.entity.AddressEntity</class>
+            <class>ru.bigcheese.jsalon.ee.dao.entity.ClientEntity</class>
+            <class>ru.bigcheese.jsalon.ee.dao.entity.ContactEntity</class>
+            <class>ru.bigcheese.jsalon.ee.dao.entity.DiscountEntity</class>
+            <class>ru.bigcheese.jsalon.ee.dao.entity.MasterEntity</class>
+            <class>ru.bigcheese.jsalon.ee.dao.entity.PassportEntity</class>
+            <class>ru.bigcheese.jsalon.ee.dao.entity.PostEntity</class>
+            <class>ru.bigcheese.jsalon.ee.dao.entity.ServiceEntity</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="eclipselink.target-database" value="PostgreSQL"/>
+            <property name="eclipselink.logging.level" value="INFO"/>
+            <!--<property name="eclipselink.canonicalmodel.subpackage" value="release"/>-->
+        </properties>
+    </persistence-unit>
+</persistence>

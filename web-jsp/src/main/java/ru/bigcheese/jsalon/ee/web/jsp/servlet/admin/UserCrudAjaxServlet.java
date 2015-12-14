@@ -1,0 +1,133 @@
+package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
+
+import com.google.gson.GsonBuilder;
+import org.apache.commons.lang3.StringUtils;
+import ru.bigcheese.jsalon.core.exception.ValidationException;
+import ru.bigcheese.jsalon.core.model.User;
+import ru.bigcheese.jsalon.core.util.NumberUtils;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
+import ru.bigcheese.jsalon.ee.ejb.UserEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
+import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
+import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
+
+import javax.ejb.EJB;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by BigCheese on 19.08.15.
+ */
+@WebServlet(name = "UserCrudAjaxServlet", urlPatterns = {"/admin/user/ajax"})
+public class UserCrudAjaxServlet extends AbstractAjaxServlet {
+
+    @EJB
+    private UserEJBLocal userEJB;
+
+    @Override
+    protected String getJsonResponse(HttpServletRequest request) {
+        String json;
+        try {
+            if ("true".equals(request.getParameter("searchRequest"))) {
+                List<User> users = userEJB.findUsersByCriteria(buildCriteria(request));
+                json = new GsonBuilder().serializeNulls().create().toJson(users);
+            } else {
+                String radioId = request.getParameter("radioID");
+                CrudEntityResult result;
+                if ("newRadio".equals(radioId)) {
+                    User user = parseRequest(request);
+                    user.validate();
+                    String newPassword = request.getParameter("newPassword");
+                    String newPassword2 = request.getParameter("newPassword2");
+                    validatePassword(newPassword, newPassword2);
+                    result = userEJB.createUser(user, newPassword);
+                } else if ("editRadio".equals(radioId)) {
+                    User user = parseRequest(request);
+                    user.validate();
+                    String oldPassword = request.getParameter("oldPassword");
+                    String newPassword = request.getParameter("newPassword");
+                    String newPassword2 = request.getParameter("newPassword2");
+                    validatePassword(newPassword, newPassword2);
+                    result = userEJB.updateUser(user, oldPassword, newPassword);
+                } else if ("delRadio".equals(radioId)) {
+                    result = userEJB.deleteUser(NumberUtils.toLong(request.getParameter("userID")));
+                } else {
+                    throw new Exception("Unknown operation");
+                }
+                json = JsonUtils.getJsonCrudEjbResult(result);
+            }
+        } catch (ValidationException e) {
+            json = JsonUtils.getJsonValidateErrors(e);
+        } catch (Throwable e) {
+            json = JsonUtils.getJsonError(e);
+        }
+        return json;
+    }
+
+    private QueryCriteria buildCriteria(HttpServletRequest request) throws ValidationException {
+        Map<String, String> params = new HashMap<>();
+
+        String login = request.getParameter("sUsername");
+        String lastname = request.getParameter("sLastname");
+        String firstname = request.getParameter("sFirstname");
+        String middlename = request.getParameter("sMiddlename");
+        String role = request.getParameter("sRole");
+
+        if (StringUtils.isNotBlank(login)) {
+            params.put("username", login);
+        }
+        if (StringUtils.isNotBlank(lastname)) {
+            params.put("lastname", lastname);
+        }
+        if (StringUtils.isNotBlank(firstname)) {
+            params.put("firstname", firstname);
+        }
+        if (StringUtils.isNotBlank(middlename)) {
+            params.put("middlename", middlename);
+        }
+        if (StringUtils.isNotBlank(role)) {
+            params.put("role", role);
+        }
+
+        if (params.isEmpty()) {
+            throw new ValidationException("All search params is empty. Enter at least one parameter!");
+        }
+
+        QueryCriteria criteria = QueryCriteriaFactory.getInstance();
+        criteria.where();
+        Iterator<Map.Entry<String, String>> iter = params.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String, String> entry = iter.next();
+            criteria.equal(entry.getKey(), entry.getValue());
+            if (iter.hasNext()) {
+                criteria.and();
+            }
+        }
+        return criteria;
+    }
+
+    private User parseRequest(HttpServletRequest request) {
+        User user = new User();
+        user.setId(NumberUtils.toLong(request.getParameter("userID")));
+        user.setLogin(StringUtils.stripToNull(request.getParameter("userLogin")));
+        user.setFirstName(StringUtils.stripToNull(request.getParameter("userFirstname")));
+        user.setLastName(StringUtils.stripToNull(request.getParameter("userLastname")));
+        user.setMiddleName(StringUtils.stripToNull(request.getParameter("userMiddlename")));
+        user.setRole(StringUtils.stripToNull(request.getParameter("userRole")));
+        return user;
+    }
+
+    private void validatePassword(String newPassword, String newPassword2) throws ValidationException {
+        if (StringUtils.isBlank(newPassword) && StringUtils.isBlank(newPassword2)) {
+            return;
+        }
+        if (!newPassword.equals(newPassword2)) {
+            throw new ValidationException("Пароли не совпадают!");
+        }
+    }
+}
