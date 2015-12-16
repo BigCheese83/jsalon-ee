@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="<c:url value="/css/jsalon.css"/>" type="text/css"/>
 <link rel="stylesheet" href="<c:url value="/css/jquery-ui.css"/>" type="text/css"/>
 <link rel="stylesheet" href="<c:url value="/css/jquery.dataTables.css"/>" type="text/css"/>
+<link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>" type="text/css"/>
 </head>
 <body>
 <tiles:insertAttribute name="header"/>

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="content">
     <fieldset>
-    <legend class="content-title">Все пользователи</legend>
+    <legend class="content-title"><i class="fa fa-users"></i> Все пользователи</legend>
     <div class="content-table">
         <table id="datatable" class="display">
             <thead>

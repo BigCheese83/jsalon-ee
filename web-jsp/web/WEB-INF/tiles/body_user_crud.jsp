@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="content">
     <fieldset>
-    <legend class="content-title">Поиск / Редактирование</legend>
+    <legend class="content-title"><i class="fa fa-pencil-square-o"></i> Поиск / Редактирование</legend>
     <table id="search" cellpadding="5">
         <tr>
             <td>
@@ -26,7 +26,7 @@
                 <input type="text" id="sRole" name="sRole">
             </td>
         </tr>
-        <tr><td colspan="0"><input type="button" id="searchButton" value="Поиск"></td></tr>
+        <tr><td colspan="0"><button id="searchButton"><i class="fa fa-search"></i> Поиск</button></td></tr>
     </table>
     <div id="searchMessage" class="err" style="margin: 20px 0"></div>
     <div class="content-table">

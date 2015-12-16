@@ -12,6 +12,7 @@
             <url-pattern>/json/*</url-pattern>
             <url-pattern>/images/*</url-pattern>
             <url-pattern>/reports/*</url-pattern>
+            <url-pattern>/fonts/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>PUT</http-method>

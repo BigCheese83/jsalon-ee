@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="content">
     <fieldset>
-    <legend class="content-title">Справочники / Услуги</legend>
+    <legend class="content-title"><i class="fa fa-table"></i> Справочники / Услуги</legend>
     <c:forEach var="message" items="${requestScope.errMessages}">
     <p class="err">${message}</p>
     </c:forEach>

@@ -6,6 +6,6 @@
     <table class="header-table">
         <tr><td>Версия ПО:</td><td><%=Constants.VERSION_NUMBER%> от <%=Constants.VERSION_DATE%></td></tr>
         <tr><td>Пользователь:</td><td>${sessionScope.user.login} (${sessionScope.user.shortFIO})</td></tr>
-        <tr><td colspan="2"><a href="<c:url value="/admin/logout"/>">Выход</a></td></tr>
+        <tr><td colspan="2"><a href="<c:url value="/admin/logout"/>">Выход</a> <i class="fa fa-sign-out"></i></td></tr>
     </table>
 </div><!-- End div header -->
