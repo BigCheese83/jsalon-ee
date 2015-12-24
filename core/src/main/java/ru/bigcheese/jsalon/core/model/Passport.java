@@ -1,6 +1,11 @@
 package ru.bigcheese.jsalon.core.model;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -60,5 +65,23 @@ public class Passport extends BaseModel {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    protected List<String> getValidateErrors() {
+        List<String> errors = new ArrayList<String>();
+        if (StringUtils.isBlank(number)) {
+            errors.add("Укажите номер паспорта");
+        }
+        if (StringUtils.isBlank(issuedBy)) {
+            errors.add("Укажите, кем выдан паспорт");
+        }
+        if (issueDate == null) {
+            errors.add("Укажите дату выдачи");
+        }
+        if (StringUtils.isBlank(country)) {
+            errors.add("Укажите страну, в которой выдан паспорт");
+        }
+        return Collections.unmodifiableList(errors);
     }
 }

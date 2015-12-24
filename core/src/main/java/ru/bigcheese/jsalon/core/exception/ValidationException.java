@@ -3,6 +3,7 @@ package ru.bigcheese.jsalon.core.exception;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class ValidationException extends Exception {
     }
 
     public List<String> getMessages() {
-        return messages;
+        return Collections.unmodifiableList(messages);
     }
 
     @Override

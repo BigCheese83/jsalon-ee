@@ -1,5 +1,11 @@
 package ru.bigcheese.jsalon.core.model;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by BigCheese on 31.07.15.
  */
@@ -76,5 +82,26 @@ public class Address extends BaseModel {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    @Override
+    protected List<String> getValidateErrors() {
+        List<String> errors = new ArrayList<String>();
+        if (StringUtils.isBlank(country)) {
+            errors.add("Укажите страну");
+        }
+        if (StringUtils.isBlank(city)) {
+            errors.add("Укажите город (населенный пункт)");
+        }
+        if (StringUtils.isBlank(street)) {
+            errors.add("Укажите улицу");
+        }
+        if (StringUtils.isBlank(house)) {
+            errors.add("Укажите номер дома");
+        }
+        if (StringUtils.isBlank(flat)) {
+            errors.add("Укажите номер квартиры");
+        }
+        return Collections.unmodifiableList(errors);
     }
 }

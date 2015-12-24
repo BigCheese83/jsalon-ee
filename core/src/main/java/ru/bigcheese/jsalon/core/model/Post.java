@@ -1,9 +1,9 @@
 package ru.bigcheese.jsalon.core.model;
 
 import org.apache.commons.lang3.StringUtils;
-import ru.bigcheese.jsalon.core.exception.ValidationException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,13 +33,12 @@ public class Post extends BaseModel {
         return "Должность \"" + name + "\"";
     }
 
-    public void validate() throws ValidationException {
+    @Override
+    protected List<String> getValidateErrors() {
         List<String> errors = new ArrayList<String>();
         if (StringUtils.isBlank(name)) {
             errors.add("Введите наименование должности");
         }
-        if (!errors.isEmpty()) {
-            throw new ValidationException(errors);
-        }
+        return Collections.unmodifiableList(errors);
     }
 }

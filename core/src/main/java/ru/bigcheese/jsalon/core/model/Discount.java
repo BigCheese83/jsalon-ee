@@ -1,9 +1,9 @@
 package ru.bigcheese.jsalon.core.model;
 
 import org.apache.commons.lang3.StringUtils;
-import ru.bigcheese.jsalon.core.exception.ValidationException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,7 +43,8 @@ public class Discount extends BaseModel {
         return "Скидка \"" + name + " " + value + "%\"";
     }
 
-    public void validate() throws ValidationException {
+    @Override
+    protected List<String> getValidateErrors() {
         List<String> errors = new ArrayList<String>();
         if (StringUtils.isBlank(name)) {
             errors.add("Введите наименование скидки");
@@ -51,8 +52,6 @@ public class Discount extends BaseModel {
         if (value == null || value < 0 || value > 100) {
             errors.add("Значение должно быть числом в диапазоне от 0 до 100");
         }
-        if (!errors.isEmpty()) {
-            throw new ValidationException(errors);
-        }
+        return Collections.unmodifiableList(errors);
     }
 }

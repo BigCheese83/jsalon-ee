@@ -1,5 +1,11 @@
 package ru.bigcheese.jsalon.core.model;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by BigCheese on 31.07.15.
  */
@@ -67,5 +73,14 @@ public class Contact extends BaseModel {
 
     public void setIcq(String icq) {
         this.icq = icq;
+    }
+
+    @Override
+    protected List<String> getValidateErrors() {
+        List<String> errors = new ArrayList<String>();
+        if (StringUtils.isBlank(phone)) {
+            errors.add("Укажите номер телефона");
+        }
+        return Collections.unmodifiableList(errors);
     }
 }

@@ -1,6 +1,9 @@
 package ru.bigcheese.jsalon.core.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -33,5 +36,18 @@ public class Master extends Person {
 
     public void setBusy(boolean busy) {
         this.busy = busy;
+    }
+
+    @Override
+    protected List<String> getValidateErrors() {
+        List<String> errors = new ArrayList<String>();
+        errors.addAll(super.getValidateErrors());
+        if (hiringDate == null) {
+            errors.add("Укажите дату приема");
+        }
+        if (post != null) {
+            errors.addAll(post.getValidateErrors());
+        }
+        return Collections.unmodifiableList(errors);
     }
 }

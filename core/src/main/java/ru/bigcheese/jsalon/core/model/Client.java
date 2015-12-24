@@ -1,6 +1,9 @@
 package ru.bigcheese.jsalon.core.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -33,5 +36,18 @@ public class Client extends Person {
 
     public void setInBlackList(boolean inBlackList) {
         this.inBlackList = inBlackList;
+    }
+
+    @Override
+    protected List<String> getValidateErrors() {
+        List<String> errors = new ArrayList<String>();
+        errors.addAll(super.getValidateErrors());
+        if (registrationDate == null) {
+            errors.add("Укажите дату регистрации");
+        }
+        if (discount != null) {
+            errors.addAll(discount.getValidateErrors());
+        }
+        return Collections.unmodifiableList(errors);
     }
 }

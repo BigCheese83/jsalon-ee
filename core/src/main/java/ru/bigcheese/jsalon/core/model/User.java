@@ -1,9 +1,9 @@
 package ru.bigcheese.jsalon.core.model;
 
 import org.apache.commons.lang3.StringUtils;
-import ru.bigcheese.jsalon.core.exception.ValidationException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -69,7 +69,13 @@ public class User extends BaseModel {
         return StringUtils.isBlank(name) ? "" : String.valueOf(name.charAt(0)).toUpperCase() + ".";
     }
 
-    public void validate() throws ValidationException {
+    @Override
+    public String toString() {
+        return "Пользователь " + login + " {" + getFullFIO() + "}";
+    }
+
+    @Override
+    protected List<String> getValidateErrors() {
         List<String> errors = new ArrayList<String>();
         if (StringUtils.isBlank(login)) {
             errors.add("Введите логин пользователя");
@@ -83,13 +89,6 @@ public class User extends BaseModel {
         if (StringUtils.isBlank(role)) {
             errors.add("Укажите роль пользователя");
         }
-        if (!errors.isEmpty()) {
-            throw new ValidationException(errors);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Пользователь " + login + " {" + getFullFIO() + "}";
+        return Collections.unmodifiableList(errors);
     }
 }

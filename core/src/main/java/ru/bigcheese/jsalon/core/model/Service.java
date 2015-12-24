@@ -1,10 +1,10 @@
 package ru.bigcheese.jsalon.core.model;
 
 import org.apache.commons.lang3.StringUtils;
-import ru.bigcheese.jsalon.core.exception.ValidationException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,7 +54,8 @@ public class Service extends BaseModel {
         return "Услуга \"" + name + "\" [цена " + cost + "руб.]";
     }
 
-    public void validate() throws ValidationException {
+    @Override
+    protected List<String> getValidateErrors() {
         List<String> errors = new ArrayList<String>();
         if (StringUtils.isBlank(name)) {
             errors.add("Введите наименование услуги");
@@ -69,8 +70,6 @@ public class Service extends BaseModel {
         } else if (duration <= 0) {
             errors.add("Длительность услуги должна быть положительным числом больше 0");
         }
-        if (!errors.isEmpty()) {
-            throw new ValidationException(errors);
-        }
+        return Collections.unmodifiableList(errors);
     }
 }

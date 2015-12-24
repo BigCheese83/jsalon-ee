@@ -1,6 +1,11 @@
 package ru.bigcheese.jsalon.core.model;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -78,5 +83,32 @@ public class Person extends BaseModel {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    @Override
+    protected List<String> getValidateErrors() {
+        List<String> errors = new ArrayList<String>();
+        if (StringUtils.isBlank(name)) {
+            errors.add("Введите имя");
+        }
+        if (StringUtils.isBlank(surname)) {
+            errors.add("Введите фамилию");
+        }
+        if (birthDate == null) {
+            errors.add("Укажите дату рождения");
+        }
+        if (passport != null) {
+            errors.addAll(passport.getValidateErrors());
+        }
+        if (regAddress != null) {
+            errors.addAll(regAddress.getValidateErrors());
+        }
+        if (liveAddress != null) {
+            errors.addAll(liveAddress.getValidateErrors());
+        }
+        if (contact != null) {
+            errors.addAll(contact.getValidateErrors());
+        }
+        return Collections.unmodifiableList(errors);
     }
 }
