@@ -2,7 +2,7 @@ package ru.bigcheese.jsalon.core;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Calendar;
+import java.util.*;
 
 /**
  * Created by BigCheese on 05.08.15.
@@ -31,8 +31,89 @@ public final class Constants {
     /* Security */
     public static final String USER_DEFAULT_PASSWORD = "123321";
 
+    public static final Map<String, String> ALL_COUNTRIES;
+
+    public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
+
     static {
         DAO_IMPLEMENTATION = StringUtils.defaultIfBlank(System.getProperty(DAO_IMPLEMENTATION_PROPERTY), "jdbc");
         COPYRIGHT_STRING = "\u00a9" + " " + SOFTWARE_NAME + " " + Calendar.getInstance().get(Calendar.YEAR) + " г.";
+        ALL_COUNTRIES = initCountries();
+    }
+
+    private static Map<String, String> initCountries() {
+        Map<String, String> map = new LinkedHashMap<String, String>(200);
+        map.put("AUS", "Австралия");
+        map.put("AUT", "Австрия");
+        map.put("ALB", "Албания");
+        map.put("AND", "Андорра");
+        map.put("ARG", "Аргентина");
+        map.put("BLR", "Белоруссия");
+        map.put("BEL", "Бельгия");
+        map.put("BGR", "Болгария");
+        map.put("BIH", "Босния и Герцеговина");
+        map.put("BRA", "Бразилия");
+        map.put("GBR", "Великобритания ");
+        map.put("HUN", "Венгрия");
+        map.put("VEN", "Венесуэла");
+        map.put("VNM", "Вьетнам");
+        map.put("DEU", "Германия");
+        map.put("GRC", "Греция");
+        map.put("DNK", "Дания");
+        map.put("ISR", "Израиль");
+        map.put("IND", "Индия");
+        map.put("IDN", "Индонезия");
+        map.put("IRQ", "Ирак");
+        map.put("IRN", "Иран");
+        map.put("IRL", "Ирландия");
+        map.put("ISL", "Исландия");
+        map.put("ESP", "Испания");
+        map.put("ITA", "Италия");
+        map.put("KAZ", "Казахстан");
+        map.put("CAN", "Канада");
+        map.put("CHN", "Китай");
+        map.put("PRK", "КНДР");
+        map.put("COL", "Колумбия");
+        map.put("CUB", "Куба");
+        map.put("LIE", "Лихтенштейн");
+        map.put("LUX", "Люксембург");
+        map.put("MKD", "Македония");
+        map.put("MEX", "Мексика");
+        map.put("MNG", "Монголия");
+        map.put("NLD", "Нидерланды");
+        map.put("NZL", "Новая Зеландия");
+        map.put("NOR", "Норвегия");
+        map.put("ARE", "ОАЭ");
+        map.put("PAK", "Пакистан");
+        map.put("PRY", "Парагвай");
+        map.put("PER", "Перу");
+        map.put("POL", "Польша");
+        map.put("PRT", "Португалия");
+        map.put("KOR", "Республика Корея");
+        map.put("RUS", "Россия");
+        map.put("ROU", "Румыния");
+        map.put("SMR", "Сан-Марино");
+        map.put("SAU", "Саудовская Аравия");
+        map.put("SRB", "Сербия");
+        map.put("SVK", "Словакия");
+        map.put("SVK", "Словакия");
+        map.put("USA", "США");
+        map.put("THA", "Таиланд");
+        map.put("TUR", "Турция");
+        map.put("UKR", "Украина");
+        map.put("URY", "Уругвай");
+        map.put("PHL", "Филиппины");
+        map.put("FIN", "Финляндия");
+        map.put("FRA", "Франция");
+        map.put("HRV", "Хорватия");
+        map.put("MNE", "Черногория");
+        map.put("CZE", "Чехия");
+        map.put("CHL", "Чили");
+        map.put("CHE", "Швейцария");
+        map.put("SWE", "Швеция");
+        map.put("ECU", "Эквадор");
+        map.put("ZAF", "ЮАР");
+        map.put("JPN", "Япония");
+        return Collections.unmodifiableMap(map);
     }
 }

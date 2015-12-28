@@ -1,10 +1,12 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet;
 
+import ru.bigcheese.jsalon.core.Constants;
 import ru.bigcheese.jsalon.core.model.User;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 import ru.bigcheese.jsalon.ee.ejb.UserEJBLocal;
 
 import javax.ejb.EJB;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +33,7 @@ public class RootPathServlet extends HttpServlet {
                 throw new ServletException("Unable get user info." + ExceptionUtils.parse(e), e);
             }
             request.getSession().setAttribute("user", user);
+            putConstantsToContext(request.getSession().getServletContext());
         }
 
         String forwardPath;
@@ -40,5 +43,9 @@ public class RootPathServlet extends HttpServlet {
             forwardPath = "/WEB-INF/jsp/index.jsp";
         }
         request.getRequestDispatcher(forwardPath).forward(request, response);
+    }
+
+    private void putConstantsToContext(ServletContext context) {
+        context.setAttribute("countriesList", Constants.ALL_COUNTRIES);
     }
 }
