@@ -36,7 +36,6 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
     public abstract void delete(T model);
     public abstract T findById(K id);
     public abstract List<T> findAll();
-    abstract T mapRow(ResultSet rs) throws SQLException;
     
     int executeUpdateSQL(String sql, Object[] params) {
         int result;
@@ -51,14 +50,33 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
         return result;
     }
 
-    List<T> executeQuerySQL(String sql, Object[] params) {
-        List<T> result = new ArrayList<>();
+    int[] batchUpdateSQL(String[] sqlQueries, Object[][] params) {
+        int[] result = new int[sqlQueries.length];
+        try (Connection conn = dataSource.getConnection()) {
+            boolean autoCommit = conn.getAutoCommit();
+            conn.setAutoCommit(false);
+            for (int i = 0; i < sqlQueries.length; i++) {
+                try (PreparedStatement pstm = conn.prepareStatement(sqlQueries[i])) {
+                    fillStatement(pstm, params[i]);
+                    result[i] = pstm.executeUpdate();
+                }
+            }
+            conn.commit();
+            conn.setAutoCommit(autoCommit);
+        } catch (SQLException e) {
+            throw new DatabaseRuntimeException(DBUtils.extractSQLMessages(e));
+        }
+        return result;
+    }
+
+    <X> List<X> executeQuerySQL(String sql, RowMapper<X> mapper, Object[] params) {
+        List<X> result = new ArrayList<>();
         try (Connection conn = dataSource.getConnection()) {
             try (PreparedStatement pstm = conn.prepareStatement(sql)) {
                 fillStatement(pstm, params);
                 try (ResultSet rs = pstm.executeQuery()) {
                     while (rs.next()) {
-                        result.add(mapRow(rs));
+                        result.add(mapper.mapRow(rs));
                     }
                 }
             }
@@ -68,8 +86,8 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
         return result;
     }
 
-    List<T> executeLimitQuerySQL(String sql, int count, Object[] params) {
-        List<T> result = new ArrayList<>();
+    <X> List<X> executeLimitQuerySQL(String sql, int count, RowMapper<X> mapper, Object[] params) {
+        List<X> result = new ArrayList<>();
         try (Connection conn = dataSource.getConnection()) {
             try (PreparedStatement pstm = conn.prepareStatement(sql)) {
                 pstm.setFetchSize(count);
@@ -77,7 +95,7 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
                 fillStatement(pstm, params);
                 try (ResultSet rs = pstm.executeQuery()) {
                     while (rs.next()) {
-                        result.add(mapRow(rs));
+                        result.add(mapper.mapRow(rs));
                     }
                 }
             }
@@ -150,5 +168,4 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
             }
         }
     }
-
 }

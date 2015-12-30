@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.bigcheese.jsalon.ee.dao.jdbc.ModelMapper.*;
+
 /**
  * Created by BigCheese on 09.11.15.
  */
@@ -84,31 +86,32 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
     @Override
     public User findById(Long id) {
         if (id == null) return null;
-        List<User> find = super.executeQuerySQL( FIND_BY_ID, new Object[]{id} );
+        List<User> find = super.executeQuerySQL( FIND_BY_ID, USER_MAPPER, new Object[]{id});
         return !find.isEmpty() ? find.get(0) : null;
     }
 
     @Override
     public List<User> findAll() {
-        return super.executeQuerySQL(FIND_ALL, null);
+        return super.executeQuerySQL(FIND_ALL, USER_MAPPER, null);
     }
 
     @Override
     public User getUserByLogin(String login) {
-        List<User> find = super.executeQuerySQL(FIND_BY_LOGIN, new Object[]{ getParam(login, String.class) });
+        List<User> find = super.executeQuerySQL(FIND_BY_LOGIN, USER_MAPPER, new Object[]
+                            { getParam(login, String.class) });
         return !find.isEmpty() ? find.get(0) : null;
     }
 
     @Override
     public List<User> findLimitUsersByCriteria(int count, QueryCriteria criteria) {
         String criteriaPart = criteria != null ? criteria.toString() : "";
-        return super.executeLimitQuerySQL(FIND_ALL + criteriaPart, count, null);
+        return super.executeLimitQuerySQL(FIND_ALL + criteriaPart, count, USER_MAPPER, null);
     }
 
     @Override
     public List<User> findUsersByCriteria(QueryCriteria criteria) {
         String criteriaPart = criteria != null ? criteria.toString() : "";
-        return super.executeQuerySQL(FIND_ALL + criteriaPart, null);
+        return super.executeQuerySQL(FIND_ALL + criteriaPart, USER_MAPPER, null);
     }
 
     @Override
@@ -143,17 +146,5 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
             throw new DatabaseRuntimeException(DBUtils.extractSQLMessages(e));
         }
         return null;
-    }
-
-    @Override
-    User mapRow(ResultSet rs) throws SQLException {
-        User user = new User();
-        user.setId(rs.getLong("id"));
-        user.setLogin(rs.getString("username"));
-        user.setFirstName(rs.getString("firstname"));
-        user.setLastName(rs.getString("lastname"));
-        user.setMiddleName(rs.getString("middlename"));
-        user.setRole(rs.getString("role"));
-        return user;
     }
 }

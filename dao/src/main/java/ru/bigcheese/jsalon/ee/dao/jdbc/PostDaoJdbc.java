@@ -4,9 +4,9 @@ import ru.bigcheese.jsalon.core.model.Post;
 import ru.bigcheese.jsalon.ee.dao.PostDao;
 import ru.bigcheese.jsalon.ee.dao.qualifier.JDBC;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
+
+import static ru.bigcheese.jsalon.ee.dao.jdbc.ModelMapper.POST_MAPPER;
 
 /**
  * Created by BigCheese on 19.03.15.
@@ -30,7 +30,7 @@ public class PostDaoJdbc extends AbstractBaseDaoJdbc<Post, Long>
         Long id = generateSeqID(SEQ_NAME);
         super.executeUpdateSQL(INSERT_SQL, new Object[]
                         { getParam(id, Long.class),
-                          getParam(model.getName(), String.class) } );
+                          getParam(model.getName(), String.class) });
         model.setId(id);
     }
 
@@ -39,36 +39,31 @@ public class PostDaoJdbc extends AbstractBaseDaoJdbc<Post, Long>
         if (model == null) return;
         super.executeUpdateSQL(UPDATE_SQL, new Object[]
                         { getParam(model.getName(), String.class),
-                          getParam(model.getId(), Long.class) } );
+                          getParam(model.getId(), Long.class) });
     }
 
     @Override
     public void delete(Post model) {
         if (model == null) return;
         super.executeUpdateSQL(DELETE_SQL, new Object[]
-                        { getParam(model.getId(), Long.class) } );
+                        { getParam(model.getId(), Long.class) });
     }
 
     @Override
     public Post findById(Long id) {
         if (id == null) return null;
-        List<Post> find = super.executeQuerySQL( SELECT_BY_ID, new Object[]{id} );
+        List<Post> find = super.executeQuerySQL(SELECT_BY_ID, POST_MAPPER, new Object[]{id});
         return !find.isEmpty() ? find.get(0) : null;
     }
 
     @Override
     public List<Post> findAll() {
-        return super.executeQuerySQL(SELECT_ALL, null);
+        return super.executeQuerySQL(SELECT_ALL, POST_MAPPER, null);
     }
 
     @Override
     public List<Post> getPostsByName(String name) {
-        return super.executeQuerySQL(SELECT_BY_NAME, new Object[]
-                        { getParam(name, String.class) } );
-    }
-
-    @Override
-    Post mapRow(ResultSet rs) throws SQLException {
-        return new Post(rs.getLong("id"), rs.getString("name"));
+        return super.executeQuerySQL(SELECT_BY_NAME, POST_MAPPER, new Object[]
+                        { getParam(name, String.class) });
     }
 }

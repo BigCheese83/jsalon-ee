@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import static ru.bigcheese.jsalon.ee.dao.jdbc.ModelMapper.*;
+
 /**
  * Created by BigCheese on 02.06.15.
  */
@@ -36,7 +38,7 @@ public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
                           getParam(model.getName(), String.class),
                           getParam(model.getCost(), BigDecimal.class),
                           getParam(model.getDuration(), Integer.class),
-                          getParam(model.getDescription(), String.class) } );
+                          getParam(model.getDescription(), String.class) });
         model.setId(id);
     }
 
@@ -48,42 +50,31 @@ public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
                           getParam(model.getCost(), BigDecimal.class),
                           getParam(model.getDuration(), Integer.class),
                           getParam(model.getDescription(), String.class),
-                          getParam(model.getId(), Long.class) } );
+                          getParam(model.getId(), Long.class) });
     }
 
     @Override
     public void delete(Service model) {
         if (model == null) return;
         super.executeUpdateSQL(DELETE_SQL, new Object[]
-                        { getParam(model.getId(), Long.class) } );
+                        { getParam(model.getId(), Long.class) });
     }
 
     @Override
     public Service findById(Long id) {
         if (id == null) return null;
-        List<Service> find = super.executeQuerySQL( SELECT_BY_ID, new Object[]{id} );
+        List<Service> find = super.executeQuerySQL(SELECT_BY_ID, SERVICE_MAPPER, new Object[]{id});
         return !find.isEmpty() ? find.get(0) : null;
     }
 
     @Override
     public List<Service> findAll() {
-        return super.executeQuerySQL(SELECT_ALL, null);
+        return super.executeQuerySQL(SELECT_ALL, SERVICE_MAPPER, null);
     }
 
     @Override
     public List<Service> getServicesByName(String name) {
-        return super.executeQuerySQL(SELECT_BY_NAME, new Object[]
-                        { getParam(name, String.class) } );
-    }
-
-    @Override
-    Service mapRow(ResultSet rs) throws SQLException {
-        Service result = new Service();
-        result.setId(rs.getLong("id"));
-        result.setName(rs.getString("name"));
-        result.setCost(rs.getBigDecimal("cost"));
-        result.setDuration(rs.getInt("duration"));
-        result.setDescription(rs.getString("description"));
-        return result;
+        return super.executeQuerySQL(SELECT_BY_NAME, SERVICE_MAPPER, new Object[]
+                        { getParam(name, String.class) });
     }
 }

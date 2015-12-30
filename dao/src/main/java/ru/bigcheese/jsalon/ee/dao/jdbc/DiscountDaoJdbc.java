@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import static ru.bigcheese.jsalon.ee.dao.jdbc.ModelMapper.*;
+
 /**
  * Created by BigCheese on 19.03.15.
  */
@@ -31,7 +33,7 @@ public class DiscountDaoJdbc extends AbstractBaseDaoJdbc<Discount, Long>
         super.executeUpdateSQL(INSERT_SQL, new Object[]
                         { getParam(id, Long.class),
                           getParam(model.getName(), String.class),
-                          getParam(model.getValue(), Integer.class) } );
+                          getParam(model.getValue(), Integer.class) });
         model.setId(id);
     }
 
@@ -41,40 +43,31 @@ public class DiscountDaoJdbc extends AbstractBaseDaoJdbc<Discount, Long>
         super.executeUpdateSQL(UPDATE_SQL, new Object[]
                         { getParam(model.getName(), String.class),
                           getParam(model.getValue(), Integer.class),
-                          getParam(model.getId(), Long.class) } );
+                          getParam(model.getId(), Long.class) });
     }
 
     @Override
     public void delete(Discount model) {
         if (model == null) return;
         super.executeUpdateSQL(DELETE_SQL, new Object[]
-                        { getParam(model.getId(), Long.class) } );
+                        { getParam(model.getId(), Long.class) });
     }
 
     @Override
     public Discount findById(Long id) {
         if (id == null) return null;
-        List<Discount> find = super.executeQuerySQL( SELECT_BY_ID, new Object[]{id} );
+        List<Discount> find = super.executeQuerySQL( SELECT_BY_ID, DISCOUNT_MAPPER, new Object[]{id} );
         return !find.isEmpty() ? find.get(0) : null;
     }
 
     @Override
     public List<Discount> findAll() {
-        return super.executeQuerySQL(SELECT_ALL, null);
+        return super.executeQuerySQL(SELECT_ALL, DISCOUNT_MAPPER, null);
     }
 
     @Override
     public List<Discount> getDiscountsByName(String name) {
-        return super.executeQuerySQL(SELECT_BY_NAME, new Object[]
-                        { getParam(name, String.class) } );
-    }
-
-    @Override
-    Discount mapRow(ResultSet rs) throws SQLException {
-        Discount result = new Discount();
-        result.setId(rs.getLong("id"));
-        result.setName(rs.getString("name"));
-        result.setValue(rs.getInt("value"));
-        return result;
+        return super.executeQuerySQL(SELECT_BY_NAME, DISCOUNT_MAPPER, new Object[]
+                        { getParam(name, String.class) });
     }
 }

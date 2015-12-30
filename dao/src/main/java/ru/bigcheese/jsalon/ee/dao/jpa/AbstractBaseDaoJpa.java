@@ -33,11 +33,10 @@ public abstract class AbstractBaseDaoJpa<T extends BaseModel, K extends Serializ
 
     @Override
     public void persist(T model) {
-        if (model == null) return;
-        E entity = toEntity(model);
-        entityManager.persist(entity);
-        entityManager.flush();
-        model.setId(entity.getId());
+        E entity = createEntity(model);
+        if (entity != null) {
+            model.setId(entity.getId());
+        }
     }
 
     @Override
@@ -81,6 +80,14 @@ public abstract class AbstractBaseDaoJpa<T extends BaseModel, K extends Serializ
             result.add(toModel(entity));
         }
         return result;
+    }
+
+    E createEntity(T model) {
+        if (model == null) return null;
+        E entity = toEntity(model);
+        entityManager.persist(entity);
+        entityManager.flush();
+        return entity;
     }
 
     List<T> executeNamedQuery(String jpql, Object... params) {
