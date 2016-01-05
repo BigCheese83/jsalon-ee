@@ -21,6 +21,7 @@ public class PostDaoJdbc extends AbstractBaseDaoJdbc<Post, Long>
     private static final String UPDATE_SQL =     "UPDATE posts SET name = ? WHERE id = ?";
     private static final String DELETE_SQL =     "DELETE FROM posts WHERE id = ?";
     private static final String SELECT_ALL =     "SELECT * FROM posts";
+    private static final String COUNT_ALL =      "SELECT count(*) FROM posts";
     private static final String SELECT_BY_ID =   "SELECT * FROM posts WHERE id = ?";
     private static final String SELECT_BY_NAME = "SELECT * FROM posts WHERE name = ?";
 
@@ -59,6 +60,11 @@ public class PostDaoJdbc extends AbstractBaseDaoJdbc<Post, Long>
     @Override
     public List<Post> findAll() {
         return super.executeQuerySQL(SELECT_ALL, POST_MAPPER, null);
+    }
+
+    @Override
+    public Long countAll() {
+        return super.executeSingleLongQuerySQL(COUNT_ALL, null);
     }
 
     @Override

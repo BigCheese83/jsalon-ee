@@ -36,6 +36,7 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
     public abstract void delete(T model);
     public abstract T findById(K id);
     public abstract List<T> findAll();
+    public abstract Long countAll();
     
     int executeUpdateSQL(String sql, Object[] params) {
         int result;
@@ -84,6 +85,22 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
             throw new DatabaseRuntimeException(DBUtils.extractSQLMessages(e));
         }
         return result;
+    }
+
+    Long executeSingleLongQuerySQL(String sql, Object[] params) {
+        try (Connection conn = dataSource.getConnection()) {
+            try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+                fillStatement(pstm, params);
+                try (ResultSet rs = pstm.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getLong(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseRuntimeException(DBUtils.extractSQLMessages(e));
+        }
+        return null;
     }
 
     <X> List<X> executeLimitQuerySQL(String sql, int count, RowMapper<X> mapper, Object[] params) {

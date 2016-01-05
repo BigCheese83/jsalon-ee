@@ -53,7 +53,7 @@ public class PostTestStrategy {
         beginTransaction();
         postDao.persist(post);
         commitTransaction();
-        Assert.assertEquals(NUMBER_OF_POSTS + 1, postDao.findAll().size());
+        Assert.assertEquals(NUMBER_OF_POSTS + 1, postDao.countAll().intValue());
     }
 
     public void testUpdate() {
@@ -70,7 +70,7 @@ public class PostTestStrategy {
         beginTransaction();
         postDao.delete(post);
         commitTransaction();
-        Assert.assertEquals(NUMBER_OF_POSTS - 1, postDao.findAll().size());
+        Assert.assertEquals(NUMBER_OF_POSTS - 1, postDao.countAll().intValue());
     }
 
     public void testGetPostsByName() {

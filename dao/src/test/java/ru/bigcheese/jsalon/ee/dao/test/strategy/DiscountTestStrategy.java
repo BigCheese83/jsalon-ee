@@ -52,7 +52,7 @@ public class DiscountTestStrategy {
         beginTransaction();
         discountDao.persist(discount);
         commitTransaction();
-        Assert.assertEquals(NUMBER_OF_DISCOUNTS + 1, discountDao.findAll().size());
+        Assert.assertEquals(NUMBER_OF_DISCOUNTS + 1, discountDao.countAll().intValue());
     }
 
     public void testUpdate() {
@@ -69,7 +69,7 @@ public class DiscountTestStrategy {
         beginTransaction();
         discountDao.delete(discount);
         commitTransaction();
-        Assert.assertEquals(NUMBER_OF_DISCOUNTS - 1, discountDao.findAll().size());
+        Assert.assertEquals(NUMBER_OF_DISCOUNTS - 1, discountDao.countAll().intValue());
     }
 
     public void testFindById() {

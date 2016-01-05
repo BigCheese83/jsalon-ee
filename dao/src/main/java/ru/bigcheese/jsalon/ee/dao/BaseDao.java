@@ -12,4 +12,5 @@ public interface BaseDao<T extends Serializable, K extends Serializable> {
     void delete(T model);
     T findById(K id);
     List<T> findAll();
+    Long countAll();
 }

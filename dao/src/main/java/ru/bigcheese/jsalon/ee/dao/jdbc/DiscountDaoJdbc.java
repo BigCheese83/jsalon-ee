@@ -23,6 +23,7 @@ public class DiscountDaoJdbc extends AbstractBaseDaoJdbc<Discount, Long>
     private static final String UPDATE_SQL =     "UPDATE discounts SET name = ?, value = ? WHERE id = ?";
     private static final String DELETE_SQL =     "DELETE FROM discounts WHERE id = ?";
     private static final String SELECT_ALL =     "SELECT * FROM discounts";
+    private static final String COUNT_ALL =      "SELECT count(*) FROM discounts";
     private static final String SELECT_BY_ID =   "SELECT * FROM discounts WHERE id = ?";
     private static final String SELECT_BY_NAME = "SELECT * FROM discounts WHERE name = ?";
 
@@ -63,6 +64,11 @@ public class DiscountDaoJdbc extends AbstractBaseDaoJdbc<Discount, Long>
     @Override
     public List<Discount> findAll() {
         return super.executeQuerySQL(SELECT_ALL, DISCOUNT_MAPPER, null);
+    }
+
+    @Override
+    public Long countAll() {
+        return super.executeSingleLongQuerySQL(COUNT_ALL, null);
     }
 
     @Override

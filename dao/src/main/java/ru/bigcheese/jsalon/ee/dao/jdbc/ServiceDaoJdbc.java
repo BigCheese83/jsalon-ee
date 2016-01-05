@@ -26,6 +26,7 @@ public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
             "UPDATE services SET name = ?, cost = ?, duration = ?, description = ? WHERE id = ?";
     private static final String DELETE_SQL =     "DELETE FROM services WHERE id = ?";
     private static final String SELECT_ALL =     "SELECT * FROM services";
+    private static final String COUNT_ALL =      "SELECT count(*) FROM services";
     private static final String SELECT_BY_ID =   "SELECT * FROM services WHERE id = ?";
     private static final String SELECT_BY_NAME = "SELECT * FROM services WHERE name = ?";
 
@@ -70,6 +71,11 @@ public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
     @Override
     public List<Service> findAll() {
         return super.executeQuerySQL(SELECT_ALL, SERVICE_MAPPER, null);
+    }
+
+    @Override
+    public Long countAll() {
+        return super.executeSingleLongQuerySQL(COUNT_ALL, null);
     }
 
     @Override

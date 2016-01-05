@@ -38,6 +38,7 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
     private static final String FIND_BY_LOGIN = "SELECT * FROM security.v_user_role WHERE username = ?";
     private static final String FIND_BY_ID = "SELECT * FROM security.v_user_role WHERE id = ?";
     private static final String FIND_ALL = "SELECT * FROM security.v_user_role";
+    private static final String COUNT_ALL = "SELECT count(*) FROM security.v_user_role";
     private static final String FIND_ROLES = "SELECT name FROM security.groups";
     private static final String FIND_ROLE_ID_BY_NAME = "SELECT id FROM security.groups WHERE name = ?";
 
@@ -93,6 +94,11 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
     @Override
     public List<User> findAll() {
         return super.executeQuerySQL(FIND_ALL, USER_MAPPER, null);
+    }
+
+    @Override
+    public Long countAll() {
+        return super.executeSingleLongQuerySQL(COUNT_ALL, null);
     }
 
     @Override
