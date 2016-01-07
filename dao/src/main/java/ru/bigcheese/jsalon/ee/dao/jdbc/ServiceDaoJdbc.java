@@ -5,11 +5,9 @@ import ru.bigcheese.jsalon.ee.dao.ServiceDao;
 import ru.bigcheese.jsalon.ee.dao.qualifier.JDBC;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-import static ru.bigcheese.jsalon.ee.dao.jdbc.ModelMapper.*;
+import static ru.bigcheese.jsalon.ee.dao.jdbc.ModelMapper.SERVICE_MAPPER;
 
 /**
  * Created by BigCheese on 02.06.15.
@@ -18,8 +16,8 @@ import static ru.bigcheese.jsalon.ee.dao.jdbc.ModelMapper.*;
 public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
         implements ServiceDao {
 
-    private static final String SEQ_NAME = "services_id_seq";
     /* SQL Queries */
+    private static final String GENERATE_ID =    "SELECT nextval('services_id_seq')";
     private static final String INSERT_SQL =
             "INSERT INTO services (id, name, cost, duration, description) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_SQL =
@@ -33,54 +31,54 @@ public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
     @Override
     public void persist(Service model) {
         if (model == null) return;
-        Long id = generateSeqID(SEQ_NAME);
-        super.executeUpdateSQL(INSERT_SQL, new Object[]
-                        { getParam(id, Long.class),
-                          getParam(model.getName(), String.class),
-                          getParam(model.getCost(), BigDecimal.class),
-                          getParam(model.getDuration(), Integer.class),
-                          getParam(model.getDescription(), String.class) });
+        Long id = generateID(GENERATE_ID);
+        executeUpdateSQL(INSERT_SQL, new Object[]
+                { getParam(id, Long.class),
+                  getParam(model.getName(), String.class),
+                  getParam(model.getCost(), BigDecimal.class),
+                  getParam(model.getDuration(), Integer.class),
+                  getParam(model.getDescription(), String.class)});
         model.setId(id);
     }
 
     @Override
     public void update(Service model) {
         if (model == null) return;
-        super.executeUpdateSQL(UPDATE_SQL, new Object[]
-                        { getParam(model.getName(), String.class),
-                          getParam(model.getCost(), BigDecimal.class),
-                          getParam(model.getDuration(), Integer.class),
-                          getParam(model.getDescription(), String.class),
-                          getParam(model.getId(), Long.class) });
+        executeUpdateSQL(UPDATE_SQL, new Object[]
+                { getParam(model.getName(), String.class),
+                  getParam(model.getCost(), BigDecimal.class),
+                  getParam(model.getDuration(), Integer.class),
+                  getParam(model.getDescription(), String.class),
+                  getParam(model.getId(), Long.class)});
     }
 
     @Override
     public void delete(Service model) {
         if (model == null) return;
-        super.executeUpdateSQL(DELETE_SQL, new Object[]
-                        { getParam(model.getId(), Long.class) });
+        executeUpdateSQL(DELETE_SQL, new Object[]
+                { getParam(model.getId(), Long.class)});
     }
 
     @Override
     public Service findById(Long id) {
         if (id == null) return null;
-        List<Service> find = super.executeQuerySQL(SELECT_BY_ID, SERVICE_MAPPER, new Object[]{id});
+        List<Service> find = executeQuerySQL(SELECT_BY_ID, SERVICE_MAPPER, new Object[]{id});
         return !find.isEmpty() ? find.get(0) : null;
     }
 
     @Override
     public List<Service> findAll() {
-        return super.executeQuerySQL(SELECT_ALL, SERVICE_MAPPER, null);
+        return executeQuerySQL(SELECT_ALL, SERVICE_MAPPER, null);
     }
 
     @Override
     public Long countAll() {
-        return super.executeSingleLongQuerySQL(COUNT_ALL, null);
+        return executeQuerySQL(COUNT_ALL, Long.class, null);
     }
 
     @Override
     public List<Service> getServicesByName(String name) {
-        return super.executeQuerySQL(SELECT_BY_NAME, SERVICE_MAPPER, new Object[]
-                        { getParam(name, String.class) });
+        return executeQuerySQL(SELECT_BY_NAME, SERVICE_MAPPER, new Object[]
+                { getParam(name, String.class) });
     }
 }

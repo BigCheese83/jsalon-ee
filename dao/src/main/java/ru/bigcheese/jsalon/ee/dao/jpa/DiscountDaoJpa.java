@@ -17,7 +17,7 @@ public class DiscountDaoJpa extends AbstractBaseDaoJpa<Discount, Long, DiscountE
 
     @Override
     public List<Discount> getDiscountsByName(String name) {
-        return super.executeNamedQuery(DiscountEntity.FIND_BY_NAME, name);
+        return executeNamedQuery(DiscountEntity.FIND_BY_NAME, name);
     }
 
     @Override

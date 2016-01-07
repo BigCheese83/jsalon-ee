@@ -17,7 +17,7 @@ public class PostDaoJpa extends AbstractBaseDaoJpa<Post, Long, PostEntity>
 
     @Override
     public List<Post> getPostsByName(String name) {
-        return super.executeNamedQuery(PostEntity.FIND_BY_NAME, name);
+        return executeNamedQuery(PostEntity.FIND_BY_NAME, name);
     }
 
     @Override

@@ -37,48 +37,68 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
     public abstract T findById(K id);
     public abstract List<T> findAll();
     public abstract Long countAll();
-    
-    int executeUpdateSQL(String sql, Object[] params) {
-        int result;
-        try (Connection conn = dataSource.getConnection()) {
-            try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-                fillStatement(pstm, params);
-                result = pstm.executeUpdate();
-            }
+
+    void executeUpdateSQL(String sql, Object[] params) {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstm = conn.prepareStatement(sql)
+        ) {
+            fillStatement(pstm, params);
+            pstm.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseRuntimeException(DBUtils.extractSQLMessages(e));
         }
-        return result;
     }
 
-    int[] batchUpdateSQL(String[] sqlQueries, Object[][] params) {
-        int[] result = new int[sqlQueries.length];
+    void executeUpdateSQL(String[] sqlQueries, Object[][] params) {
         try (Connection conn = dataSource.getConnection()) {
-            boolean autoCommit = conn.getAutoCommit();
             conn.setAutoCommit(false);
             for (int i = 0; i < sqlQueries.length; i++) {
                 try (PreparedStatement pstm = conn.prepareStatement(sqlQueries[i])) {
                     fillStatement(pstm, params[i]);
-                    result[i] = pstm.executeUpdate();
+                    pstm.executeUpdate();
+                } catch (SQLException e) {
+                    conn.rollback();
+                    conn.setAutoCommit(true);
+                    throw e;
                 }
             }
             conn.commit();
-            conn.setAutoCommit(autoCommit);
+            conn.setAutoCommit(true);
         } catch (SQLException e) {
             throw new DatabaseRuntimeException(DBUtils.extractSQLMessages(e));
         }
-        return result;
+    }
+
+    void batchUpdateSQL(String sql, Object[][] params) {
+        try (Connection conn = dataSource.getConnection()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+                for (Object[] p : params) {
+                    fillStatement(pstm, p);
+                    pstm.addBatch();
+                }
+                pstm.executeBatch();
+            } catch (SQLException e) {
+                conn.rollback();
+                conn.setAutoCommit(true);
+                throw e;
+            }
+            conn.commit();
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new DatabaseRuntimeException(DBUtils.extractSQLMessages(e));
+        }
     }
 
     <X> List<X> executeQuerySQL(String sql, RowMapper<X> mapper, Object[] params) {
         List<X> result = new ArrayList<>();
-        try (Connection conn = dataSource.getConnection()) {
-            try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-                fillStatement(pstm, params);
-                try (ResultSet rs = pstm.executeQuery()) {
-                    while (rs.next()) {
-                        result.add(mapper.mapRow(rs));
-                    }
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstm = conn.prepareStatement(sql)
+        ) {
+            fillStatement(pstm, params);
+            try (ResultSet rs = pstm.executeQuery()) {
+                while (rs.next()) {
+                    result.add(mapper.mapRow(rs));
                 }
             }
         } catch (SQLException e) {
@@ -87,13 +107,15 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
         return result;
     }
 
-    Long executeSingleLongQuerySQL(String sql, Object[] params) {
-        try (Connection conn = dataSource.getConnection()) {
-            try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-                fillStatement(pstm, params);
-                try (ResultSet rs = pstm.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getLong(1);
+    <X> X executeQuerySQL(String sql, Class<X> targetClass, Object[] params) {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstm = conn.prepareStatement(sql)
+        ) {
+            fillStatement(pstm, params);
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    if (targetClass == Long.class) {
+                        return (X)Long.valueOf(rs.getLong(1));
                     }
                 }
             }
@@ -122,19 +144,8 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
         return result;
     }
 
-    Long generateSeqID(String seqName) {
-        try (Connection conn = dataSource.getConnection()) {
-            try (PreparedStatement pstm = conn.prepareStatement("SELECT nextval('" + seqName + "')")) {
-                try (ResultSet rs = pstm.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getLong(1);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseRuntimeException(DBUtils.extractSQLMessages(e));
-        }
-        return null;
+    Long generateID(String sql) {
+        return executeQuerySQL(sql, Long.class, null);
     }
 
     Object getParam(Object param, Class<?> paramClass) {

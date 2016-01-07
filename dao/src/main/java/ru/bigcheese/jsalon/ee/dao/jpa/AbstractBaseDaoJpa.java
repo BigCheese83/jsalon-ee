@@ -60,13 +60,14 @@ public abstract class AbstractBaseDaoJpa<T extends BaseModel, K extends Serializ
     @Override
     public List<T> findAll() {
         return toModelList(
-                (List<E>) entityManager.createQuery("SELECT e FROM " + getEntityClass().getName() + " e").getResultList());
+                entityManager.createQuery("SELECT e FROM " + getEntityClass().getName() + " e", getEntityClass())
+                        .getResultList());
     }
 
     @Override
     public Long countAll() {
         return entityManager.createQuery("SELECT COUNT(e) FROM " + getEntityClass().getName() + " e", Long.class)
-                .getResultList().get(0);
+                        .getResultList().get(0);
     }
 
     abstract T toModel(E entity);

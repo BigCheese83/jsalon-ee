@@ -17,7 +17,7 @@ public class ServiceDaoJpa  extends AbstractBaseDaoJpa<Service, Long, ServiceEnt
 
     @Override
     public List<Service> getServicesByName(String name) {
-        return super.executeNamedQuery(ServiceEntity.FIND_BY_NAME, name);
+        return executeNamedQuery(ServiceEntity.FIND_BY_NAME, name);
     }
 
     @Override
