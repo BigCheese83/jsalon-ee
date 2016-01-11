@@ -4,7 +4,7 @@ import org.h2.jdbcx.JdbcDataSource;
 import ru.bigcheese.jsalon.core.util.DBUtils;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -32,11 +32,12 @@ public abstract class AbstractDaoJdbcTest {
     private void runScript(String filename) throws Exception {
         List<String> queries = DBUtils.parseSQLQueries(filename);
         if (queries.size() > 0) {
+            Statement stmt = connection.createStatement();
             for (String query : queries) {
-                PreparedStatement stmt = connection.prepareStatement(query);
-                stmt.executeUpdate();
-                stmt.close();
+                stmt.addBatch(query);
             }
+            stmt.executeBatch();
+            stmt.close();
         }
     }
 }

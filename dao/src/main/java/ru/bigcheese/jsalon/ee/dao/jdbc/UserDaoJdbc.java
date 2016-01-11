@@ -42,20 +42,16 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
         if (model == null) return;
         Long id = generateID(GENERATE_ID);
         Long roleId = getRoleID(model.getRole());
-        String[] queries = new String[]{ INSERT_SQL, INSERT_SQL_2 };
-        Object[][] params = new Object[][]{
-            { getParam(id, Long.class),
-              getParam(model.getLogin(), String.class),
-              getParam(model.getFirstName(), String.class),
-              getParam(model.getLastName(), String.class),
-              getParam(model.getMiddleName(), String.class),
-              Constants.USER_DEFAULT_PASSWORD
-            },
-            { getParam(id, Long.class),
-              getParam(roleId, Long.class)
-            }
-        };
-        executeUpdateSQL(queries, params);
+        executeUpdateSQL(INSERT_SQL, new Object[]{
+                getParam(id, Long.class),
+                getParam(model.getLogin(), String.class),
+                getParam(model.getFirstName(), String.class),
+                getParam(model.getLastName(), String.class),
+                getParam(model.getMiddleName(), String.class),
+                Constants.USER_DEFAULT_PASSWORD });
+        executeUpdateSQL(INSERT_SQL_2, new Object[]{
+                getParam(id, Long.class),
+                getParam(roleId, Long.class) });
         model.setId(id);
     }
 
@@ -63,31 +59,22 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
     public void update(User model) {
         if (model == null) return;
         Long roleId = getRoleID(model.getRole());
-        String[] queries = new String[]{ UPDATE_SQL, UPDATE_SQL_2 };
-        Object[][] params = new Object[][]{
-            { getParam(model.getLogin(), String.class),
-              getParam(model.getFirstName(), String.class),
-              getParam(model.getLastName(), String.class),
-              getParam(model.getMiddleName(), String.class),
-              getParam(model.getId(), Long.class)
-            },
-            { getParam(roleId, Long.class),
-              getParam(model.getId(), Long.class)
-            }
-        };
-        executeUpdateSQL(queries, params);
+        executeUpdateSQL(UPDATE_SQL, new Object[]{
+                getParam(model.getLogin(), String.class),
+                getParam(model.getFirstName(), String.class),
+                getParam(model.getLastName(), String.class),
+                getParam(model.getMiddleName(), String.class),
+                getParam(model.getId(), Long.class) });
+        executeUpdateSQL(UPDATE_SQL_2, new Object[]{
+                getParam(roleId, Long.class),
+                getParam(model.getId(), Long.class) });
     }
 
     @Override
     public void delete(User model) {
         if (model == null) return;
-        executeUpdateSQL(
-                new String[]{DELETE_SQL_2, DELETE_SQL},
-                new Object[][]{
-                    {getParam(model.getId(), Long.class)},
-                    {getParam(model.getId(), Long.class)}
-                }
-        );
+        executeUpdateSQL(DELETE_SQL_2, new Object[]{getParam(model.getId(), Long.class)});
+        executeUpdateSQL(DELETE_SQL, new Object[]{getParam(model.getId(), Long.class)});
     }
 
     @Override

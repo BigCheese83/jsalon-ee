@@ -49,42 +49,15 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
         }
     }
 
-    void executeUpdateSQL(String[] sqlQueries, Object[][] params) {
-        try (Connection conn = dataSource.getConnection()) {
-            conn.setAutoCommit(false);
-            for (int i = 0; i < sqlQueries.length; i++) {
-                try (PreparedStatement pstm = conn.prepareStatement(sqlQueries[i])) {
-                    fillStatement(pstm, params[i]);
-                    pstm.executeUpdate();
-                } catch (SQLException e) {
-                    conn.rollback();
-                    conn.setAutoCommit(true);
-                    throw e;
-                }
-            }
-            conn.commit();
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new DatabaseRuntimeException(DBUtils.extractSQLMessages(e));
-        }
-    }
-
     void batchUpdateSQL(String sql, Object[][] params) {
-        try (Connection conn = dataSource.getConnection()) {
-            conn.setAutoCommit(false);
-            try (PreparedStatement pstm = conn.prepareStatement(sql)) {
-                for (Object[] p : params) {
-                    fillStatement(pstm, p);
-                    pstm.addBatch();
-                }
-                pstm.executeBatch();
-            } catch (SQLException e) {
-                conn.rollback();
-                conn.setAutoCommit(true);
-                throw e;
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstm = conn.prepareStatement(sql)
+        ) {
+            for (Object[] p : params) {
+                fillStatement(pstm, p);
+                pstm.addBatch();
             }
-            conn.commit();
-            conn.setAutoCommit(true);
+            pstm.executeBatch();
         } catch (SQLException e) {
             throw new DatabaseRuntimeException(DBUtils.extractSQLMessages(e));
         }
