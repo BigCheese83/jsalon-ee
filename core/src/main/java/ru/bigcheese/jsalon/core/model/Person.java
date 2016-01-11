@@ -97,16 +97,22 @@ public class Person extends BaseModel {
         if (birthDate == null) {
             errors.add("Укажите дату рождения");
         }
-        if (passport != null) {
+        if (passport == null) {
+            errors.add("Необходимо указать паспортные данные");
+        } else {
             errors.addAll(passport.getValidateErrors());
         }
-        if (regAddress != null) {
+        if (regAddress == null) {
+            errors.add("Необходимо указать адрес регистрации");
+        } else {
             errors.addAll(regAddress.getValidateErrors());
         }
         if (liveAddress != null) {
             errors.addAll(liveAddress.getValidateErrors());
         }
-        if (contact != null) {
+        if (contact == null) {
+            errors.add("Необходимо указать контактные данные");
+        } else {
             errors.addAll(contact.getValidateErrors());
         }
         return Collections.unmodifiableList(errors);

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Passport extends BaseModel {
 
-    private String series;      //серия
+    private String series = ""; //серия
     private String number;      //номер
     private String issuedBy;    //кем выдан
     private Date issueDate;     //дата выдачи

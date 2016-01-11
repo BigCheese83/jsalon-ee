@@ -98,9 +98,13 @@ public class Address extends BaseModel {
         }
         if (StringUtils.isBlank(house)) {
             errors.add("Укажите номер дома");
+        } else if (!StringUtils.isNumeric(house)) {
+            errors.add("Неправильный номер дома");
         }
         if (StringUtils.isBlank(flat)) {
             errors.add("Укажите номер квартиры");
+        } else if (!StringUtils.isNumeric(flat)) {
+            errors.add("Неправильный номер квартиры");
         }
         return Collections.unmodifiableList(errors);
     }
