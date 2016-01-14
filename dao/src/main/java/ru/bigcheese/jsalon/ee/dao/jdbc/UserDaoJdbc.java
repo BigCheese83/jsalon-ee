@@ -18,7 +18,7 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
         implements UserDao {
 
     /* SQL Queries */
-    private static final String GENERATE_ID =    "SELECT nextval('users_id_seq')";
+    private static final String GENERATE_ID =    "SELECT nextval('security.users_id_seq')";
     private static final String INSERT_SQL =
             "INSERT INTO security.users (id, username, firstname, lastname, middlename, password) " +
             "VALUES (?, ?, ?, ?, ?, md5(?))";

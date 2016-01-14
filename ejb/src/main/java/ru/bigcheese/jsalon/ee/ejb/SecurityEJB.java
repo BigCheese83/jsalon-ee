@@ -16,21 +16,21 @@ import java.sql.*;
  * Created by BigCheese on 13.08.15.
  */
 @Stateless
-@RolesAllowed({"admin", "user"})
+@RolesAllowed({"admin"})
 public class SecurityEJB {
 
     @Resource(lookup = Constants.SALON_JNDI_NAME)
     private DataSource dataSource;
 
     private static final String COMPARE_PASSWORD = "SELECT password, md5(?) FROM security.users WHERE id = ?";
-    private static final String UPDATE_PASSWORD = "UPDATE security.users SET password = md5(?) WHERE id = ?";
+    private static final String UPDATE_PASSWORD =  "UPDATE security.users SET password = md5(?) WHERE id = ?";
 
     public void setUserPassword(Long userId, String newPassword) {
         setUserPassword(userId, newPassword, null);
     }
 
     public void setUserPassword(Long userId, String newPassword, String password) {
-        if (newPassword == null) return;
+        if (StringUtils.isBlank(newPassword)) return;
         checkUserPassword(userId, password);
         try (Connection conn = dataSource.getConnection()) {
             try (PreparedStatement pstm = conn.prepareStatement(UPDATE_PASSWORD)) {
