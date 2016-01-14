@@ -1,11 +1,11 @@
 package ru.bigcheese.jsalon.core.model;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
+import static ru.bigcheese.jsalon.core.Constants.CASUAL_DATE_FORMAT;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -65,6 +65,35 @@ public class Passport extends BaseModel {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getFullStr() {
+        return getShortStr() + " выдан " +
+                (issueDate == null ? "" : DateFormatUtils.format(issueDate, CASUAL_DATE_FORMAT) + " ") +
+                (StringUtils.isBlank(issuedBy) ? "" : issuedBy);
+    }
+
+    public String getShortStr() {
+        return (StringUtils.isBlank(series) ? "" : series + " ") +
+                (StringUtils.isBlank(number) ? "" : number);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Passport)) return false;
+        Passport passport = (Passport) o;
+        return Objects.equals(series, passport.series) &&
+                Objects.equals(number, passport.number) &&
+                Objects.equals(issuedBy, passport.issuedBy) &&
+                Objects.equals(issueDate, passport.issueDate) &&
+                Objects.equals(subdivision, passport.subdivision) &&
+                Objects.equals(country, passport.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(series, number, issuedBy, issueDate, subdivision, country);
     }
 
     @Override

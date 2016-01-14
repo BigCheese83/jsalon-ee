@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -41,6 +42,20 @@ public class Discount extends BaseModel {
     @Override
     public String toString() {
         return "Скидка \"" + name + " " + value + "%\"";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Discount)) return false;
+        Discount discount = (Discount) o;
+        return Objects.equals(name, discount.name) &&
+                Objects.equals(value, discount.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, value);
     }
 
     @Override

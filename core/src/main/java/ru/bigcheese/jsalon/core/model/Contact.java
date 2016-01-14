@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -80,6 +81,35 @@ public class Contact extends BaseModel {
 
     public void setIcq(String icq) {
         this.icq = icq;
+    }
+
+    public String getFullStr() {
+        return (StringUtils.isBlank(phone) ? "" : "phone " + phone + " ") +
+                (StringUtils.isBlank(email) ? "" : "email " + email + " ") +
+                (StringUtils.isBlank(vk) ? "" : "vk " + vk + " ") +
+                (StringUtils.isBlank(skype) ? "" : "skype " + skype + " ") +
+                (StringUtils.isBlank(facebook) ? "" : "facebook " + facebook + " ") +
+                (StringUtils.isBlank(twitter) ? "" : "twitter " + twitter + " ") +
+                (StringUtils.isBlank(icq) ? "" : "icq " + icq);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contact)) return false;
+        Contact contact = (Contact) o;
+        return Objects.equals(phone, contact.phone) &&
+                Objects.equals(email, contact.email) &&
+                Objects.equals(vk, contact.vk) &&
+                Objects.equals(skype, contact.skype) &&
+                Objects.equals(facebook, contact.facebook) &&
+                Objects.equals(twitter, contact.twitter) &&
+                Objects.equals(icq, contact.icq);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(phone, email, vk, skype, facebook, twitter, icq);
     }
 
     @Override

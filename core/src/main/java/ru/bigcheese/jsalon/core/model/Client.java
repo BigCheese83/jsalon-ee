@@ -1,9 +1,6 @@
 package ru.bigcheese.jsalon.core.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -36,6 +33,27 @@ public class Client extends Person {
 
     public void setInBlackList(boolean inBlackList) {
         this.inBlackList = inBlackList;
+    }
+
+    @Override
+    public String toString() {
+        return "Клиент " + getFullFIO() + " [паспорт " + getPassport().getShortStr() + "]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Client)) return false;
+        if (!super.equals(o)) return false;
+        Client client = (Client) o;
+        return Objects.equals(inBlackList, client.inBlackList) &&
+                Objects.equals(registrationDate, client.registrationDate) &&
+                Objects.equals(discount, client.discount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), registrationDate, discount, inBlackList);
     }
 
     @Override

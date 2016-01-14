@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -82,6 +83,37 @@ public class Address extends BaseModel {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public String getFullStr() {
+        return (StringUtils.isBlank(country) ? "" : country + " ") +
+                (StringUtils.isBlank(zip) ? "" : zip + " ") +
+                (StringUtils.isBlank(district) ? "" : district + " ") +
+                (StringUtils.isBlank(city) ? "" : "г." + city + " ") +
+                (StringUtils.isBlank(street) ? "" : "ул." + street + " ") +
+                (StringUtils.isBlank(house) ? "" : "д." + house) +
+                (StringUtils.isBlank(section) ? "" : section + " ") + " " +
+                (StringUtils.isBlank(flat) ? "" : "кв." +  flat);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Address)) return false;
+        Address address = (Address) o;
+        return Objects.equals(country, address.country) &&
+                Objects.equals(district, address.district) &&
+                Objects.equals(city, address.city) &&
+                Objects.equals(street, address.street) &&
+                Objects.equals(house, address.house) &&
+                Objects.equals(section, address.section) &&
+                Objects.equals(flat, address.flat) &&
+                Objects.equals(zip, address.zip);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(country, district, city, street, house, section, flat, zip);
     }
 
     @Override

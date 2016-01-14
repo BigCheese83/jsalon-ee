@@ -2,10 +2,7 @@ package ru.bigcheese.jsalon.core.model;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -83,6 +80,32 @@ public class Person extends BaseModel {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    public String getFullFIO() {
+        return (StringUtils.isBlank(surname) ? "" : surname + " ") +
+                (StringUtils.isBlank(name) ? "" : name + " ") +
+                (StringUtils.isBlank(patronymic) ? "" : patronymic);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+        Person person = (Person) o;
+        return Objects.equals(surname, person.surname) &&
+                Objects.equals(name, person.name) &&
+                Objects.equals(patronymic, person.patronymic) &&
+                Objects.equals(birthDate, person.birthDate) &&
+                Objects.equals(passport, person.passport) &&
+                Objects.equals(regAddress, person.regAddress) &&
+                Objects.equals(liveAddress, person.liveAddress) &&
+                Objects.equals(contact, person.contact);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(surname, name, patronymic, birthDate, passport, regAddress, liveAddress, contact);
     }
 
     @Override

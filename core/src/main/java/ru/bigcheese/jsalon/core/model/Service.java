@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -52,6 +53,22 @@ public class Service extends BaseModel {
     @Override
     public String toString() {
         return "Услуга \"" + name + "\" [цена " + cost + "руб.]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Service)) return false;
+        Service service = (Service) o;
+        return Objects.equals(name, service.name) &&
+                Objects.equals(cost, service.cost) &&
+                Objects.equals(duration, service.duration) &&
+                Objects.equals(description, service.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, cost, duration, description);
     }
 
     @Override

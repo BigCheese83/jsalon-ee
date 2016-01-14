@@ -33,7 +33,9 @@ public final class Constants {
 
     public static final Map<String, String> ALL_COUNTRIES;
 
+    /* Date/Time Formats */
     public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String CASUAL_DATE_FORMAT = "dd.MM.yyyy";
 
     static {
         DAO_IMPLEMENTATION = StringUtils.defaultIfBlank(System.getProperty(DAO_IMPLEMENTATION_PROPERTY), "jdbc");
