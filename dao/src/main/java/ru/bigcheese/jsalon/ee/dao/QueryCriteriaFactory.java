@@ -8,8 +8,6 @@ import ru.bigcheese.jsalon.ee.dao.jdbc.JdbcQueryCriteria;
 public class QueryCriteriaFactory {
 
     public static QueryCriteria getInstance() {
-        //if ("jpa".equalsIgnoreCase(Constants.DAO_IMPLEMENTATION)) {
-        //    return jpaCriteria;
         return new JdbcQueryCriteria();
     }
 }

@@ -29,7 +29,7 @@ public class ServiceEJB implements ServiceEJBLocal {
     @Override
     public CrudEntityResult createService(Service service) {
         try {
-            if (serviceDao.getServicesByName(service.getName()).isEmpty()) {
+            if (!serviceDao.existsByName(service.getName())) {
                 serviceDao.persist(service);
                 return new CrudEntityResult(NORMAL, service.toString() + " успешно создана.", service.getId());
             } else {
@@ -44,8 +44,7 @@ public class ServiceEJB implements ServiceEJBLocal {
     @Override
     public CrudEntityResult updateService(Service service) {
         try {
-            Service find = serviceDao.findById(service.getId());
-            if (find != null) {
+            if (serviceDao.existsById(service.getId())) {
                 serviceDao.update(service);
                 return new CrudEntityResult(NORMAL, service.toString() + " успешно обновлена.", service.getId());
             } else {
@@ -61,10 +60,9 @@ public class ServiceEJB implements ServiceEJBLocal {
     public CrudEntityResult deleteService(Long id) {
         try {
             if (id == null) throw new IllegalArgumentException("ID=NULL");
-            Service service = serviceDao.findById(id);
-            if (service != null) {
-                serviceDao.delete(service);
-                return new CrudEntityResult(NORMAL, service.toString() + " успешно удалена.", service.getId());
+            if (serviceDao.existsById(id)) {
+                serviceDao.delete(id);
+                return new CrudEntityResult(NORMAL, "Услуга успешно удалена.", id);
             } else {
                 return new CrudEntityResult(WARNING,  "Услуга с ID=" + id + " не найдена в БД.", id);
             }

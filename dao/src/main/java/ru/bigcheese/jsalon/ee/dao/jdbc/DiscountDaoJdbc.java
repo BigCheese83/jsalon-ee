@@ -24,6 +24,8 @@ public class DiscountDaoJdbc extends AbstractBaseDaoJdbc<Discount, Long>
     private static final String COUNT_ALL =      "SELECT count(*) FROM discounts";
     private static final String SELECT_BY_ID =   "SELECT * FROM discounts WHERE id = ?";
     private static final String SELECT_BY_NAME = "SELECT * FROM discounts WHERE name = ?";
+    private static final String EXISTS_BY_ID =   "SELECT id FROM discounts WHERE id = ?";
+    private static final String EXISTS_BY_NAME = "SELECT name FROM discounts WHERE name = ?";
 
     @Override
     public void persist(Discount model) {
@@ -40,16 +42,15 @@ public class DiscountDaoJdbc extends AbstractBaseDaoJdbc<Discount, Long>
     public void update(Discount model) {
         if (model == null) return;
         executeUpdateSQL(UPDATE_SQL, new Object[]
-                    { getParam(model.getName(), String.class),
-                      getParam(model.getValue(), Integer.class),
-                      getParam(model.getId(), Long.class) });
+                {getParam(model.getName(), String.class),
+                        getParam(model.getValue(), Integer.class),
+                        getParam(model.getId(), Long.class)});
     }
 
     @Override
-    public void delete(Discount model) {
-        if (model == null) return;
-        executeUpdateSQL(DELETE_SQL, new Object[]
-                    { getParam(model.getId(), Long.class) });
+    public void delete(Long id) {
+        if (id == null) return;
+        executeUpdateSQL(DELETE_SQL, new Object[]{id});
     }
 
     @Override
@@ -70,8 +71,21 @@ public class DiscountDaoJdbc extends AbstractBaseDaoJdbc<Discount, Long>
     }
 
     @Override
-    public List<Discount> getDiscountsByName(String name) {
-        return executeQuerySQL(SELECT_BY_NAME, DISCOUNT_MAPPER, new Object[]
+    public boolean existsById(Long id) {
+        return null != executeQuerySQL(EXISTS_BY_ID, Long.class, new Object[]{
+                getParam(id, Long.class)});
+    }
+
+    @Override
+    public Discount getDiscountByName(String name) {
+        List<Discount> find = executeQuerySQL(SELECT_BY_NAME, DISCOUNT_MAPPER, new Object[]
                     { getParam(name, String.class) });
+        return !find.isEmpty() ? find.get(0) : null;
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        return null != executeQuerySQL(EXISTS_BY_NAME, String.class, new Object[]{
+                getParam(name, String.class)});
     }
 }

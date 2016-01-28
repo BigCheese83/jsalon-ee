@@ -24,6 +24,8 @@ public class PostDaoJdbc extends AbstractBaseDaoJdbc<Post, Long>
     private static final String COUNT_ALL =      "SELECT count(*) FROM posts";
     private static final String SELECT_BY_ID =   "SELECT * FROM posts WHERE id = ?";
     private static final String SELECT_BY_NAME = "SELECT * FROM posts WHERE name = ?";
+    private static final String EXISTS_BY_ID =   "SELECT id FROM posts WHERE id = ?";
+    private static final String EXISTS_BY_NAME = "SELECT name FROM posts WHERE name = ?";
 
     @Override
     public void persist(Post model) {
@@ -44,10 +46,9 @@ public class PostDaoJdbc extends AbstractBaseDaoJdbc<Post, Long>
     }
 
     @Override
-    public void delete(Post model) {
-        if (model == null) return;
-        executeUpdateSQL(DELETE_SQL, new Object[]
-                { getParam(model.getId(), Long.class) });
+    public void delete(Long id) {
+        if (id == null) return;
+        executeUpdateSQL(DELETE_SQL, new Object[]{id});
     }
 
     @Override
@@ -68,8 +69,21 @@ public class PostDaoJdbc extends AbstractBaseDaoJdbc<Post, Long>
     }
 
     @Override
-    public List<Post> getPostsByName(String name) {
-        return executeQuerySQL(SELECT_BY_NAME, POST_MAPPER, new Object[]
+    public boolean existsById(Long id) {
+        return null != executeQuerySQL(EXISTS_BY_ID, Long.class, new Object[]{
+                getParam(id, Long.class)});
+    }
+
+    @Override
+    public Post getPostByName(String name) {
+        List<Post> find = executeQuerySQL(SELECT_BY_NAME, POST_MAPPER, new Object[]
                 { getParam(name, String.class) });
+        return !find.isEmpty() ? find.get(0) : null;
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        return null != executeQuerySQL(EXISTS_BY_NAME, String.class, new Object[]{
+                getParam(name, String.class)});
     }
 }

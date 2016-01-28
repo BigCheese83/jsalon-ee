@@ -50,6 +50,6 @@ public class PostDaoJpaTest extends AbstractDaoJpaTest {
 
     @Test
     public void testGetPostsByName() {
-        testStrategy.testGetPostsByName();
+        testStrategy.testGetPostByName();
     }
 }

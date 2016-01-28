@@ -35,8 +35,7 @@ public class UserEJB implements UserEJBLocal {
 
     public CrudEntityResult createUser(User user, String password) {
         try {
-            User find = userDao.getUserByLogin(user.getLogin());
-            if (find == null) {
+            if (!userDao.existsByLogin(user.getLogin())) {
                 userDao.persist(user);
                 securityEJB.setUserPassword(user.getId(), password);
                 return new CrudEntityResult(NORMAL, user.toString() + " успешно создан.", user.getId());
@@ -51,8 +50,7 @@ public class UserEJB implements UserEJBLocal {
 
     public CrudEntityResult updateUser(User user, String password, String newPassword) {
         try {
-            User find = userDao.findById(user.getId());
-            if (find != null) {
+            if (userDao.existsById(user.getId())) {
                 userDao.update(user);
                 securityEJB.setUserPassword(user.getId(), newPassword, password);
                 return new CrudEntityResult(NORMAL, user.toString() + " успешно обновлен.", user.getId());
@@ -68,10 +66,9 @@ public class UserEJB implements UserEJBLocal {
     public CrudEntityResult deleteUser(Long id) {
         try {
             if (id == null) throw new IllegalArgumentException("ID=NULL");
-            User user = userDao.findById(id);
-            if (user != null) {
-                userDao.delete(user);
-                return new CrudEntityResult(NORMAL, user.toString() + " успешно удален.", user.getId());
+            if (userDao.existsById(id)) {
+                userDao.delete(id);
+                return new CrudEntityResult(NORMAL, "Пользователь успешно удален.", id);
             } else {
                 return new CrudEntityResult(WARNING,  "Пользователь с ID=" + id + " не найден в БД.", id);
             }

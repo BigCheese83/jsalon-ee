@@ -21,7 +21,7 @@
             <property name="javax.persistence.jdbc.user" value="sa"/>
             <property name="javax.persistence.jdbc.password" value=""/>
             <!--<property name="javax.persistence.sql-load-script-source" value="insert.sql"/>-->
-            <property name="eclipselink.logging.level" value="INFO"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
             <!--<property name="eclipselink.canonicalmodel.subpackage" value="test"/>-->
         </properties>
     </persistence-unit>

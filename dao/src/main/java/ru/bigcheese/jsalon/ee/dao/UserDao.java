@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface UserDao extends BaseDao<User, Long> {
     User getUserByLogin(String login);
+    boolean existsByLogin(String login);
     List<User> findLimitUsersByCriteria(int count, QueryCriteria criteria);
     List<User> findUsersByCriteria(QueryCriteria criteria);
     List<String> getAllRoles();

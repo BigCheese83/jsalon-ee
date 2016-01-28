@@ -8,11 +8,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "discounts")
 @NamedQueries({
-    @NamedQuery(name = DiscountEntity.FIND_BY_NAME, query = "SELECT d FROM DiscountEntity d WHERE d.name = ?1")
+    @NamedQuery(name = DiscountEntity.FIND_BY_NAME, query = "SELECT d FROM DiscountEntity d WHERE d.name = ?1"),
+    @NamedQuery(name = DiscountEntity.EXISTS_BY_NAME, query = "SELECT d.name FROM DiscountEntity d WHERE d.name = ?1")
 })
 public class DiscountEntity extends BaseEntity {
 
-    public static final String FIND_BY_NAME =  "Discount.findByName";
+    public static final String FIND_BY_NAME =   "Discount.findByName";
+    public static final String EXISTS_BY_NAME = "Discount.existsByName";
 
     private String name;
     private Integer value;

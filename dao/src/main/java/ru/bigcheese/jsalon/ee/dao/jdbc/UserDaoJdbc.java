@@ -28,13 +28,15 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
             "UPDATE security.users SET username = ?, firstname = ?, lastname = ?, middlename = ? WHERE id = ?";
     private static final String UPDATE_SQL_2 =
             "UPDATE security.user_groups SET group_id = ? WHERE user_id = ?";
-    private static final String DELETE_SQL =    "DELETE FROM security.users WHERE id = ?";
-    private static final String DELETE_SQL_2 =  "DELETE FROM security.user_groups WHERE user_id = ?";
-    private static final String FIND_BY_LOGIN = "SELECT * FROM security.v_user_role WHERE username = ?";
-    private static final String FIND_BY_ID =    "SELECT * FROM security.v_user_role WHERE id = ?";
-    private static final String FIND_ALL =      "SELECT * FROM security.v_user_role";
-    private static final String COUNT_ALL =     "SELECT count(*) FROM security.v_user_role";
-    private static final String FIND_ROLES =    "SELECT name FROM security.groups";
+    private static final String DELETE_SQL =     "DELETE FROM security.users WHERE id = ?";
+    private static final String DELETE_SQL_2 =   "DELETE FROM security.user_groups WHERE user_id = ?";
+    private static final String FIND_BY_LOGIN =  "SELECT * FROM security.v_user_role WHERE username = ?";
+    private static final String FIND_BY_ID =     "SELECT * FROM security.v_user_role WHERE id = ?";
+    private static final String FIND_ALL =       "SELECT * FROM security.v_user_role";
+    private static final String COUNT_ALL =      "SELECT count(*) FROM security.users";
+    private static final String EXISTS_BY_ID =   "SELECT id FROM security.users WHERE id = ?";
+    private static final String EXISTS_BY_LOGIN ="SELECT username FROM security.users WHERE username = ?";
+    private static final String FIND_ROLES =     "SELECT name FROM security.groups";
     private static final String FIND_ROLE_ID_BY_NAME = "SELECT id FROM security.groups WHERE name = ?";
 
     @Override
@@ -71,10 +73,10 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
     }
 
     @Override
-    public void delete(User model) {
-        if (model == null) return;
-        executeUpdateSQL(DELETE_SQL_2, new Object[]{getParam(model.getId(), Long.class)});
-        executeUpdateSQL(DELETE_SQL, new Object[]{getParam(model.getId(), Long.class)});
+    public void delete(Long id) {
+        if (id == null) return;
+        executeUpdateSQL(DELETE_SQL_2, new Object[]{id});
+        executeUpdateSQL(DELETE_SQL, new Object[]{id});
     }
 
     @Override
@@ -95,6 +97,12 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
     }
 
     @Override
+    public boolean existsById(Long id) {
+        return null != executeQuerySQL(EXISTS_BY_ID, Long.class, new Object[]{
+                getParam(id, Long.class)});
+    }
+
+    @Override
     public User getUserByLogin(String login) {
         List<User> find = executeQuerySQL(FIND_BY_LOGIN, USER_MAPPER, new Object[]
                             { getParam(login, String.class) });
@@ -102,14 +110,20 @@ public class UserDaoJdbc extends AbstractBaseDaoJdbc<User, Long>
     }
 
     @Override
+    public boolean existsByLogin(String login) {
+        return null != executeQuerySQL(EXISTS_BY_LOGIN, String.class, new Object[]{
+                getParam(login, String.class)});
+    }
+
+    @Override
     public List<User> findLimitUsersByCriteria(int count, QueryCriteria criteria) {
-        String criteriaPart = criteria != null ? criteria.toString() : "";
+        String criteriaPart = criteria != null ? criteria.buildSQL() : "";
         return executeLimitQuerySQL(FIND_ALL + criteriaPart, count, USER_MAPPER, null);
     }
 
     @Override
     public List<User> findUsersByCriteria(QueryCriteria criteria) {
-        String criteriaPart = criteria != null ? criteria.toString() : "";
+        String criteriaPart = criteria != null ? criteria.buildSQL() : "";
         return executeQuerySQL(FIND_ALL + criteriaPart, USER_MAPPER, null);
     }
 

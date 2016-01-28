@@ -8,6 +8,8 @@ import ru.bigcheese.jsalon.ee.dao.qualifier.JPA;
 
 import java.util.List;
 
+import static ru.bigcheese.jsalon.ee.dao.entity.ServiceEntity.*;
+
 /**
  * Created by BigCheese on 02.06.15.
  */
@@ -16,8 +18,14 @@ public class ServiceDaoJpa  extends AbstractBaseDaoJpa<Service, Long, ServiceEnt
         implements ServiceDao {
 
     @Override
-    public List<Service> getServicesByName(String name) {
-        return executeNamedQuery(ServiceEntity.FIND_BY_NAME, name);
+    public Service getServiceByName(String name) {
+        List<Service> find = executeNamedQuery(FIND_BY_NAME, name);
+        return !find.isEmpty() ? find.get(0) : null;
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        return !executeNamedQuery(EXISTS_BY_NAME, String.class, name).isEmpty();
     }
 
     @Override

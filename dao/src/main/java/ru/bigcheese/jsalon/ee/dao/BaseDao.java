@@ -9,8 +9,9 @@ import java.util.List;
 public interface BaseDao<T extends Serializable, K extends Serializable> {
     void persist(T model);
     void update(T model);
-    void delete(T model);
+    void delete(K id);
     T findById(K id);
     List<T> findAll();
     Long countAll();
+    boolean existsById(Long id);
 }

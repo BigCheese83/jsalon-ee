@@ -31,13 +31,6 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
         this.dataSource = dataSource;
     }
 
-    public abstract void persist(T model);
-    public abstract void update(T model);
-    public abstract void delete(T model);
-    public abstract T findById(K id);
-    public abstract List<T> findAll();
-    public abstract Long countAll();
-
     void executeUpdateSQL(String sql, Object[] params) {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstm = conn.prepareStatement(sql)
@@ -80,6 +73,7 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     <X> X executeQuerySQL(String sql, Class<X> targetClass, Object[] params) {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstm = conn.prepareStatement(sql)
@@ -89,6 +83,8 @@ public abstract class AbstractBaseDaoJdbc<T extends BaseModel, K extends Seriali
                 if (rs.next()) {
                     if (targetClass == Long.class) {
                         return (X)Long.valueOf(rs.getLong(1));
+                    } else if (targetClass == String.class) {
+                        return (X)rs.getString(1);
                     }
                 }
             }

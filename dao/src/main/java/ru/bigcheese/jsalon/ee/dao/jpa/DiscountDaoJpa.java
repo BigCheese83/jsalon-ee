@@ -8,6 +8,8 @@ import ru.bigcheese.jsalon.ee.dao.qualifier.JPA;
 
 import java.util.List;
 
+import static ru.bigcheese.jsalon.ee.dao.entity.DiscountEntity.*;
+
 /**
  * Created by BigCheese on 11.03.15.
  */
@@ -16,8 +18,14 @@ public class DiscountDaoJpa extends AbstractBaseDaoJpa<Discount, Long, DiscountE
         implements DiscountDao {
 
     @Override
-    public List<Discount> getDiscountsByName(String name) {
-        return executeNamedQuery(DiscountEntity.FIND_BY_NAME, name);
+    public Discount getDiscountByName(String name) {
+        List<Discount> find = executeNamedQuery(FIND_BY_NAME, name);
+        return !find.isEmpty() ? find.get(0) : null;
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        return !executeNamedQuery(EXISTS_BY_NAME, String.class, name).isEmpty();
     }
 
     @Override

@@ -29,7 +29,7 @@ public class PostEJB implements PostEJBLocal {
     @Override
     public CrudEntityResult createPost(Post post) {
         try {
-            if (postDao.getPostsByName(post.getName()).isEmpty()) {
+            if (!postDao.existsByName(post.getName())) {
                 postDao.persist(post);
                 return new CrudEntityResult(NORMAL, post.toString() + " успешно создана.", post.getId());
             } else {
@@ -44,8 +44,7 @@ public class PostEJB implements PostEJBLocal {
     @Override
     public CrudEntityResult updatePost(Post post) {
         try {
-            Post find = postDao.findById(post.getId());
-            if (find != null) {
+            if (postDao.existsById(post.getId())) {
                 postDao.update(post);
                 return new CrudEntityResult(NORMAL, post.toString() + " успешно обновлена.", post.getId());
             } else {
@@ -61,10 +60,9 @@ public class PostEJB implements PostEJBLocal {
     public CrudEntityResult deletePost(Long id) {
         try {
             if (id == null) throw new IllegalArgumentException("ID=NULL");
-            Post post = postDao.findById(id);
-            if (post != null) {
-                postDao.delete(post);
-                return new CrudEntityResult(NORMAL, post.toString() + " успешно удалена.", post.getId());
+            if (postDao.existsById(id)) {
+                postDao.delete(id);
+                return new CrudEntityResult(NORMAL, "Должность успешно удалена.", id);
             } else {
                 return new CrudEntityResult(WARNING,  "Должность с ID=" + id + " не найдена в БД.", id);
             }

@@ -1,6 +1,5 @@
 package ru.bigcheese.jsalon.ee.dao.test.strategy;
 
-import org.junit.Assert;
 import ru.bigcheese.jsalon.core.model.Discount;
 import ru.bigcheese.jsalon.ee.dao.DiscountDao;
 import ru.bigcheese.jsalon.ee.dao.jdbc.DiscountDaoJdbc;
@@ -9,6 +8,8 @@ import ru.bigcheese.jsalon.ee.dao.jpa.DiscountDaoJpa;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by BigCheese on 28.04.15.
@@ -37,14 +38,14 @@ public class DiscountTestStrategy {
         }
     }
 
-    public void testGetDiscountsByName() {
-        List<Discount> discounts = discountDao.getDiscountsByName("Золотая");
-        Assert.assertEquals(1, discounts.size());
+    public void testGetDiscountByName() {
+        Discount discount = discountDao.getDiscountByName("Золотая");
+        assertNotNull(discount);
     }
 
     public void testFindAll() {
         List<Discount> discounts = discountDao.findAll();
-        Assert.assertEquals(NUMBER_OF_DISCOUNTS, discounts.size());
+        assertEquals(NUMBER_OF_DISCOUNTS, discounts.size());
     }
 
     public void testPersist() {
@@ -52,7 +53,7 @@ public class DiscountTestStrategy {
         beginTransaction();
         discountDao.persist(discount);
         commitTransaction();
-        Assert.assertEquals(NUMBER_OF_DISCOUNTS + 1, discountDao.countAll().intValue());
+        assertEquals(NUMBER_OF_DISCOUNTS + 1, discountDao.countAll().intValue());
     }
 
     public void testUpdate() {
@@ -61,20 +62,29 @@ public class DiscountTestStrategy {
         beginTransaction();
         discountDao.update(discount);
         commitTransaction();
-        Assert.assertEquals("GOLD", discountDao.findById(2L).getName());
+        assertEquals("GOLD", discountDao.findById(2L).getName());
     }
 
     public void testDelete() {
-        Discount discount = discountDao.findById(3L);
         beginTransaction();
-        discountDao.delete(discount);
+        discountDao.delete(3L);
         commitTransaction();
-        Assert.assertEquals(NUMBER_OF_DISCOUNTS - 1, discountDao.countAll().intValue());
+        assertEquals(NUMBER_OF_DISCOUNTS - 1, discountDao.countAll().intValue());
     }
 
     public void testFindById() {
         Discount discount = discountDao.findById(4L);
-        Assert.assertEquals("VIP", discount.getName());
+        assertEquals("VIP", discount.getName());
+    }
+
+    public void testExistsById() {
+        assertTrue(discountDao.existsById(2L));
+        assertFalse(discountDao.existsById(20L));
+    }
+
+    public void testExistsByName() {
+        assertTrue(discountDao.existsByName("VIP"));
+        assertFalse(discountDao.existsByName("Unknown"));
     }
 
     private void beginTransaction() {

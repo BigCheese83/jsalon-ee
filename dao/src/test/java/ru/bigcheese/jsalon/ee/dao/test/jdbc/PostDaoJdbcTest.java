@@ -50,6 +50,6 @@ public class PostDaoJdbcTest extends AbstractDaoJdbcTest {
 
     @Test
     public void testGetPostsByName() {
-        testStrategy.testGetPostsByName();
+        testStrategy.testGetPostByName();
     }
 }

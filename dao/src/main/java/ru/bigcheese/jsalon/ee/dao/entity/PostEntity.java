@@ -8,11 +8,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "posts")
 @NamedQueries({
-    @NamedQuery(name = PostEntity.FIND_BY_NAME, query = "SELECT p FROM PostEntity p WHERE p.name = ?1")
+    @NamedQuery(name = PostEntity.FIND_BY_NAME, query = "SELECT p FROM PostEntity p WHERE p.name = ?1"),
+    @NamedQuery(name = PostEntity.EXISTS_BY_NAME, query = "SELECT p.name FROM PostEntity p WHERE p.name = ?1")
 })
 public class PostEntity extends BaseEntity {
 
-    public static final String FIND_BY_NAME =  "Post.findByName";
+    public static final String FIND_BY_NAME =   "Post.findByName";
+    public static final String EXISTS_BY_NAME = "Post.existsByName";
 
     private String name;
 

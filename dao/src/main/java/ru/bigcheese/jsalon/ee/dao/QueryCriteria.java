@@ -11,4 +11,5 @@ public interface QueryCriteria {
     QueryCriteria equal(String colName, String value);
     QueryCriteria and();
     QueryCriteria or();
+    String buildSQL();
 }

@@ -9,11 +9,13 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "services")
 @NamedQueries({
-    @NamedQuery(name = ServiceEntity.FIND_BY_NAME, query = "SELECT s FROM ServiceEntity s WHERE s.name = ?1")
+    @NamedQuery(name = ServiceEntity.FIND_BY_NAME, query = "SELECT s FROM ServiceEntity s WHERE s.name = ?1"),
+    @NamedQuery(name = ServiceEntity.EXISTS_BY_NAME, query = "SELECT s.name FROM ServiceEntity s WHERE s.name = ?1")
 })
 public class ServiceEntity extends BaseEntity {
 
-    public static final String FIND_BY_NAME =  "Service.findByName";
+    public static final String FIND_BY_NAME =   "Service.findByName";
+    public static final String EXISTS_BY_NAME = "Service.existsByName";
 
     private String name;
     private BigDecimal cost;

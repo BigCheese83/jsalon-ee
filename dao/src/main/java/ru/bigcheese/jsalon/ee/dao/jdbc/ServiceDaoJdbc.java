@@ -27,6 +27,8 @@ public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
     private static final String COUNT_ALL =      "SELECT count(*) FROM services";
     private static final String SELECT_BY_ID =   "SELECT * FROM services WHERE id = ?";
     private static final String SELECT_BY_NAME = "SELECT * FROM services WHERE name = ?";
+    private static final String EXISTS_BY_ID =   "SELECT id FROM services WHERE id = ?";
+    private static final String EXISTS_BY_NAME = "SELECT name FROM services WHERE name = ?";
 
     @Override
     public void persist(Service model) {
@@ -53,10 +55,9 @@ public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
     }
 
     @Override
-    public void delete(Service model) {
-        if (model == null) return;
-        executeUpdateSQL(DELETE_SQL, new Object[]
-                { getParam(model.getId(), Long.class)});
+    public void delete(Long id) {
+        if (id == null) return;
+        executeUpdateSQL(DELETE_SQL, new Object[]{id});
     }
 
     @Override
@@ -77,8 +78,21 @@ public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
     }
 
     @Override
-    public List<Service> getServicesByName(String name) {
-        return executeQuerySQL(SELECT_BY_NAME, SERVICE_MAPPER, new Object[]
+    public boolean existsById(Long id) {
+        return null != executeQuerySQL(EXISTS_BY_ID, Long.class, new Object[]{
+                getParam(id, Long.class)});
+    }
+
+    @Override
+    public Service getServiceByName(String name) {
+        List<Service> find = executeQuerySQL(SELECT_BY_NAME, SERVICE_MAPPER, new Object[]
                 { getParam(name, String.class) });
+        return !find.isEmpty() ? find.get(0) : null;
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        return null != executeQuerySQL(EXISTS_BY_NAME, String.class, new Object[]{
+                getParam(name, String.class)});
     }
 }

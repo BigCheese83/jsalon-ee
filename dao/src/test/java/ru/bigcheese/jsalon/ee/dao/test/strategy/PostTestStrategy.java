@@ -1,6 +1,5 @@
 package ru.bigcheese.jsalon.ee.dao.test.strategy;
 
-import org.junit.Assert;
 import ru.bigcheese.jsalon.core.model.Post;
 import ru.bigcheese.jsalon.ee.dao.PostDao;
 import ru.bigcheese.jsalon.ee.dao.jdbc.PostDaoJdbc;
@@ -9,6 +8,9 @@ import ru.bigcheese.jsalon.ee.dao.jpa.PostDaoJpa;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by BigCheese on 28.04.15.
@@ -40,12 +42,12 @@ public class PostTestStrategy {
 
     public void testFindById() {
         Post post = postDao.findById(2L);
-        Assert.assertEquals("Парикмахер", post.getName());
+        assertEquals("Парикмахер", post.getName());
     }
 
     public void testFindAll() {
         List<Post> posts = postDao.findAll();
-        Assert.assertEquals(NUMBER_OF_POSTS, posts.size());
+        assertEquals(NUMBER_OF_POSTS, posts.size());
     }
 
     public void testPersist() {
@@ -53,7 +55,7 @@ public class PostTestStrategy {
         beginTransaction();
         postDao.persist(post);
         commitTransaction();
-        Assert.assertEquals(NUMBER_OF_POSTS + 1, postDao.countAll().intValue());
+        assertEquals(NUMBER_OF_POSTS + 1, postDao.countAll().intValue());
     }
 
     public void testUpdate() {
@@ -62,20 +64,19 @@ public class PostTestStrategy {
         beginTransaction();
         postDao.update(post);
         commitTransaction();
-        Assert.assertEquals("Стилист", postDao.findById(3L).getName());
+        assertEquals("Стилист", postDao.findById(3L).getName());
     }
 
     public void testDelete() {
-        Post post = postDao.findById(4L);
         beginTransaction();
-        postDao.delete(post);
+        postDao.delete(4L);
         commitTransaction();
-        Assert.assertEquals(NUMBER_OF_POSTS - 1, postDao.countAll().intValue());
+        assertEquals(NUMBER_OF_POSTS - 1, postDao.countAll().intValue());
     }
 
-    public void testGetPostsByName() {
-        List<Post> posts = postDao.getPostsByName("Массажист");
-        Assert.assertEquals(1, posts.size());
+    public void testGetPostByName() {
+        Post post = postDao.getPostByName("Массажист");
+        assertNotNull(post);
     }
 
     private void beginTransaction() {

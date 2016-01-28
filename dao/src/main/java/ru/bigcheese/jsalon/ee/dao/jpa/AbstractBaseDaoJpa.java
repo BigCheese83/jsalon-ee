@@ -6,6 +6,7 @@ import ru.bigcheese.jsalon.ee.dao.entity.BaseEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -46,9 +47,9 @@ public abstract class AbstractBaseDaoJpa<T extends BaseModel, K extends Serializ
     }
 
     @Override
-    public void delete(T model) {
-        if (model == null) return;
-        entityManager.remove(entityManager.merge(toEntity(model)));
+    public void delete(K id) {
+        if (id == null) return;
+        entityManager.remove(entityManager.getReference(getEntityClass(), id));
     }
 
     @Override
@@ -68,6 +69,14 @@ public abstract class AbstractBaseDaoJpa<T extends BaseModel, K extends Serializ
     public Long countAll() {
         return entityManager.createQuery("SELECT COUNT(e) FROM " + getEntityClass().getName() + " e", Long.class)
                         .getResultList().get(0);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return id != null &&
+                !entityManager.createQuery("SELECT e.id FROM " + getEntityClass().getName() + " e WHERE e.id = :id")
+                        .setParameter("id", id)
+                        .getResultList().isEmpty();
     }
 
     abstract T toModel(E entity);
@@ -104,5 +113,32 @@ public abstract class AbstractBaseDaoJpa<T extends BaseModel, K extends Serializ
             query.setParameter(pos++, param);
         }
         return toModelList(query.getResultList());
+    }
+
+    <X> List<X> executeNamedQuery(String jpql, Class<X> targetClass, Object... params) {
+        TypedQuery<X> query = entityManager.createNamedQuery(jpql, targetClass);
+        int pos = 1;
+        for (Object param : params) {
+            query.setParameter(pos++, param);
+        }
+        return query.getResultList();
+    }
+
+    List<T> executeNativeQuery(String sql, Object... params) {
+        Query query = entityManager.createNativeQuery(sql, getEntityClass());
+        int pos = 1;
+        for (Object param : params) {
+            query.setParameter(pos++, param);
+        }
+        return toModelList((List<E>)query.getResultList());
+    }
+
+    <X> List<X> executeNativeQuery(String sql, Class<X> targetClass, Object... params) {
+        Query query = entityManager.createNativeQuery(sql, targetClass);
+        int pos = 1;
+        for (Object param : params) {
+            query.setParameter(pos++, param);
+        }
+        return query.getResultList();
     }
 }

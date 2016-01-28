@@ -62,7 +62,7 @@ public class JdbcQueryCriteria implements QueryCriteria {
     }
 
     @Override
-    public String toString() {
+    public String buildSQL() {
         return sb.toString();
     }
 

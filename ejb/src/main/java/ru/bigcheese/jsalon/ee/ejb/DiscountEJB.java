@@ -29,7 +29,7 @@ public class DiscountEJB implements DiscountEJBLocal {
     @Override
     public CrudEntityResult createDiscount(Discount discount) {
         try {
-            if (discountDao.getDiscountsByName(discount.getName()).isEmpty()) {
+            if (!discountDao.existsByName(discount.getName())) {
                 discountDao.persist(discount);
                 return new CrudEntityResult(NORMAL, discount.toString() + " успешно создана.", discount.getId());
             } else {
@@ -44,8 +44,7 @@ public class DiscountEJB implements DiscountEJBLocal {
     @Override
     public CrudEntityResult updateDiscount(Discount discount) {
         try {
-            Discount find = discountDao.findById(discount.getId());
-            if (find != null) {
+            if (discountDao.existsById(discount.getId())) {
                 discountDao.update(discount);
                 return new CrudEntityResult(NORMAL, discount.toString() + " успешно обновлена.", discount.getId());
             } else {
@@ -61,10 +60,9 @@ public class DiscountEJB implements DiscountEJBLocal {
     public CrudEntityResult deleteDiscount(Long id) {
         try {
             if (id == null) throw new IllegalArgumentException("ID=NULL");
-            Discount discount = discountDao.findById(id);
-            if (discount != null) {
-                discountDao.delete(discount);
-                return new CrudEntityResult(NORMAL, discount.toString() + " успешно удалена.", discount.getId());
+            if (discountDao.existsById(id)) {
+                discountDao.delete(id);
+                return new CrudEntityResult(NORMAL, "Скидка успешно удалена.", id);
             } else {
                 return new CrudEntityResult(WARNING,  "Скидка с ID=" + id + " не найдена в БД.", id);
             }

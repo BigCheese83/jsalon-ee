@@ -51,6 +51,16 @@ public class DiscountDaoJpaTest extends AbstractDaoJpaTest {
 
     @Test
     public void testGetDiscountsByName() {
-        testStrategy.testGetDiscountsByName();
+        testStrategy.testGetDiscountByName();
+    }
+
+    @Test
+    public void testExistsById() {
+        testStrategy.testExistsById();
+    }
+
+    @Test
+    public void testExistsByName() {
+        testStrategy.testExistsByName();
     }
 }

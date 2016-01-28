@@ -117,7 +117,7 @@ public class Contact extends BaseModel {
         List<String> errors = new ArrayList<String>();
         if (StringUtils.isBlank(phone)) {
             errors.add("Укажите номер телефона");
-        } else if (!Pattern.matches("[+]*[0-9-]+", phone)){
+        } else if (!Pattern.matches("[+]*[0-9-()]+", phone)){
             errors.add("Неправильный номер телефона");
         }
         return Collections.unmodifiableList(errors);
