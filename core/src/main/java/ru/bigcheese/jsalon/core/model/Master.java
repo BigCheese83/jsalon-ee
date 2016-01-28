@@ -1,9 +1,6 @@
 package ru.bigcheese.jsalon.core.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by BigCheese on 31.07.15.
@@ -36,6 +33,28 @@ public class Master extends Person {
 
     public void setBusy(boolean busy) {
         this.busy = busy;
+    }
+
+    @Override
+    public String toString() {
+        return "Мастер " + getFullFIO() +
+                (getPassport() != null ? " [паспорт " + getPassport().getShortStr() + "]" : "");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Master)) return false;
+        if (!super.equals(o)) return false;
+        Master master = (Master) o;
+        return Objects.equals(busy, master.busy) &&
+                Objects.equals(hiringDate, master.hiringDate) &&
+                Objects.equals(post, master.post);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), hiringDate, post, busy);
     }
 
     @Override

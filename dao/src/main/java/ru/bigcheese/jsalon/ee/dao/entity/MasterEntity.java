@@ -1,5 +1,8 @@
 package ru.bigcheese.jsalon.ee.dao.entity;
 
+import org.eclipse.persistence.annotations.BatchFetch;
+import org.eclipse.persistence.annotations.BatchFetchType;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,7 +11,12 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "masters")
+@NamedQueries({
+    @NamedQuery(name = MasterEntity.EXISTS_BY_PASSPORT, query = "SELECT p.id FROM PassportEntity p WHERE p.series = ?1 AND p.number = ?2")
+})
 public class MasterEntity extends BaseEntity {
+
+    public static final String EXISTS_BY_PASSPORT = "Master.existsByPassport";
 
     private String surname;
     private String name;
@@ -75,8 +83,9 @@ public class MasterEntity extends BaseEntity {
         this.hiringDate = hiringDate;
     }
 
-    @OneToOne
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_passport", nullable = false)
+    @BatchFetch(BatchFetchType.JOIN)
     public PassportEntity getPassport() {
         return passport;
     }
@@ -85,8 +94,9 @@ public class MasterEntity extends BaseEntity {
         this.passport = passport;
     }
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_post", nullable = false)
+    @BatchFetch(BatchFetchType.JOIN)
     public PostEntity getPost() {
         return post;
     }
@@ -95,8 +105,9 @@ public class MasterEntity extends BaseEntity {
         this.post = post;
     }
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_reg_address", nullable = false)
+    @BatchFetch(BatchFetchType.JOIN)
     public AddressEntity getRegAddress() {
         return regAddress;
     }
@@ -105,8 +116,9 @@ public class MasterEntity extends BaseEntity {
         this.regAddress = regAddress;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_live_address")
+    @BatchFetch(BatchFetchType.JOIN)
     public AddressEntity getLiveAddress() {
         return liveAddress;
     }
@@ -115,8 +127,9 @@ public class MasterEntity extends BaseEntity {
         this.liveAddress = liveAddress;
     }
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_contact", nullable = false)
+    @BatchFetch(BatchFetchType.JOIN)
     public ContactEntity getContact() {
         return contact;
     }

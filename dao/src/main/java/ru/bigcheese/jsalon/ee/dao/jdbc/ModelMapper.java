@@ -143,4 +143,56 @@ public final class ModelMapper {
             return result;
         }
     };
+
+    public static final RowMapper<Master> MASTER_FETCH_MAPPER = new RowMapper<Master>() {
+        @Override
+        public Master mapRow(ResultSet rs) throws SQLException {
+            Master result = MASTER_MAPPER.mapRow(rs);
+            if (result.getPassport() != null) {
+                Passport passport = result.getPassport();
+                passport.setSeries(rs.getString("series"));
+                passport.setNumber(rs.getString("num"));
+                passport.setIssuedBy(rs.getString("issued_by"));
+                passport.setIssueDate(DateUtils.toDate(rs.getDate("issue_date")));
+                passport.setSubdivision(rs.getString("subdivision"));
+                passport.setCountry(rs.getString("passp_country"));
+            }
+            if (result.getPost() != null) {
+                result.getPost().setName(rs.getString("post_name"));
+            }
+            if (result.getRegAddress() != null) {
+                Address reg = result.getRegAddress();
+                reg.setCountry(rs.getString("reg_country"));
+                reg.setDistrict(rs.getString("reg_district"));
+                reg.setCity(rs.getString("reg_city"));
+                reg.setStreet(rs.getString("reg_street"));
+                reg.setHouse(rs.getString("reg_house"));
+                reg.setSection(rs.getString("reg_section"));
+                reg.setFlat(rs.getString("reg_flat"));
+                reg.setZip(rs.getString("reg_zip"));
+            }
+            if (result.getLiveAddress() != null) {
+                Address live = result.getLiveAddress();
+                live.setCountry(rs.getString("live_country"));
+                live.setDistrict(rs.getString("live_district"));
+                live.setCity(rs.getString("live_city"));
+                live.setStreet(rs.getString("live_street"));
+                live.setHouse(rs.getString("live_house"));
+                live.setSection(rs.getString("live_section"));
+                live.setFlat(rs.getString("live_flat"));
+                live.setZip(rs.getString("live_zip"));
+            }
+            if (result.getContact() != null) {
+                Contact contact = result.getContact();
+                contact.setPhone(rs.getString("phone"));
+                contact.setEmail(rs.getString("email"));
+                contact.setVk(rs.getString("vk"));
+                contact.setSkype(rs.getString("skype"));
+                contact.setFacebook(rs.getString("facebook"));
+                contact.setTwitter(rs.getString("twitter"));
+                contact.setIcq(rs.getString("icq"));
+            }
+            return result;
+        }
+    };
 }
