@@ -37,15 +37,15 @@
         <form>
             <div class="form-field">
                 <label for="serviceName">Наименование</label>
-                <input type="text" id="serviceName" name="serviceName">
+                <input type="text" id="serviceName" name="serviceName" required>
             </div>
             <div class="form-field">
                 <label for="serviceCost">Цена</label>
-                <input type="text" id="serviceCost" name="serviceCost">
+                <input type="text" id="serviceCost" name="serviceCost" required>
             </div>
             <div class="form-field">
                 <label for="serviceDuration">Длительность</label>
-                <input type="text" id="serviceDuration" name="serviceDuration">
+                <input type="text" id="serviceDuration" name="serviceDuration" required>
             </div>
             <div class="form-field">
                 <label for="serviceDescription">Описание</label>

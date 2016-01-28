@@ -17,6 +17,13 @@
                 <li><a href="<c:url value="/admin/services"/>">Услуги</a></li>
             </ul>
         </li>
+        <li>
+            <a href="#"><i class="fa fa-user"></i> Мастера</a>
+            <ul>
+                <li><a href="<c:url value="/admin/masters"/>">Все мастера</a></li>
+                <li><a href="<c:url value="/admin/master"/>">Поиск/Редактирование</a></li>
+            </ul>
+        </li>
         <li><a href="<c:url value="/admin/settings"/>"><i class="fa fa-wrench"></i> Настройки</a></li>
         <li><a href="<c:url value="/admin/sysinfo"/>"><i class="fa fa-cogs"></i> Систем. информация</a></li>
     </ul>

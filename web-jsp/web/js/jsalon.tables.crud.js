@@ -1,43 +1,106 @@
 $(document).ready(function() {
-
     var table = $('#datatable');
     var form = $('form');
     var hiddenForm = $('#hiddenForm');
     var actMessage = $('#actionMessage');
     var radios = $('input:radio[name="radio"]');
-
     var colDefs = [];
     var fields = [];
-    var ajaxUrl;
+    var ajaxUrl = getAjaxUrlCrud();
+    var mappingData = function(){};
+    var mappingRow = function(){};
 
     switch (getLastPathFromHref(window.location.pathname, true)) {
         case 'discounts':
             colDefs = [
                 { targets: [0], width: "15px", searchable: false },
                 { targets: [0,1,2], className: "dt-col-center" } ];
-            fields = getDiscountFields();
-            ajaxUrl = "/jsalon/admin/discounts/ajax";
+            fields = [$('#discountID'), $('#discountName'), $('#discountValue')];
             break;
         case 'posts':
             colDefs = [
                 { targets: [0], width: "15px", searchable: false },
                 { targets: [0,1], className: "dt-col-center" } ];
-            fields = getPostFields();
-            ajaxUrl = "/jsalon/admin/posts/ajax";
+            fields = [$('#postID'), $('#postName')];
             break;
         case 'services':
             colDefs = [
                 { targets: [0], width: "15px", searchable: false },
                 { targets: [0,1,2,3,4], className: "dt-col-center" } ];
-            fields = getServiceFields();
-            ajaxUrl = "/jsalon/admin/services/ajax";
+            fields = [$('#serviceID'), $('#serviceName'), $('#serviceCost'), $('#serviceDuration'), $('#serviceDescription')];
             break;
         case 'user':
             colDefs = [
                 { targets: [0], width: "15px", searchable: false },
                 { targets: [0,1,2,3,4,5], className: "dt-col-center" } ];
-            fields = getUserFields();
-            ajaxUrl = "/jsalon/admin/user/ajax";
+            fields = [$('#userID'), $('#userLogin'), $('#userLastname'), $('#userFirstname'), $('#userMiddlename'), $('#userRole')];
+            break;
+        case 'master':
+            colDefs = [
+                { targets: [0], className: "details-control", orderable: false, searchable: false, data: null, defaultContent: "" },
+                { targets: [1,2,3,4,5,6,7,8], className: "dt-col-center" },
+                { targets: [1], data: "id", width: "15px", searchable: false  },
+                { targets: [2], data: "surname" },
+                { targets: [3], data: "name" },
+                { targets: [4], data: "patronymic" },
+                { targets: [5], data: "birthDate" },
+                { targets: [6], data: "hiringDate" },
+                { targets: [7], data: "postInfo" },
+                { targets: [8], data: "busy", render: function(data){
+                    if (data === undefined || data === null) return '';
+                    if (data === true) return '<i class="fa fa-lg fa-check-square-o"></i>';
+                    else return '<i class="fa fa-lg fa-square-o"></i>';
+                }} ];
+            mappingRow = function(){
+                return {
+                    surname: $('#Lastname').val(), name: $('#Firstname').val(), patronymic: $('#Middlename').val(),
+                    birthDate: $('#Birthdate').val(), hiringDate: $('#HiringDate').val(),
+                    postInfo: $('#Post').find('option:selected').text(), busy: $('#Busy').prop('checked')
+                };
+            };
+            mappingData = function(data){
+                $('#masterID').val(data.id);
+                $('#Lastname').val(data.surname);
+                $('#Firstname').val(data.name);
+                $('#Middlename').val(data.patronymic);
+                $('#Birthdate').val(data.birthDate);
+                $('#HiringDate').val(data.hiringDate);
+                $('#Post').find(':contains("'+data.postInfo+'")').attr('selected', 'selected');
+                $('#Busy').prop('checked', data.busy);
+                $('#passportID').val(data.passportId);
+                $('#Series').val(data.passportSeries);
+                $('#Number').val(data.passportNumber);
+                $('#IssuedBy').val(data.passportIssuedBy);
+                $('#IssueDate').val(data.passportIssueDate);
+                $('#Subdivision').val(data.passportSubdivision);
+                $('#IssueCountry').find(':contains("'+data.passportCountry+'")').attr('selected', 'selected');
+                $('#regAddressID').val(data.regId);
+                $('#RegCountry').find(':contains("'+data.regCountry+'")').attr('selected', 'selected');
+                $('#RegZip').val(data.regZip);
+                $('#RegDistrict').val(data.regDistrict);
+                $('#RegCity').val(data.regCity);
+                $('#RegStreet').val(data.regStreet);
+                $('#RegHouse').val(data.regHouse);
+                $('#RegSection').val(data.regSection);
+                $('#RegFlat').val(data.regFlat);
+                $('#liveAddressID').val(data.liveId);
+                $('#LiveCountry').find(':contains("'+data.liveCountry+'")').attr('selected', 'selected');
+                $('#LiveZip').val(data.liveZip);
+                $('#LiveDistrict').val(data.liveDistrict);
+                $('#LiveCity').val(data.liveCity);
+                $('#LiveStreet').val(data.liveStreet);
+                $('#LiveHouse').val(data.liveHouse);
+                $('#LiveSection').val(data.liveSection);
+                $('#LiveFlat').val(data.liveFlat);
+                $('#contactID').val(data.contactId);
+                $('#Phone').val(data.contactPhone);
+                $('#Email').val(data.contactEmail);
+                $('#ICQ').val(data.contactIcq);
+                $('#VK').val(data.contactVk);
+                $('#Skype').val(data.contactSkype);
+                $('#Facebook').val(data.contactFacebook);
+                $('#Twitter').val(data.contactTwitter);
+            };
             break;
     }
 
@@ -54,7 +117,7 @@ $(document).ready(function() {
     radios.click(function(){
         if ($(this).attr('id') == 'delRadio') {
             var row = datatable.$('tr.selected');
-            fillForm(fields, row);
+            fillForm(row);
             hiddenForm.hide();
             if (!row.length) {
                 alert('Выберите строку для удаления!');
@@ -87,7 +150,7 @@ $(document).ready(function() {
             $('.create').css('display', 'inherit');
             $('.edit').css('display', 'none');
         } else if (id == 'editRadio') {
-            fillForm(fields, datatable.$('tr.selected'));
+            fillForm(datatable.$('tr.selected'));
             $('.create').css('display', 'none');
             $('.edit').css('display', 'inherit');
         }
@@ -99,9 +162,23 @@ $(document).ready(function() {
     });
 
     table.find('tbody').on('click', 'tr', function(){
+        if ($(this).parents('table').hasClass('nested-table') ||
+            $(this).find('table').hasClass('nested-table')) return;
         rowSelectHandler(datatable, $(this));
         if (radios.filter(':checked').attr('id') == "editRadio") {
-            fillForm(fields, $(this));
+            fillForm($(this));
+        }
+    });
+
+    table.find('tbody').on('click', 'td.details-control', function (){
+        var tr = $(this).closest('tr');
+        var row = datatable.row(tr);
+        if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            row.child(getDetailInfo(ajaxUrl, row.data())).show();
+            tr.addClass('shown');
         }
     });
 
@@ -127,17 +204,15 @@ $(document).ready(function() {
                         case -1: actMessage.addClass('err'); break;
                         case 0:
                             actMessage.addClass('norm');
-                            var rowData = [];
-                            fields.forEach(function(item, i){
-                                rowData[i] = item.val();
-                                if (i==0) rowData[i] = data.id;
-                            });
+                            var rowData = getRowData(datatable.$('tr.selected'), data.id);
                             if (currRadioID == 'newRadio') {
-                                addTableRow(datatable, rowData);
+                                if (!$('table').is('#search')) {
+                                    datatable.row.add(rowData).draw(false);
+                                }
                             } else if (currRadioID == 'editRadio') {
-                                updateTableRow(datatable, rowData);
+                                datatable.row('.selected').data(rowData).draw(false);
                             } else if (currRadioID == 'delRadio') {
-                                deleteTableRow(datatable);
+                                datatable.row('.selected').remove().draw(false);
                             }
                             break;
                         case 1: actMessage.addClass('warn'); break;
@@ -151,10 +226,29 @@ $(document).ready(function() {
         });
     }
 
-    function fillForm(fields, row) {
-        fields.forEach(function(item, i){
-            item.val(row.children('td:eq('+i+')').text());
-        });
+    function fillForm(row) {
+        if (row.children('td').hasClass('details-control')) {
+            mappingData(datatable.row(row).data());
+        } else {
+            fields.forEach(function(item, i){
+                item.val(row.children('td:eq('+i+')').text());
+            });
+        }
+    }
+
+    function getRowData(row, id) {
+        var rowData;
+        if (row.children('td').hasClass('details-control')) {
+            rowData = mappingRow();
+            rowData.id = id;
+        } else {
+            rowData = [];
+            fields.forEach(function(item, i){
+                rowData[i] = item.val();
+                if (i==0) rowData[i] = id;
+            });
+        }
+        return rowData;
     }
 
     function rowSelectHandler(datatable, row) {
@@ -164,27 +258,5 @@ $(document).ready(function() {
             datatable.$('tr.selected').removeClass('selected');
             row.addClass('selected');
         }
-    }
-    function addTableRow(datatable, data) {
-        datatable.row.add(data).draw(false);
-    }
-    function updateTableRow(datatable, data) {
-        datatable.row('.selected').data(data).draw(false);
-    }
-    function deleteTableRow(datatable) {
-        datatable.row('.selected').remove().draw(false);
-    }
-
-    function getDiscountFields() {
-        return [ $('#discountID'), $('#discountName'), $('#discountValue') ];
-    }
-    function getPostFields() {
-        return [ $('#postID'), $('#postName') ];
-    }
-    function getServiceFields() {
-        return [ $('#serviceID'), $('#serviceName'), $('#serviceCost'), $('#serviceDuration'), $('#serviceDescription') ];
-    }
-    function getUserFields() {
-        return [ $('#userID'), $('#userLogin'), $('#userLastname'), $('#userFirstname'), $('#userMiddlename'), $('#userRole') ];
     }
 });

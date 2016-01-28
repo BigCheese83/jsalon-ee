@@ -1,7 +1,7 @@
 $(document).ready(function() {
-
     var searchMessage = $('#searchMessage');
     var contentTable = $('.content-table');
+    var ajaxUrl = getAjaxUrlCrud();
     hideElements();
 
     $('#searchButton').button().click(function(){
@@ -21,7 +21,7 @@ $(document).ready(function() {
         }
         postParams = postParams + "searchRequest=true";
         $.ajax({
-            url: "/jsalon/admin/user/ajax",
+            url: ajaxUrl,
             type: "POST",
             data: postParams,
             success: function(data){
@@ -35,8 +35,7 @@ $(document).ready(function() {
                     var table = $.fn.dataTable.tables({ visible: true, api: true });
                     table.clear();
                     data.forEach(function(item){
-                        var rowData = [item.id, item.login, item.lastName, item.firstName, item.middleName, item.role];
-                        table.row.add(rowData).draw(false);
+                        table.row.add(getRowData(item)).draw(false);
                     });
                 } else {
                     searchMessage.append('Ничего не найдено :(' + '<br/>');
@@ -57,5 +56,14 @@ $(document).ready(function() {
         contentTable.show();
         $('#editRadio').button("option", "disabled", false);
         $('#delRadio').button("option", "disabled", false);
+    }
+    function getRowData(model) {
+        switch (getLastPathFromHref(window.location.pathname, true)) {
+            case 'user':
+                return [model.id, model.login, model.lastName, model.firstName, model.middleName, model.role];
+            case 'master':
+                return model;
+            default: return {};
+        }
     }
 });

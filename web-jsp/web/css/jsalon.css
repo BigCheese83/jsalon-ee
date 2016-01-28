@@ -94,6 +94,15 @@ table.header-table a {
     margin-bottom: 5px;
 }
 
+.inline-field {
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.datepicker {
+    width: 120px!important;
+}
+
 div.form-field label {
     float: left;
     padding-right: 20px;
@@ -121,6 +130,16 @@ div.form-field select {
 }
 .dt-col-right {
     text-align: right;
+}
+
+td.details-control:before {
+    font-family: FontAwesome;
+    content: '\f196';
+    cursor: pointer;
+}
+tr.shown td.details-control:before {
+    font-family: FontAwesome;
+    content: '\f147';
 }
 
 /*

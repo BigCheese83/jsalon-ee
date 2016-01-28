@@ -8,12 +8,12 @@ public class DatatablesResponse {
     private int draw;
     private int recordsTotal;
     private int recordsFiltered;
-    private Object[][] data;
+    private Object[] data;
     private String error;
 
     public DatatablesResponse() {}
 
-    public DatatablesResponse(int draw, int recordsTotal, int recordsFiltered, Object[][] data, String error) {
+    public DatatablesResponse(int draw, int recordsTotal, int recordsFiltered, Object[] data, String error) {
         this.draw = draw;
         this.recordsTotal = recordsTotal;
         this.recordsFiltered = recordsFiltered;
@@ -45,11 +45,11 @@ public class DatatablesResponse {
         this.recordsFiltered = recordsFiltered;
     }
 
-    public Object[][] getData() {
+    public Object[] getData() {
         return data;
     }
 
-    public void setData(Object[][] data) {
+    public void setData(Object[] data) {
         this.data = data;
     }
 
@@ -62,6 +62,6 @@ public class DatatablesResponse {
     }
 
     public static DatatablesResponse buildErrorResponse(int draw, String error) {
-        return new DatatablesResponse(draw, 0, 0, new Object[][]{}, error);
+        return new DatatablesResponse(draw, 0, 0, new Object[]{}, error);
     }
 }

@@ -36,6 +36,16 @@
         <put-attribute name="body" value="/WEB-INF/tiles/body_table_services.jsp"/>
         <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_table_crud.jsp"/>
     </definition>
+    <definition name="admin.masters" extends="base.admin.template">
+        <put-attribute name="title" value="Консоль администратора - Все мастера"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_masters_all.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_table_serverside.jsp"/>
+    </definition>
+    <definition name="admin.master.crud" extends="base.admin.template">
+        <put-attribute name="title" value="Консоль администратора - Поиск/Редактирование мастера"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_master_crud.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_model_crud.jsp"/>
+    </definition>
     <definition name="admin.settings" extends="base.admin.template">
         <put-attribute name="title" value="Консоль администратора - Настройки"/>
         <put-attribute name="body" value="/WEB-INF/tiles/body_settings.jsp"/>
