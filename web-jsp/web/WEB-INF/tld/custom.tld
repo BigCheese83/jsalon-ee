@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>JSalon_Custom_TLD</short-name>
+    <uri>http://ru.bigcheese.jsalon</uri>
+    <tag>
+        <name>json</name>
+        <tag-class>ru.bigcheese.jsalon.ee.web.jsp.tag.JsonObjectTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>object</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>
