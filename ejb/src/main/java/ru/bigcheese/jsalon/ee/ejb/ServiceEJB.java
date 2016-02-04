@@ -27,56 +27,55 @@ public class ServiceEJB implements ServiceEJBLocal {
     ServiceDao serviceDao;
 
     @Override
-    public CrudEntityResult createService(Service service) {
+    public CrudEntityResult<Service> createService(Service service) {
         try {
             if (!serviceDao.existsByName(service.getName())) {
                 serviceDao.persist(service);
-                return new CrudEntityResult(NORMAL, service.toString() + " успешно создана.", service.getId());
+                return new CrudEntityResult<>(NORMAL, service.toString() + " успешно создана.", service);
             } else {
-                return new CrudEntityResult(WARNING, "Услуга \"" + service.getName() + "\" уже содержится в БД.", service.getId());
+                return new CrudEntityResult<>(WARNING, "Услуга \"" + service.getName() + "\" уже содержится в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка создания услуги. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка создания услуги. " + ExceptionUtils.parse(e));
         }
     }
 
     @Override
-    public CrudEntityResult updateService(Service service) {
+    public CrudEntityResult<Service> updateService(Service service) {
         try {
             if (serviceDao.existsById(service.getId())) {
                 serviceDao.update(service);
-                return new CrudEntityResult(NORMAL, service.toString() + " успешно обновлена.", service.getId());
+                return new CrudEntityResult<>(NORMAL, service.toString() + " успешно обновлена.", service);
             } else {
-                return new CrudEntityResult(WARNING, service.toString() + " не найдена в БД.", service.getId());
+                return new CrudEntityResult<>(WARNING, service.toString() + " не найдена в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка обновления услуги. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка обновления услуги. " + ExceptionUtils.parse(e));
         }
     }
 
     @Override
-    public CrudEntityResult deleteService(Long id) {
+    public CrudEntityResult<Service> deleteService(Long id) {
         try {
             if (id == null) throw new IllegalArgumentException("ID=NULL");
             if (serviceDao.existsById(id)) {
                 serviceDao.delete(id);
-                return new CrudEntityResult(NORMAL, "Услуга успешно удалена.", id);
+                return new CrudEntityResult<>(NORMAL, "Услуга успешно удалена.");
             } else {
-                return new CrudEntityResult(WARNING,  "Услуга с ID=" + id + " не найдена в БД.", id);
+                return new CrudEntityResult<>(WARNING,  "Услуга с ID=" + id + " не найдена в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка удаления услуги. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка удаления услуги. " + ExceptionUtils.parse(e));
         }
     }
 
     @Override
     public FindResult<Service> getAllServices() {
         try {
-            List<Service> result = serviceDao.findAll();
-            return new FindResult<>(result);
+            return new FindResult<>(serviceDao.findAll());
         } catch (Throwable e) {
             return new FindResult<>(FATAL_ERROR, ExceptionUtils.parse(e));
         }

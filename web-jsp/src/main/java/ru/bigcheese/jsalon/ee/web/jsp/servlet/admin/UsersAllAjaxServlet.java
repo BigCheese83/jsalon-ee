@@ -1,6 +1,5 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
-import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.User;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
@@ -10,6 +9,7 @@ import ru.bigcheese.jsalon.ee.ejb.UserEJBLocal;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.support.DatatablesRequest;
 import ru.bigcheese.jsalon.ee.web.jsp.support.DatatablesResponse;
+import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
 
 import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
@@ -41,25 +41,14 @@ public class UsersAllAjaxServlet extends AbstractAjaxServlet {
             criteria.orderBy(transformIndex(req.getOrderColumn()), req.getOrderDir())
                     .limit(req.getLength(), req.getStart());
             List<User> users = userEJB.findLimitUsersByCriteria(req.getLength(), criteria);
-            resp.setData(tranformData(users));
+            resp.setData(users.toArray());
             resp.setDraw(req.getDraw());
             resp.setRecordsTotal(users.size());
             resp.setRecordsFiltered(users.size());
         } catch (Exception e) {
             resp = DatatablesResponse.buildErrorResponse(req.getDraw(), ExceptionUtils.parse(e));
         }
-        return new Gson().toJson(resp);
-    }
-
-    private Object[] tranformData(List<User> users) {
-        Object[] data = new Object[users.size()];
-        for (int i = 0; i < users.size(); i++) {
-            User u = users.get(i);
-            data[i] = new Object[]{
-                u.getLogin(), u.getLastName(), u.getFirstName(), u.getMiddleName(), u.getRole()
-            };
-        }
-        return data;
+        return JsonUtils.getGson().toJson(resp);
     }
 
     private int transformIndex(int index) {

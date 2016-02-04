@@ -1,11 +1,13 @@
 package ru.bigcheese.jsalon.ee.ejb.result;
 
+import ru.bigcheese.jsalon.core.model.BaseModel;
+
 /**
  * Created by BigCheese on 26.10.15.
  */
-public class CrudEntityResult extends ActionResult {
+public class CrudEntityResult<T extends BaseModel> extends ActionResult {
 
-    private Long id;
+    private T result;
 
     public CrudEntityResult() { super(); }
 
@@ -13,16 +15,16 @@ public class CrudEntityResult extends ActionResult {
         super(code, message);
     }
 
-    public CrudEntityResult(int code, String message, Long id) {
+    public CrudEntityResult(int code, String message, T result) {
         super(code, message);
-        this.id = id;
+        this.result = result;
     }
 
-    public Long getId() {
-        return id;
+    public T getResult() {
+        return result;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setResult(T result) {
+        this.result = result;
     }
 }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="jsalon" uri="http://ru.bigcheese.jsalon" %>
 <div id="content">
     <fieldset>
     <legend class="content-title"><i class="fa fa-table"></i> Справочники / Услуги</legend>
@@ -17,11 +18,6 @@
                 <th>Описание</th>
             </tr>
             </thead>
-            <tbody>
-            <c:forEach var="service" items="${sessionScope.servicesList}">
-                <tr><td>${service.id}</td><td>${service.name}</td><td>${service.cost}</td><td>${service.duration}</td><td>${service.description}</td></tr>
-            </c:forEach>
-            </tbody>
         </table>
     </div>
     <div id="buttonset">
@@ -36,25 +32,26 @@
     <div id="hiddenForm">
         <form>
             <div class="form-field">
-                <label for="serviceName">Наименование</label>
-                <input type="text" id="serviceName" name="serviceName" required>
+                <label for="name">Наименование</label>
+                <input type="text" id="name" name="name" required>
             </div>
             <div class="form-field">
-                <label for="serviceCost">Цена</label>
-                <input type="text" id="serviceCost" name="serviceCost" required>
+                <label for="cost">Цена</label>
+                <input type="text" id="cost" name="cost" required>
             </div>
             <div class="form-field">
-                <label for="serviceDuration">Длительность</label>
-                <input type="text" id="serviceDuration" name="serviceDuration" required>
+                <label for="duration">Длительность</label>
+                <input type="text" id="duration" name="duration" required>
             </div>
             <div class="form-field">
-                <label for="serviceDescription">Описание</label>
-                <input type="text" id="serviceDescription" name="serviceDescription">
+                <label for="description">Описание</label>
+                <input type="text" id="description" name="description">
             </div>
             <input type="submit" value="Сохранить">
-            <input type="hidden" id="serviceID" name="serviceID">
-            <input type="hidden" name="radioID">
+            <input type="hidden" name="id" class="objectID">
+            <input type="hidden" id="radioID" name="radioID">
         </form>
     </div>
     </fieldset>
+    <input type="hidden" id="dataset" value='<jsalon:json object="${sessionScope.servicesList}"/>'>
 </div><!-- End div content -->

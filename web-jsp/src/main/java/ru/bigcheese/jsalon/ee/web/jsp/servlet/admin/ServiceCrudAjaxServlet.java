@@ -27,7 +27,7 @@ public class ServiceCrudAjaxServlet extends AbstractAjaxServlet {
         String json;
         try {
             String radioId = request.getParameter("radioID");
-            CrudEntityResult result;
+            CrudEntityResult<Service> result;
             if ("newRadio".equals(radioId)) {
                 Service service = parseRequest(request);
                 service.validate();
@@ -37,26 +37,26 @@ public class ServiceCrudAjaxServlet extends AbstractAjaxServlet {
                 service.validate();
                 result = serviceEJB.updateService(service);
             } else if ("delRadio".equals(radioId)) {
-                result = serviceEJB.deleteService(NumberUtils.toLong(request.getParameter("serviceID")));
+                result = serviceEJB.deleteService(NumberUtils.toLong(request.getParameter("id")));
             } else {
                 throw new Exception("Unknown operation");
             }
-            json = JsonUtils.getJsonCrudEjbResult(result);
+            json = JsonUtils.getGson().toJson(result);
         } catch (ValidationException e) {
             json = JsonUtils.getJsonValidateErrors(e);
         } catch (Throwable e) {
-            json = JsonUtils.getJsonError(e);
+            json = JsonUtils.getJsonException(e);
         }
         return json;
     }
 
     private Service parseRequest(HttpServletRequest request) {
         Service result = new Service();
-        result.setId(NumberUtils.toLong(request.getParameter("serviceID")));
-        result.setName(StringUtils.stripToNull(request.getParameter("serviceName")));
-        result.setCost(NumberUtils.toBigDecimal(request.getParameter("serviceCost")));
-        result.setDuration(NumberUtils.toInteger(request.getParameter("serviceDuration")));
-        result.setDescription(request.getParameter("serviceDescription"));
+        result.setId(NumberUtils.toLong(request.getParameter("id")));
+        result.setName(StringUtils.stripToNull(request.getParameter("name")));
+        result.setCost(NumberUtils.toBigDecimal(request.getParameter("cost")));
+        result.setDuration(NumberUtils.toInteger(request.getParameter("duration")));
+        result.setDescription(request.getParameter("description"));
         return result;
     }
 }

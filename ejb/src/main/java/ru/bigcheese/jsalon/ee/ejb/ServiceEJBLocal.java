@@ -11,8 +11,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface ServiceEJBLocal {
-    CrudEntityResult createService(Service service);
-    CrudEntityResult updateService(Service service);
-    CrudEntityResult deleteService(Long id);
+    CrudEntityResult<Service> createService(Service service);
+    CrudEntityResult<Service> updateService(Service service);
+    CrudEntityResult<Service> deleteService(Long id);
     FindResult<Service> getAllServices();
 }

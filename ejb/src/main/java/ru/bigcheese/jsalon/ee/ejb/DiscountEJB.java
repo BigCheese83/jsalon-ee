@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.util.List;
 
 import static ru.bigcheese.jsalon.ee.ejb.result.ActionResult.*;
 
@@ -27,56 +26,55 @@ public class DiscountEJB implements DiscountEJBLocal {
     DiscountDao discountDao;
 
     @Override
-    public CrudEntityResult createDiscount(Discount discount) {
+    public CrudEntityResult<Discount> createDiscount(Discount discount) {
         try {
             if (!discountDao.existsByName(discount.getName())) {
                 discountDao.persist(discount);
-                return new CrudEntityResult(NORMAL, discount.toString() + " успешно создана.", discount.getId());
+                return new CrudEntityResult<>(NORMAL, discount.toString() + " успешно создана.", discount);
             } else {
-                return new CrudEntityResult(WARNING, "Должность \"" + discount.getName() + "\" уже содержится в БД.", discount.getId());
+                return new CrudEntityResult<>(WARNING, "Должность \"" + discount.getName() + "\" уже содержится в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка создания скидки. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка создания скидки. " + ExceptionUtils.parse(e));
         }
     }
 
     @Override
-    public CrudEntityResult updateDiscount(Discount discount) {
+    public CrudEntityResult<Discount> updateDiscount(Discount discount) {
         try {
             if (discountDao.existsById(discount.getId())) {
                 discountDao.update(discount);
-                return new CrudEntityResult(NORMAL, discount.toString() + " успешно обновлена.", discount.getId());
+                return new CrudEntityResult<>(NORMAL, discount.toString() + " успешно обновлена.", discount);
             } else {
-                return new CrudEntityResult(WARNING, discount.toString() + " не найдена в БД.", discount.getId());
+                return new CrudEntityResult<>(WARNING, discount.toString() + " не найдена в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка обновления скидки. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка обновления скидки. " + ExceptionUtils.parse(e));
         }
     }
 
     @Override
-    public CrudEntityResult deleteDiscount(Long id) {
+    public CrudEntityResult<Discount> deleteDiscount(Long id) {
         try {
             if (id == null) throw new IllegalArgumentException("ID=NULL");
             if (discountDao.existsById(id)) {
                 discountDao.delete(id);
-                return new CrudEntityResult(NORMAL, "Скидка успешно удалена.", id);
+                return new CrudEntityResult<>(NORMAL, "Скидка успешно удалена.");
             } else {
-                return new CrudEntityResult(WARNING,  "Скидка с ID=" + id + " не найдена в БД.", id);
+                return new CrudEntityResult<>(WARNING,  "Скидка с ID=" + id + " не найдена в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка удаления скидки. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка удаления скидки. " + ExceptionUtils.parse(e));
         }
     }
 
     @Override
     public FindResult<Discount> getAllDiscounts() {
         try {
-            List<Discount> result = discountDao.findAll();
-            return new FindResult<>(result);
+            return new FindResult<>(discountDao.findAll());
         } catch (Throwable e) {
             return new FindResult<>(FATAL_ERROR, ExceptionUtils.parse(e));
         }

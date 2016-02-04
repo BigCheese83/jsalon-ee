@@ -12,9 +12,9 @@ import java.util.List;
  */
 @Local
 public interface UserEJBLocal {
-    CrudEntityResult createUser(User user, String password);
-    CrudEntityResult updateUser(User user, String password, String newPassword);
-    CrudEntityResult deleteUser(Long id);
+    CrudEntityResult<User> createUser(User user, String password);
+    CrudEntityResult<User> updateUser(User user, String password, String newPassword);
+    CrudEntityResult<User> deleteUser(Long id);
     User getUserByLogin(String login);
     List<User> findLimitUsersByCriteria(int count, QueryCriteria criteria);
     List<User> findUsersByCriteria(QueryCriteria criteria);

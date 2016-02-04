@@ -11,8 +11,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface DiscountEJBLocal {
-    CrudEntityResult createDiscount(Discount discount);
-    CrudEntityResult updateDiscount(Discount discount);
-    CrudEntityResult deleteDiscount(Long id);
+    CrudEntityResult<Discount> createDiscount(Discount discount);
+    CrudEntityResult<Discount> updateDiscount(Discount discount);
+    CrudEntityResult<Discount> deleteDiscount(Long id);
     FindResult<Discount> getAllDiscounts();
 }

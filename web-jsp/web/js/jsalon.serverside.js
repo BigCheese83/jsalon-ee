@@ -1,11 +1,19 @@
-$(document).ready(function() {
-    var ajaxUrl = "";
-    var colDef = [];
-    switch (getLastPathFromHref(window.location.pathname, true)) {
-        case 'admin':
+$(function(){
+    var currPage = getLastPathFromHref(window.location.pathname, true),
+        ajaxUrl = "",
+        colDef = [];
+
+    switch (currPage) {
+        case 'admin':   //Start page
         case 'users':
             ajaxUrl = "/jsalon/admin/users/ajax";
-            colDef = [ { targets: [0,1,2,3,4], className: "dt-col-center" } ];
+            colDef = [
+                { targets: [0,1,2,3,4], className: "dt-col-center"},
+                { targets: [0], data: "login" },
+                { targets: [1], data: "lastName" },
+                { targets: [2], data: "firstName" },
+                { targets: [3], data: "middleName" },
+                { targets: [4], data: "role",  searchable: false} ];
             break;
         case 'masters':
             ajaxUrl = "/jsalon/admin/masters/ajax";
@@ -15,27 +23,25 @@ $(document).ready(function() {
                 { targets: [1], data: "surname" },
                 { targets: [2], data: "name" },
                 { targets: [3], data: "patronymic" },
-                { targets: [4], data: "birthDate" },
-                { targets: [5], data: "hiringDate" },
-                { targets: [6], data: "postInfo" },
-                { targets: [7], data: "busy", render: function(data){
-                        if (data === undefined || data === null) return '';
-                        if (data === true) return '<i class="fa fa-lg fa-check-square-o"></i>';
-                        else return '<i class="fa fa-lg fa-square-o"></i>';
-                }} ];
+                { targets: [4], data: "birthDate", searchable: false },
+                { targets: [5], data: "hiringDate", searchable: false },
+                { targets: [6], data: "post", searchable: false },
+                { targets: [7], data: "busy", searchable: false, render: renderCheckbox } ];
             break;
     }
-    var table = $('#datatable').DataTable({
-        "processing": true,
-        "autoWidth": false,
-        "serverSide": true,
-        "ajax": { "url": ajaxUrl, "type": "POST" },
-        "language": { "url": "/jsalon/json/datatables_ru.json" },
-        "columnDefs": colDef
+
+    var $datatable = $('#datatable').DataTable({
+        processing: true,
+        autoWidth: false,
+        serverSide: true,
+        ajax: { url: ajaxUrl, type: "POST" },
+        language: { url: "/jsalon/json/datatables_ru.json" },
+        columnDefs: colDef
     });
-    table.on('click', 'td.details-control', function (){
+
+    $datatable.on('click', 'td.details-control', function(){
         var tr = $(this).closest('tr');
-        var row = table.row(tr);
+        var row = $datatable.row(tr);
         if (row.child.isShown()) {
             row.child.hide();
             tr.removeClass('shown');

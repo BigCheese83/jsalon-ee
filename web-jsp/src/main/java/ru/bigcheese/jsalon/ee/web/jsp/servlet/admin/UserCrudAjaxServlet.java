@@ -1,6 +1,5 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
-import com.google.gson.GsonBuilder;
 import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.exception.ValidationException;
 import ru.bigcheese.jsalon.core.model.User;
@@ -35,10 +34,10 @@ public class UserCrudAjaxServlet extends AbstractAjaxServlet {
         try {
             if ("true".equals(request.getParameter("searchRequest"))) {
                 List<User> users = userEJB.findUsersByCriteria(buildCriteria(request));
-                json = new GsonBuilder().serializeNulls().create().toJson(users);
+                json = JsonUtils.getGson().toJson(users);
             } else {
                 String radioId = request.getParameter("radioID");
-                CrudEntityResult result;
+                CrudEntityResult<User> result;
                 if ("newRadio".equals(radioId)) {
                     User user = parseRequest(request);
                     user.validate();
@@ -55,16 +54,16 @@ public class UserCrudAjaxServlet extends AbstractAjaxServlet {
                     validatePassword(newPassword, newPassword2);
                     result = userEJB.updateUser(user, oldPassword, newPassword);
                 } else if ("delRadio".equals(radioId)) {
-                    result = userEJB.deleteUser(NumberUtils.toLong(request.getParameter("userID")));
+                    result = userEJB.deleteUser(NumberUtils.toLong(request.getParameter("id")));
                 } else {
                     throw new Exception("Unknown operation");
                 }
-                json = JsonUtils.getJsonCrudEjbResult(result);
+                json = JsonUtils.getGson().toJson(result);
             }
         } catch (ValidationException e) {
             json = JsonUtils.getJsonValidateErrors(e);
         } catch (Throwable e) {
-            json = JsonUtils.getJsonError(e);
+            json = JsonUtils.getJsonException(e);
         }
         return json;
     }
@@ -72,10 +71,10 @@ public class UserCrudAjaxServlet extends AbstractAjaxServlet {
     private QueryCriteria buildCriteria(HttpServletRequest request) throws ValidationException {
         Map<String, String> params = new HashMap<>();
 
-        String login = request.getParameter("sUsername");
-        String lastname = request.getParameter("sLastname");
-        String firstname = request.getParameter("sFirstname");
-        String middlename = request.getParameter("sMiddlename");
+        String login = request.getParameter("sLogin");
+        String lastname = request.getParameter("sLastName");
+        String firstname = request.getParameter("sFirstName");
+        String middlename = request.getParameter("sMiddleName");
         String role = request.getParameter("sRole");
 
         if (StringUtils.isNotBlank(login)) {
@@ -113,12 +112,12 @@ public class UserCrudAjaxServlet extends AbstractAjaxServlet {
 
     private User parseRequest(HttpServletRequest request) {
         User user = new User();
-        user.setId(NumberUtils.toLong(request.getParameter("userID")));
-        user.setLogin(StringUtils.stripToNull(request.getParameter("userLogin")));
-        user.setFirstName(StringUtils.stripToNull(request.getParameter("userFirstname")));
-        user.setLastName(StringUtils.stripToNull(request.getParameter("userLastname")));
-        user.setMiddleName(StringUtils.stripToNull(request.getParameter("userMiddlename")));
-        user.setRole(StringUtils.stripToNull(request.getParameter("userRole")));
+        user.setId(NumberUtils.toLong(request.getParameter("id")));
+        user.setLogin(StringUtils.stripToNull(request.getParameter("login")));
+        user.setFirstName(StringUtils.stripToNull(request.getParameter("firstName")));
+        user.setLastName(StringUtils.stripToNull(request.getParameter("lastName")));
+        user.setMiddleName(StringUtils.stripToNull(request.getParameter("middleName")));
+        user.setRole(StringUtils.stripToNull(request.getParameter("role")));
         return user;
     }
 

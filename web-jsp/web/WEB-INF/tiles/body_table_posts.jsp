@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="jsalon" uri="http://ru.bigcheese.jsalon" %>
 <div id="content">
     <fieldset>
     <legend class="content-title"><i class="fa fa-table"></i> Справочники / Должности</legend>
@@ -14,11 +15,6 @@
                 <th>Наименование</th>
             </tr>
             </thead>
-            <tbody>
-            <c:forEach var="post" items="${sessionScope.postsList}">
-                <tr><td>${post.id}</td><td>${post.name}</td></tr>
-            </c:forEach>
-            </tbody>
         </table>
     </div>
     <div id="buttonset">
@@ -29,17 +25,18 @@
     <div id="deleteConfirm" title="Удаление" >
         <p>Удалить выбранную строку?</p>
     </div>
-    <div id="actionMessage" style="margin-top: 5px;"></div>
+    <div id="actionMessage" style="margin-top:5px;"></div>
     <div id="hiddenForm">
         <form>
             <div class="form-field">
-                <label for="postName">Наименование</label>
-                <input type="text" id="postName" name="postName" required>
+                <label for="name">Наименование</label>
+                <input type="text" id="name" name="name" required>
             </div>
             <input type="submit" value="Сохранить">
-            <input type="hidden" id="postID" name="postID">
-            <input type="hidden" name="radioID">
+            <input type="hidden" name="id" class="objectID" >
+            <input type="hidden" id="radioID" name="radioID">
         </form>
     </div>
     </fieldset>
+    <input type="hidden" id="dataset" value='<jsalon:json object="${sessionScope.postsList}"/>'>
 </div><!-- End div content -->

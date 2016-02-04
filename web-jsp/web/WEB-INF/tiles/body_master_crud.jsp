@@ -34,7 +34,6 @@
             <thead>
             <tr>
                 <th></th>
-                <th>ID</th>
                 <th>Фамилия</th>
                 <th>Имя</th>
                 <th>Отчество</th>
@@ -54,47 +53,47 @@
     <div id="deleteConfirm" title="Удаление">
         <p>Удалить выбранную строку?</p>
     </div>
-    <div id="actionMessage" style="margin-top: 5px;"></div>
+    <div id="actionMessage" style="margin-top:5px;"></div>
     <div id="hiddenForm">
         <form>
         <table>
             <tr>
                 <td>
                     <div class="form-field inline-field">
-                        <label for="Lastname">Фамилия</label>
-                        <input type="text" id="Lastname" name="Lastname" required>
+                        <label for="surname">Фамилия</label>
+                        <input type="text" id="surname" name="surname" required>
                     </div>
                     <div class="form-field inline-field">
-                        <label for="Firstname">Имя</label>
-                        <input type="text" id="Firstname" name="Firstname" required>
+                        <label for="name">Имя</label>
+                        <input type="text" id="name" name="name" required>
                     </div>
                     <div class="form-field inline-field">
-                        <label for="Middlename">Отчество</label>
-                        <input type="text" id="Middlename" name="Middlename">
+                        <label for="patronymic">Отчество</label>
+                        <input type="text" id="patronymic" name="patronymic">
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
                     <div class="form-field inline-field">
-                        <label for="Birthdate">Дата рождения</label>
-                        <input type="text" id="Birthdate" name="Birthdate" class="datepicker" required>
+                        <label for="birthDate">Дата рождения</label>
+                        <input type="text" id="birthDate" name="birthDate" class="datepicker" required>
                     </div>
                     <div class="form-field inline-field">
-                        <label for="HiringDate">Дата приема</label>
-                        <input type="text" id="HiringDate" name="HiringDate" class="datepicker" required>
+                        <label for="hiringDate">Дата приема</label>
+                        <input type="text" id="hiringDate" name="hiringDate" class="datepicker" required>
                     </div>
                     <div class="inline-field">
-                        <label for="Busy">Уволен</label>
-                        <input type="checkbox" id="Busy" name="Busy">
+                        <label for="busy">Уволен</label>
+                        <input type="checkbox" id="busy" name="busy">
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
                     <div class="form-field inline-field">
-                        <label for="Post">Должность</label>
-                        <select id="Post" name="Post" required>
+                        <label for="postId">Должность</label>
+                        <select id="postId" name="post.id" required>
                             <option selected></option>
                         <c:forEach var="p" items="${sessionScope.postsList}">
                             <option value="${p.id}">${p.name}</option>
@@ -109,16 +108,16 @@
                     <legend>Паспорт</legend>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="Series">Серия</label>
-                            <input type="text" id="Series" name="Series" style="width:50px">
+                            <label for="passportSeries">Серия</label>
+                            <input type="text" id="passportSeries" name="passport.series" style="width:50px">
                         </div>
                         <div class="form-field inline-field">
-                            <label for="Number">Номер</label>
-                            <input type="text" id="Number" name="Number" style="width:100px" required>
+                            <label for="passportNumber">Номер</label>
+                            <input type="text" id="passportNumber" name="passport.number" style="width:100px" required>
                         </div>
                         <div class="form-field inline-field">
-                            <label for="IssueCountry">Страна выдачи</label>
-                            <select id="IssueCountry" name="IssueCountry" required>
+                            <label for="passportCountry">Страна выдачи</label>
+                            <select id="passportCountry" name="passport.country" required>
                                 <option></option>
                             <c:forEach var="country" items="${applicationScope.countriesList}">
                                 <option>${country.value}</option>
@@ -128,18 +127,18 @@
                     </div>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="IssuedBy">Выдан</label>
-                            <input type="text" id="IssuedBy" name="IssuedBy" style="width:570px" required>
+                            <label for="passportIssuedBy">Выдан</label>
+                            <input type="text" id="passportIssuedBy" name="passport.issuedBy" style="width:570px" required>
                         </div>
                     </div>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="IssueDate">Дата выдачи</label>
-                            <input type="text" id="IssueDate" name="IssueDate" class="datepicker" required>
+                            <label for="passportIssueDate">Дата выдачи</label>
+                            <input type="text" id="passportIssueDate" name="passport.issueDate" class="datepicker" required>
                         </div>
                         <div class="form-field inline-field">
-                            <label for="Subdivision">Код подразделения</label>
-                            <input type="text" id="Subdivision" name="Subdivision" style="width:100px">
+                            <label for="passportSubdivision">Код подразделения</label>
+                            <input type="text" id="passportSubdivision" name="passport.subdivision" style="width:100px">
                         </div>
                     </div>
                     </fieldset>
@@ -151,8 +150,8 @@
                     <legend>Адрес регистрации</legend>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="RegCountry">Страна</label>
-                            <select id="RegCountry" name="RegCountry" required>
+                            <label for="regAddressCountry">Страна</label>
+                            <select id="regAddressCountry" name="regAddress.country" required>
                                 <option></option>
                             <c:forEach var="country" items="${applicationScope.countriesList}">
                                 <option>${country.value}</option>
@@ -160,36 +159,36 @@
                             </select>
                         </div>
                         <div class="form-field inline-field">
-                            <label for="RegZip">Индекс</label>
-                            <input type="text" id="RegZip" name="RegZip" style="width:100px">
+                            <label for="regAddressZip">Индекс</label>
+                            <input type="text" id="regAddressZip" name="regAddress.zip" style="width:100px">
                         </div>
                     </div>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="RegDistrict">Область</label>
-                            <input type="text" id="RegDistrict" name="RegDistrict">
+                            <label for="regAddressDistrict">Область</label>
+                            <input type="text" id="regAddressDistrict" name="regAddress.district">
                         </div>
                         <div class="form-field inline-field">
-                            <label for="RegCity">Город</label>
-                            <input type="text" id="RegCity" name="RegCity" required>
+                            <label for="regAddressCity">Город</label>
+                            <input type="text" id="regAddressCity" name="regAddress.city" required>
                         </div>
                     </div>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="RegStreet">Улица</label>
-                            <input type="text" id="RegStreet" name="RegStreet" required>
+                            <label for="regAddressStreet">Улица</label>
+                            <input type="text" id="regAddressStreet" name="regAddress.street" required>
                         </div>
                         <div class="form-field inline-field">
-                            <label for="RegHouse">Дом</label>
-                            <input type="text" id="RegHouse" name="RegHouse" style="width:50px" required>
+                            <label for="regAddressHouse">Дом</label>
+                            <input type="text" id="regAddressHouse" name="regAddress.house" style="width:50px" required>
                         </div>
                         <div class="form-field inline-field">
-                            <label for="RegSection">Корпус</label>
-                            <input type="text" id="RegSection" name="RegSection" style="width:50px">
+                            <label for="regAddressSection">Корпус</label>
+                            <input type="text" id="regAddressSection" name="regAddress.section" style="width:50px">
                         </div>
                         <div class="form-field inline-field">
-                            <label for="RegFlat">Квартира</label>
-                            <input type="text" id="RegFlat" name="RegFlat" style="width:50px" required>
+                            <label for="regAddressFlat">Квартира</label>
+                            <input type="text" id="regAddressFlat" name="regAddress.flat" style="width:50px" required>
                         </div>
                     </div>
                     </fieldset>
@@ -201,8 +200,8 @@
                     <legend>Адрес проживания</legend>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="LiveCountry">Страна</label>
-                            <select id="LiveCountry" name="LiveCountry" required>
+                            <label for="liveAddressCountry">Страна</label>
+                            <select id="liveAddressCountry" name="liveAddress.country" required>
                                 <option></option>
                             <c:forEach var="country" items="${applicationScope.countriesList}">
                                 <option>${country.value}</option>
@@ -210,41 +209,41 @@
                             </select>
                         </div>
                         <div class="form-field inline-field">
-                            <label for="LiveZip">Индекс</label>
-                            <input type="text" id="LiveZip" name="LiveZip" style="width:100px">
+                            <label for="liveAddressZip">Индекс</label>
+                            <input type="text" id="liveAddressZip" name="liveAddress.zip" style="width:100px">
                         </div>
                     </div>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="LiveDistrict">Область</label>
-                            <input type="text" id="LiveDistrict" name="LiveDistrict">
+                            <label for="liveAddressDistrict">Область</label>
+                            <input type="text" id="liveAddressDistrict" name="liveAddress.district">
                         </div>
                         <div class="form-field inline-field">
-                            <label for="LiveCity">Город</label>
-                            <input type="text" id="LiveCity" name="LiveCity" required>
+                            <label for="liveAddressCity">Город</label>
+                            <input type="text" id="liveAddressCity" name="liveAddress.city" required>
                         </div>
                     </div>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="LiveStreet">Улица</label>
-                            <input type="text" id="LiveStreet" name="LiveStreet" required>
+                            <label for="liveAddressStreet">Улица</label>
+                            <input type="text" id="liveAddressStreet" name="liveAddress.street" required>
                         </div>
                         <div class="form-field inline-field">
-                            <label for="LiveHouse">Дом</label>
-                            <input type="text" id="LiveHouse" name="LiveHouse" style="width:50px" required>
+                            <label for="liveAddressHouse">Дом</label>
+                            <input type="text" id="liveAddressHouse" name="liveAddress.house" style="width:50px" required>
                         </div>
                         <div class="form-field inline-field">
-                            <label for="LiveSection">Корпус</label>
-                            <input type="text" id="LiveSection" name="LiveSection" style="width:50px">
+                            <label for="liveAddressSection">Корпус</label>
+                            <input type="text" id="liveAddressSection" name="liveAddress.section" style="width:50px">
                         </div>
                         <div class="form-field inline-field">
-                            <label for="LiveFlat">Квартира</label>
-                            <input type="text" id="LiveFlat" name="LiveFlat" style="width:50px" required>
+                            <label for="liveAddressFlat">Квартира</label>
+                            <input type="text" id="liveAddressFlat" name="liveAddress.flat" style="width:50px" required>
                         </div>
                     </div>
                     <div>
-                        <label for="LiveIdentity">Совпадает с адресом регистрации</label>
-                        <input type="checkbox" id="LiveIdentity" name="LiveIdentity" onclick="copyRegToLiveAddress(this.checked)">
+                        <label for="Identity">Совпадает с адресом регистрации</label>
+                        <input type="checkbox" id="Identity" onclick="copyRegToLiveAddress(this.checked)">
                     </div>
                     </fieldset>
                 </td>
@@ -255,34 +254,34 @@
                     <legend>Контакты</legend>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="Phone"><i class="fa fa-phone"></i> Телефон</label>
-                            <input type="tel" id="Phone" name="Phone" required>
+                            <label for="contactPhone"><i class="fa fa-phone"></i> Телефон</label>
+                            <input type="tel" id="contactPhone" name="contact.phone" required>
                         </div>
                         <div class="form-field inline-field">
-                            <label for="Email"><i class="fa fa-envelope-o"></i> E-mail</label>
-                            <input type="email" id="Email" name="Email">
+                            <label for="contactEmail"><i class="fa fa-envelope-o"></i> E-mail</label>
+                            <input type="email" id="contactEmail" name="contact.email">
                         </div>
                         <div class="form-field inline-field">
-                            <label for="ICQ">ICQ</label>
-                            <input type="text" id="ICQ" name="ICQ" style="width:100px">
+                            <label for="contactIcq">ICQ</label>
+                            <input type="text" id="contactIcq" name="contact.icq" style="width:100px">
                         </div>
                     </div>
                     <div>
                         <div class="form-field inline-field">
-                            <label for="VK"><i class="fa fa-vk"></i> VK</label>
-                            <input type="text" id="VK" name="VK" style="width:100px">
+                            <label for="contactVk"><i class="fa fa-vk"></i> VK</label>
+                            <input type="text" id="contactVk" name="contact.vk" style="width:100px">
                         </div>
                         <div class="form-field inline-field">
-                            <label for="Skype"><i class="fa fa-skype"></i> Skype</label>
-                            <input type="text" id="Skype" name="Skype" style="width:100px">
+                            <label for="contactSkype"><i class="fa fa-skype"></i> Skype</label>
+                            <input type="text" id="contactSkype" name="contact.skype" style="width:100px">
                         </div>
                         <div class="form-field inline-field">
-                            <label for="Facebook"><i class="fa fa-facebook"></i> Facebook</label>
-                            <input type="text" id="Facebook" name="Facebook" style="width:100px">
+                            <label for="contactFacebook"><i class="fa fa-facebook"></i> Facebook</label>
+                            <input type="text" id="contactFacebook" name="contact.facebook" style="width:100px">
                         </div>
                         <div class="form-field inline-field">
-                            <label for="Twitter"><i class="fa fa-twitter"></i> Twitter</label>
-                            <input type="text" id="Twitter" name="Twitter" style="width:100px">
+                            <label for="contactTwitter"><i class="fa fa-twitter"></i> Twitter</label>
+                            <input type="text" id="contactTwitter" name="contact.twitter" style="width:100px">
                         </div>
                     </div>
                     </fieldset>
@@ -290,12 +289,12 @@
             </tr>
         </table>
         <input type="submit" value="Сохранить">
-        <input type="hidden" id="masterID" name="masterID">
-        <input type="hidden" id="passportID" name="passportID">
-        <input type="hidden" id="regAddressID" name="regAddressID">
-        <input type="hidden" id="liveAddressID" name="liveAddressID">
-        <input type="hidden" id="contactID" name="contactID">
-        <input type="hidden" name="radioID">
+        <input type="hidden" name="id" class="objectID">
+        <input type="hidden" name="passport.id" class="objectID">
+        <input type="hidden" name="regAddress.id" class="objectID">
+        <input type="hidden" name="liveAddress.id" class="objectID">
+        <input type="hidden" name="contact.id" class="objectID">
+        <input type="hidden" id="radioID" name="radioID">
         </form>
     </div>
     </fieldset>

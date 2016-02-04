@@ -27,7 +27,7 @@ public class DiscountCrudAjaxServlet extends AbstractAjaxServlet {
         String json;
         try {
             String radioId = request.getParameter("radioID");
-            CrudEntityResult result;
+            CrudEntityResult<Discount> result;
             if ("newRadio".equals(radioId)) {
                 Discount discount = parseRequest(request);
                 discount.validate();
@@ -37,23 +37,23 @@ public class DiscountCrudAjaxServlet extends AbstractAjaxServlet {
                 discount.validate();
                 result = discountEJB.updateDiscount(discount);
             } else if ("delRadio".equals(radioId)) {
-                result = discountEJB.deleteDiscount(NumberUtils.toLong(request.getParameter("discountID")));
+                result = discountEJB.deleteDiscount(NumberUtils.toLong(request.getParameter("id")));
             } else {
                 throw new Exception("Unknown operation");
             }
-            json = JsonUtils.getJsonCrudEjbResult(result);
+            json = JsonUtils.getGson().toJson(result);
         } catch (ValidationException e) {
             json = JsonUtils.getJsonValidateErrors(e);
         } catch (Throwable e) {
-            json = JsonUtils.getJsonError(e);
+            json = JsonUtils.getJsonException(e);
         }
         return json;
     }
 
     private Discount parseRequest(HttpServletRequest request) {
-        Long id = NumberUtils.toLong(request.getParameter("discountID"));
-        String name = StringUtils.stripToNull(request.getParameter("discountName"));
-        Integer value = NumberUtils.toInteger(request.getParameter("discountValue"));
+        Long id = NumberUtils.toLong(request.getParameter("id"));
+        String name = StringUtils.stripToNull(request.getParameter("name"));
+        Integer value = NumberUtils.toInteger(request.getParameter("value"));
         return new Discount(id, name, value);
     }
 }

@@ -16,6 +16,10 @@
 <link rel="stylesheet" href="<c:url value="/css/jquery-ui.css"/>" type="text/css"/>
 <link rel="stylesheet" href="<c:url value="/css/jquery.dataTables.css"/>" type="text/css"/>
 <link rel="stylesheet" href="<c:url value="/css/font-awesome.css"/>" type="text/css"/>
+<script type="text/javascript" src="<c:url value="/js/jquery-1.11.3.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/jquery-ui.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/jsalon.js"/>"></script>
+<tiles:insertAttribute name="scripts"/>
 </head>
 <body>
 <tiles:insertAttribute name="header"/>
@@ -23,9 +27,6 @@
 <tiles:insertAttribute name="body"/>
 <tiles:insertAttribute name="footer"/>
 
-<script type="text/javascript" src="<c:url value="/js/jquery-1.11.3.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/js/jquery-ui.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/js/jsalon.js"/>"></script>
-<tiles:insertAttribute name="scripts"/>
+
 </body>
 </html>

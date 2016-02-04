@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="jsalon" uri="http://ru.bigcheese.jsalon" %>
 <div id="content">
     <fieldset>
     <legend class="content-title"><i class="fa fa-table"></i> Справочники / Скидки</legend>
@@ -15,11 +16,6 @@
                 <th>Значение %</th>
             </tr>
             </thead>
-            <tbody>
-            <c:forEach var="discount" items="${sessionScope.discountsList}">
-                <tr><td>${discount.id}</td><td>${discount.name}</td><td>${discount.value}</td></tr>
-            </c:forEach>
-            </tbody>
         </table>
     </div>
     <div id="buttonset">
@@ -30,21 +26,22 @@
     <div id="deleteConfirm" title="Удаление" >
         <p>Удалить выбранную строку?</p>
     </div>
-    <div id="actionMessage" style="margin-top: 5px;"></div>
+    <div id="actionMessage" style="margin-top:5px;"></div>
     <div id="hiddenForm">
         <form>
         <div class="form-field">
-            <label for="discountName">Наименование</label>
-            <input type="text" id="discountName" name="discountName" required>
+            <label for="name">Наименование</label>
+            <input type="text" id="name" name="name" required>
         </div>
         <div class="form-field">
-            <label for="discountValue">Значение</label>
-            <input type="text" id="discountValue" name="discountValue" required>
+            <label for="value">Значение</label>
+            <input type="text" id="value" name="value" required>
         </div>
         <input type="submit" value="Сохранить">
-        <input type="hidden" id="discountID" name="discountID">
-        <input type="hidden" name="radioID">
+        <input type="hidden" name="id" class="objectID">
+        <input type="hidden" name="radioID" id="radioID">
         </form>
     </div>
     </fieldset>
+    <input type="hidden" id="dataset" value='<jsalon:json object="${sessionScope.discountsList}"/>'>
 </div><!-- End div content -->

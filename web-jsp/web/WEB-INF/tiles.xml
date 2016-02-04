@@ -24,17 +24,17 @@
     <definition name="admin.table.discounts" extends="base.admin.template">
         <put-attribute name="title" value="Консоль администратора - Справочники/Скидки"/>
         <put-attribute name="body" value="/WEB-INF/tiles/body_table_discounts.jsp"/>
-        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_table_crud.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_model_crud.jsp"/>
     </definition>
     <definition name="admin.table.posts" extends="base.admin.template">
         <put-attribute name="title" value="Консоль администратора - Справочники/Должности"/>
         <put-attribute name="body" value="/WEB-INF/tiles/body_table_posts.jsp"/>
-        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_table_crud.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_model_crud.jsp"/>
     </definition>
     <definition name="admin.table.services" extends="base.admin.template">
         <put-attribute name="title" value="Консоль администратора - Справочники/Услуги"/>
         <put-attribute name="body" value="/WEB-INF/tiles/body_table_services.jsp"/>
-        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_table_crud.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_model_crud.jsp"/>
     </definition>
     <definition name="admin.masters" extends="base.admin.template">
         <put-attribute name="title" value="Консоль администратора - Все мастера"/>

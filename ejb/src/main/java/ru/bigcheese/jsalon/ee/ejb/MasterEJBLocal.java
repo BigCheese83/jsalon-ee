@@ -12,9 +12,9 @@ import java.util.List;
  */
 @Local
 public interface MasterEJBLocal {
-    CrudEntityResult createMaster(Master master);
-    CrudEntityResult updateMaster(Master master);
-    CrudEntityResult deleteMaster(Long id);
-    List<Master> findLimitUsersByCriteria(int count, QueryCriteria criteria);
+    CrudEntityResult<Master> createMaster(Master master);
+    CrudEntityResult<Master> updateMaster(Master master);
+    CrudEntityResult<Master> deleteMaster(Long id);
+    List<Master> findLimitMastersByCriteria(int count, QueryCriteria criteria);
     List<Master> findMastersByCriteria(QueryCriteria criteria);
 }

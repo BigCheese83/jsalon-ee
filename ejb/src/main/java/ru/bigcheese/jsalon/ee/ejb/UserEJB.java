@@ -33,48 +33,48 @@ public class UserEJB implements UserEJBLocal {
     @EJB
     private SecurityEJB securityEJB;
 
-    public CrudEntityResult createUser(User user, String password) {
+    public CrudEntityResult<User> createUser(User user, String password) {
         try {
             if (!userDao.existsByLogin(user.getLogin())) {
                 userDao.persist(user);
                 securityEJB.setUserPassword(user.getId(), password);
-                return new CrudEntityResult(NORMAL, user.toString() + " успешно создан.", user.getId());
+                return new CrudEntityResult<>(NORMAL, user.toString() + " успешно создан.", user);
             } else {
-                return new CrudEntityResult(WARNING, "Пользователь " + user.getLogin() + " уже содержится в БД.", user.getId());
+                return new CrudEntityResult<>(WARNING, "Пользователь " + user.getLogin() + " уже содержится в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка создания пользователя. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка создания пользователя. " + ExceptionUtils.parse(e));
         }
     }
 
-    public CrudEntityResult updateUser(User user, String password, String newPassword) {
+    public CrudEntityResult<User> updateUser(User user, String password, String newPassword) {
         try {
             if (userDao.existsById(user.getId())) {
                 userDao.update(user);
                 securityEJB.setUserPassword(user.getId(), newPassword, password);
-                return new CrudEntityResult(NORMAL, user.toString() + " успешно обновлен.", user.getId());
+                return new CrudEntityResult<>(NORMAL, user.toString() + " успешно обновлен.", user);
             } else {
-                return new CrudEntityResult(WARNING, "Пользователь " + user.getLogin() + " не найден в БД.", user.getId());
+                return new CrudEntityResult<>(WARNING, "Пользователь " + user.getLogin() + " не найден в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка обновления пользователя. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка обновления пользователя. " + ExceptionUtils.parse(e));
         }
     }
 
-    public CrudEntityResult deleteUser(Long id) {
+    public CrudEntityResult<User> deleteUser(Long id) {
         try {
             if (id == null) throw new IllegalArgumentException("ID=NULL");
             if (userDao.existsById(id)) {
                 userDao.delete(id);
-                return new CrudEntityResult(NORMAL, "Пользователь успешно удален.", id);
+                return new CrudEntityResult<>(NORMAL, "Пользователь успешно удален.");
             } else {
-                return new CrudEntityResult(WARNING,  "Пользователь с ID=" + id + " не найден в БД.", id);
+                return new CrudEntityResult<>(WARNING,  "Пользователь с ID=" + id + " не найден в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка удаления пользователя. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка удаления пользователя. " + ExceptionUtils.parse(e));
         }
     }
 

@@ -28,57 +28,57 @@ public class MasterEJB implements MasterEJBLocal {
     MasterDao masterDao;
 
     @Override
-    public CrudEntityResult createMaster(Master master) {
+    public CrudEntityResult<Master> createMaster(Master master) {
         try {
             if (master.getPassport() == null) {
                 throw new IllegalArgumentException("Не заданы паспортные данные!");
             }
             if (!masterDao.existsByPassport(master.getPassport())) {
                 masterDao.persist(master);
-                return new CrudEntityResult(NORMAL, master.toString() + " успешно создан.", master.getId());
+                return new CrudEntityResult<>(NORMAL, master.toString() + " успешно создан.", master);
             } else {
-                return new CrudEntityResult(WARNING, "Паспорт \"" + master.getPassport().getShortStr() +
-                        "\" уже привязан к другому мастеру.", master.getId());
+                return new CrudEntityResult<>(WARNING, "Паспорт \"" + master.getPassport().getShortStr() +
+                        "\" уже привязан к другому мастеру.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка создания мастера. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка создания мастера. " + ExceptionUtils.parse(e));
         }
     }
 
     @Override
-    public CrudEntityResult updateMaster(Master master) {
+    public CrudEntityResult<Master> updateMaster(Master master) {
         try {
             if (masterDao.existsById(master.getId())) {
                 masterDao.update(master);
-                return new CrudEntityResult(NORMAL, master.toString() + " успешно обновлен.", master.getId());
+                return new CrudEntityResult<>(NORMAL, master.toString() + " успешно обновлен.", master);
             } else {
-                return new CrudEntityResult(WARNING, master.toString() + " не найден в БД.", master.getId());
+                return new CrudEntityResult<>(WARNING, master.toString() + " не найден в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка обновления мастера. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка обновления мастера. " + ExceptionUtils.parse(e));
         }
     }
 
     @Override
-    public CrudEntityResult deleteMaster(Long id) {
+    public CrudEntityResult<Master> deleteMaster(Long id) {
         try {
             if (id == null) throw new IllegalArgumentException("ID=NULL");
             if (masterDao.existsById(id)) {
                 masterDao.delete(id);
-                return new CrudEntityResult(NORMAL, "Мастер успешно удален.", id);
+                return new CrudEntityResult<>(NORMAL, "Мастер успешно удален.");
             } else {
-                return new CrudEntityResult(WARNING,  "Мастер с ID=" + id + " не найден в БД.", id);
+                return new CrudEntityResult<>(WARNING,  "Мастер с ID=" + id + " не найден в БД.");
             }
         } catch (Throwable e) {
             context.setRollbackOnly();
-            return new CrudEntityResult(FATAL_ERROR, "Ошибка удаления мастера. " + ExceptionUtils.parse(e));
+            return new CrudEntityResult<>(FATAL_ERROR, "Ошибка удаления мастера. " + ExceptionUtils.parse(e));
         }
     }
 
     @Override
-    public List<Master> findLimitUsersByCriteria(int count, QueryCriteria criteria) {
+    public List<Master> findLimitMastersByCriteria(int count, QueryCriteria criteria) {
         return masterDao.findLimitMastersByCriteria(count, criteria);
     }
 

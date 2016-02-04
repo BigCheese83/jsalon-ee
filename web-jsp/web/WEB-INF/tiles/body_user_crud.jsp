@@ -6,20 +6,20 @@
     <table id="search" cellpadding="5">
         <tr>
             <td>
-                <label for="sUsername">Логин</label>
-                <input type="text" id="sUsername" name="sUsername">
+                <label for="sLogin">Логин</label>
+                <input type="text" id="sLogin" name="sLogin">
             </td>
             <td>
-                <label for="sLastname">Фамилия</label>
-                <input type="text" id="sLastname" name="sLastname">
+                <label for="sLastName">Фамилия</label>
+                <input type="text" id="sLastName" name="sLastName">
             </td>
             <td>
-                <label for="sFirstname">Имя</label>
-                <input type="text" id="sFirstname" name="sFirstname">
+                <label for="sFirstName">Имя</label>
+                <input type="text" id="sFirstName" name="sFirstName">
             </td>
             <td>
-                <label for="sMiddlename">Отчество</label>
-                <input type="text" id="sMiddlename" name="sMiddlename">
+                <label for="sMiddleName">Отчество</label>
+                <input type="text" id="sMiddleName" name="sMiddleName">
             </td>
             <td>
                 <label for="sRole">Роль</label>
@@ -33,7 +33,6 @@
         <table id="datatable" class="display">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Логин</th>
                 <th>Фамилия</th>
                 <th>Имя</th>
@@ -51,28 +50,28 @@
     <div id="deleteConfirm" title="Удаление" >
         <p>Удалить выбранную строку?</p>
     </div>
-    <div id="actionMessage" style="margin-top: 5px;"></div>
+    <div id="actionMessage" style="margin-top:5px;"></div>
     <div id="hiddenForm">
         <form>
             <div class="form-field">
-                <label for="userLogin">Логин</label>
-                <input type="text" id="userLogin" name="userLogin" required>
+                <label for="login">Логин</label>
+                <input type="text" id="login" name="login" required>
             </div>
             <div class="form-field">
-                <label for="userLastname">Фамилия</label>
-                <input type="text" id="userLastname" name="userLastname" required>
+                <label for="lastName">Фамилия</label>
+                <input type="text" id="lastName" name="lastName" required>
             </div>
             <div class="form-field">
-                <label for="userFirstname">Имя</label>
-                <input type="text" id="userFirstname" name="userFirstname" required>
+                <label for="firstName">Имя</label>
+                <input type="text" id="firstName" name="firstName" required>
             </div>
             <div class="form-field">
-                <label for="userMiddlename">Отчество</label>
-                <input type="text" id="userMiddlename" name="userMiddlename">
+                <label for="middleName">Отчество</label>
+                <input type="text" id="middleName" name="middleName">
             </div>
             <div class="form-field">
-                <label for="userRole">Роль</label>
-                <select id="userRole" name="userRole" required>
+                <label for="role">Роль</label>
+                <select id="role" name="role" required>
                 <c:forEach var="r" items="${sessionScope.allRoles}">
                     <option>${r}</option>
                 </c:forEach>
@@ -91,8 +90,8 @@
                 <input type="password" id="newPassword2" name="newPassword2">
             </div>
             <input type="submit" value="Сохранить">
-            <input type="hidden" id="userID" name="userID">
-            <input type="hidden" name="radioID">
+            <input type="hidden" name="id" class="objectID">
+            <input type="hidden" id="radioID" name="radioID">
         </form>
     </div>
     </fieldset>

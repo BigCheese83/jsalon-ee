@@ -27,7 +27,7 @@ public class PostCrudAjaxServlet extends AbstractAjaxServlet {
         String json;
         try {
             String radioId = request.getParameter("radioID");
-            CrudEntityResult result;
+            CrudEntityResult<Post> result;
             if ("newRadio".equals(radioId)) {
                 Post post = parseRequest(request);
                 post.validate();
@@ -37,22 +37,22 @@ public class PostCrudAjaxServlet extends AbstractAjaxServlet {
                 post.validate();
                 result = postEJB.updatePost(post);
             } else if ("delRadio".equals(radioId)) {
-                result = postEJB.deletePost(NumberUtils.toLong(request.getParameter("postID")));
+                result = postEJB.deletePost(NumberUtils.toLong(request.getParameter("id")));
             } else {
                 throw new Exception("Unknown operation");
             }
-            json = JsonUtils.getJsonCrudEjbResult(result);
+            json = JsonUtils.getGson().toJson(result);
         } catch (ValidationException e) {
             json = JsonUtils.getJsonValidateErrors(e);
         } catch (Throwable e) {
-            json = JsonUtils.getJsonError(e);
+            json = JsonUtils.getJsonException(e);
         }
         return json;
     }
 
     private Post parseRequest(HttpServletRequest request) {
-        Long id = NumberUtils.toLong(request.getParameter("postID"));
-        String name = StringUtils.stripToNull(request.getParameter("postName"));
+        Long id = NumberUtils.toLong(request.getParameter("id"));
+        String name = StringUtils.stripToNull(request.getParameter("name"));
         return new Post(id, name);
     }
 }

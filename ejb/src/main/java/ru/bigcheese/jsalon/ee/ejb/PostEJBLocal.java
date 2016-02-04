@@ -11,8 +11,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface PostEJBLocal {
-    CrudEntityResult createPost(Post post);
-    CrudEntityResult updatePost(Post post);
-    CrudEntityResult deletePost(Long id);
+    CrudEntityResult<Post> createPost(Post post);
+    CrudEntityResult<Post> updatePost(Post post);
+    CrudEntityResult<Post> deletePost(Long id);
     FindResult<Post> getAllPosts();
 }

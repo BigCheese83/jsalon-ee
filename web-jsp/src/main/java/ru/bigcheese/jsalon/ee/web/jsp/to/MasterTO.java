@@ -12,36 +12,38 @@ import java.util.List;
  */
 public class MasterTO implements Serializable {
 
-    private Long id;
     private String surname;
     private String name;
     private String patronymic;
     private Date birthDate;
     private Date hiringDate;
-    private String passportInfo;
-    private String regAddressInfo;
-    private String liveAddressInfo;
-    private String contactInfo;
-    private String postInfo;
+    private String post;
     private boolean busy;
+    private PassportTO passport;
+    private AddressTO regAddress;
+    private AddressTO liveAddress;
+    private ContactTO contact;
 
     public MasterTO(Master master) {
-        id = master.getId();
         surname = master.getSurname();
         name = master.getName();
         patronymic = master.getPatronymic();
         birthDate = master.getBirthDate();
         hiringDate = master.getHiringDate();
         busy = master.isBusy();
-        passportInfo = master.getPassport() != null ? master.getPassport().getFullStr() : "";
-        regAddressInfo = master.getRegAddress() != null ? master.getRegAddress().getFullStr() : "";
-        liveAddressInfo = master.getLiveAddress() != null ? master.getLiveAddress().getFullStr() : "";
-        contactInfo = master.getContact() != null ? master.getContact().getFullStr() : "";
-        postInfo = master.getPost() != null ? master.getPost().getName() : "";
-    }
-
-    public Long getId() {
-        return id;
+        post = master.getPost() != null ? master.getPost().getName() : null;
+        if (master.getPassport() != null) {
+            passport = new PassportTO(master.getPassport());
+        }
+        if (master.getRegAddress() != null) {
+            regAddress = new AddressTO(master.getRegAddress());
+        }
+        if (master.getLiveAddress() != null) {
+            liveAddress = new AddressTO(master.getLiveAddress());
+        }
+        if (master.getContact() != null) {
+            contact = new ContactTO(master.getContact());
+        }
     }
 
     public String getSurname() {
@@ -64,27 +66,36 @@ public class MasterTO implements Serializable {
         return hiringDate;
     }
 
-    public String getPassportInfo() {
-        return passportInfo;
-    }
-
-    public String getRegAddressInfo() {
-        return regAddressInfo;
-    }
-
-    public String getLiveAddressInfo() {
-        return liveAddressInfo;
-    }
-
-    public String getContactInfo() {
-        return contactInfo;
-    }
-
-    public String getPostInfo() {
-        return postInfo;
+    public String getPost() {
+        return post;
     }
 
     public boolean isBusy() {
         return busy;
+    }
+
+    public PassportTO getPassport() {
+        return passport;
+    }
+
+    public AddressTO getRegAddress() {
+        return regAddress;
+    }
+
+    public AddressTO getLiveAddress() {
+        return liveAddress;
+    }
+
+    public ContactTO getContact() {
+        return contact;
+    }
+
+    public static List<MasterTO> toList(List<Master> list) {
+        if (list == null) return null;
+        List<MasterTO> result = new ArrayList<>(list.size());
+        for (Master m : list) {
+            result.add(new MasterTO(m));
+        }
+        return result;
     }
 }
