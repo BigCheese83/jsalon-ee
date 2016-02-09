@@ -166,6 +166,13 @@ public final class EntityMapper {
         result.setLiveAddress(toAddressEntity(model.getLiveAddress()));
         result.setContact(toContactEntity(model.getContact()));
         result.setBusy(model.isBusy());
+        String bindBy = BindModel.getName(model);
+        if (result.getPassport() != null) {
+            result.getPassport().setBindBy(bindBy);
+        }
+        if (result.getContact() != null) {
+            result.getContact().setBindBy(bindBy);
+        }
         return result;
     }
 }

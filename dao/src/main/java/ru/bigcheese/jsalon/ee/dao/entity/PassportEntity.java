@@ -16,6 +16,7 @@ public class PassportEntity extends BaseEntity {
     private Date issueDate;
     private String subdivision;
     private String country;
+    private String bindBy;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PASSPORT_SEQ")
@@ -76,5 +77,14 @@ public class PassportEntity extends BaseEntity {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Column(name = "bind_by", updatable = false)
+    public String getBindBy() {
+        return bindBy;
+    }
+
+    public void setBindBy(String bindBy) {
+        this.bindBy = bindBy;
     }
 }

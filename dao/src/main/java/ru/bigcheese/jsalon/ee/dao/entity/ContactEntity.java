@@ -16,6 +16,7 @@ public class ContactEntity extends BaseEntity {
     private String facebook;
     private String twitter;
     private String icq;
+    private String bindBy;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONTACTS_SEQ")
@@ -79,5 +80,14 @@ public class ContactEntity extends BaseEntity {
 
     public void setIcq(String icq) {
         this.icq = icq;
+    }
+
+    @Column(name = "bind_by", updatable = false)
+    public String getBindBy() {
+        return bindBy;
+    }
+
+    public void setBindBy(String bindBy) {
+        this.bindBy = bindBy;
     }
 }

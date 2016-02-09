@@ -29,14 +29,14 @@ public class MasterDaoJdbc extends AbstractBaseDaoJdbc<Master, Long>
             "INSERT INTO masters (id, surname, name, patronymic, birth_date, hiring_date, id_passport, id_post, id_reg_address, id_live_address, id_contact, busy) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String INSERT_SQL_PASSPORT =
-            "INSERT INTO passport (id, series, num, issued_by, issue_date, subdivision, country) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO passport (id, series, num, issued_by, issue_date, subdivision, country, bind_by) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String INSERT_SQL_ADDRESS =
             "INSERT INTO address (id, country, district, city, street, house, section, flat, zip) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String INSERT_SQL_CONTACT =
-            "INSERT INTO contacts (id, phone, email, vk, skype, facebook, twitter, icq) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO contacts (id, phone, email, vk, skype, facebook, twitter, icq, bind_by) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE_SQL =
             "UPDATE masters SET surname = ?, name = ?, patronymic = ?, birth_date = ?, hiring_date = ?, id_post = ?, busy = ? WHERE id = ?";
@@ -75,7 +75,7 @@ public class MasterDaoJdbc extends AbstractBaseDaoJdbc<Master, Long>
     private static final String SELECT_BY_ID_CONTACT =  "SELECT * FROM contacts WHERE id = ?";
 
     private static final String EXISTS_BY_ID =   "SELECT id FROM masters WHERE id = ?";
-    private static final String EXISTS_BY_PASSPORT = "SELECT id FROM passport WHERE series = ? AND num = ?";
+    private static final String EXISTS_BY_PASSPORT = "SELECT id FROM passport WHERE series = ? AND num = ? AND bind_by = ?";
 
     @Override
     public void persist(Master model) {
@@ -94,7 +94,8 @@ public class MasterDaoJdbc extends AbstractBaseDaoJdbc<Master, Long>
                     getParam(model.getPassport().getIssuedBy(), String.class),
                     getParam(model.getPassport().getIssueDate(), Date.class),
                     getParam(model.getPassport().getSubdivision(), String.class),
-                    getParam(model.getPassport().getCountry(), String.class) });
+                    getParam(model.getPassport().getCountry(), String.class),
+                    BindModel.MASTER.name() });
         }
         if (model.getRegAddress() != null) {
             regAddrId = generateID(GENERATE_ID_ADDRESS);
@@ -132,7 +133,8 @@ public class MasterDaoJdbc extends AbstractBaseDaoJdbc<Master, Long>
                     getParam(model.getContact().getSkype(), String.class),
                     getParam(model.getContact().getFacebook(), String.class),
                     getParam(model.getContact().getTwitter(), String.class),
-                    getParam(model.getContact().getIcq(), String.class) });
+                    getParam(model.getContact().getIcq(), String.class),
+                    BindModel.MASTER.name() });
         }
         Long id = generateID(GENERATE_ID);
         executeUpdateSQL(INSERT_SQL, new Object[]{
@@ -277,7 +279,8 @@ public class MasterDaoJdbc extends AbstractBaseDaoJdbc<Master, Long>
         return passport != null &&
                 null != executeQuerySQL(EXISTS_BY_PASSPORT, Long.class, new Object[]
                     { getParam(passport.getSeries(), String.class),
-                      getParam(passport.getNumber(), String.class)} );
+                      getParam(passport.getNumber(), String.class),
+                      BindModel.MASTER.name() } );
     }
 
     @Override

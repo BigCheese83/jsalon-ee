@@ -10,6 +10,7 @@ import ru.bigcheese.jsalon.ee.dao.qualifier.JPA;
 
 import java.util.List;
 
+import static ru.bigcheese.jsalon.core.model.BindModel.MASTER;
 import static ru.bigcheese.jsalon.ee.dao.entity.MasterEntity.EXISTS_BY_PASSPORT;
 
 /**
@@ -42,7 +43,9 @@ public class MasterDaoJpa extends AbstractBaseDaoJpa<Master, Long, MasterEntity>
     @Override
     public boolean existsByPassport(Passport passport) {
         return passport != null &&
-                !executeNamedQuery(EXISTS_BY_PASSPORT, Long.class, passport.getSeries(), passport.getNumber()).isEmpty();
+                !executeNamedQuery(EXISTS_BY_PASSPORT, Long.class,
+                        passport.getSeries(), passport.getNumber(), MASTER.name())
+                        .isEmpty();
     }
 
     @Override

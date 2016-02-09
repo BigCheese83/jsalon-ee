@@ -12,7 +12,9 @@ import java.util.Date;
 @Entity
 @Table(name = "masters")
 @NamedQueries({
-    @NamedQuery(name = MasterEntity.EXISTS_BY_PASSPORT, query = "SELECT p.id FROM PassportEntity p WHERE p.series = ?1 AND p.number = ?2")
+    @NamedQuery(
+            name = MasterEntity.EXISTS_BY_PASSPORT,
+            query = "SELECT p.id FROM PassportEntity p WHERE p.series = ?1 AND p.number = ?2 AND p.bindBy = ?3")
 })
 public class MasterEntity extends BaseEntity {
 
