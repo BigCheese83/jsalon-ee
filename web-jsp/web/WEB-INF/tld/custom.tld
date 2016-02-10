@@ -18,4 +18,9 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+    <tag>
+        <name>os</name>
+        <tag-class>ru.bigcheese.jsalon.ee.web.jsp.tag.OsTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
 </taglib>
