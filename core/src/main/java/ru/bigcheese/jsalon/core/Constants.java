@@ -16,7 +16,8 @@ public final class Constants {
     public static final String COPYRIGHT_STRING;
 
     /* JVM System Properties */
-    private static final String DAO_IMPLEMENTATION_PROPERTY = "JSALON_DAO_IMPLEMENTATION";
+    public static final Properties JSALON_SYSTEM_PROPERTIES;
+    private static final String DAO_IMPLEMENTATION_PROPERTY = "jsalon.dao.implementation";
 
     /* JNDI */
     public static final String SALON_JNDI_NAME = "jdbc/salon";
@@ -41,6 +42,13 @@ public final class Constants {
         DAO_IMPLEMENTATION = StringUtils.defaultIfBlank(System.getProperty(DAO_IMPLEMENTATION_PROPERTY), "jdbc");
         COPYRIGHT_STRING = "\u00a9" + " " + SOFTWARE_NAME + " " + Calendar.getInstance().get(Calendar.YEAR) + " г.";
         ALL_COUNTRIES = initCountries();
+        JSALON_SYSTEM_PROPERTIES = initProperties();
+    }
+
+    private static Properties initProperties() {
+        Properties props = new Properties();
+        props.setProperty(DAO_IMPLEMENTATION_PROPERTY, DAO_IMPLEMENTATION);
+        return props;
     }
 
     private static Map<String, String> initCountries() {

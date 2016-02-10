@@ -1,3 +1,6 @@
+<%@ page import="ru.bigcheese.jsalon.core.util.CollectionUtils" %>
+<%@ page import="java.util.List" %>
+<%@ page import="ru.bigcheese.jsalon.core.Constants" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="content">
@@ -30,6 +33,17 @@
             <p>URL: ${sessionScope.dbmetadata.url}</p>
             <p>Username: ${sessionScope.dbmetadata.username}</p>
             <p>Max connections: ${sessionScope.dbmetadata.maxConnections}</p>
+        </fieldset>
+        <fieldset>
+            <legend><i class="fa fa-file-text-o"></i> System properties</legend>
+            <p>
+                <%
+                    List<String> list = CollectionUtils.listProperties(Constants.JSALON_SYSTEM_PROPERTIES);
+                    for (String s : list) {
+                        out.println(s);
+                    }
+                %>
+            </p>
         </fieldset>
     </fieldset>
 </div><!-- End div content -->
