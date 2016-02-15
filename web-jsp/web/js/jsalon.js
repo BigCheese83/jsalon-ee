@@ -52,12 +52,13 @@ function getAjaxUrlCrud(page) {
         case 'services': return "/jsalon/admin/services/ajax";
         case 'user': return "/jsalon/admin/user/ajax";
         case 'master': return "/jsalon/admin/master/ajax";
+        case 'client': return "/jsalon/user/client/ajax";
     }
 }
 
 function getDetailInfo(url, data) {
     //get person detail info
-    if (strStartsWith(url, "/jsalon/admin/master")) {
+    if (strStartsWith(url, "/jsalon/admin/master") || strStartsWith(url, "/jsalon/user/client")) {
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="nested-table">' +
             '<tr>'+'<td>Паспорт:</td>'+'<td>'+ getPassportInfo(data.passport) +'</td>'+'</tr>' +
             '<tr>'+'<td>Адрес регистрации:</td>'+'<td>'+ getAddressInfo(data.regAddress) +'</td>'+'</tr>' +
@@ -110,7 +111,8 @@ function defaultStr(str, suffix, prefix, def) {
 function getPropertyOfObject(obj, name) {
     if (!name) return null;
     var prop = null, prev = obj;
-    name.split('.').forEach(function(token, i){
+    name.split('.').forEach(function(token){
+        if (prev == null) return null;
         prop = prev[token];
         prev = prop;
     });

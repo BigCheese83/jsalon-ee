@@ -23,8 +23,9 @@ public abstract class AbstractDaoJpaTest {
     }
 
     void close() throws Exception {
+        em.clear();
         runScript("drop.sql");
-        if (em != null) em.close();
+        em.close();
     }
 
     private void runScript(String filename) throws Exception {

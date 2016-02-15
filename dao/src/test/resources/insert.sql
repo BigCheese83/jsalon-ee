@@ -21,9 +21,9 @@ INSERT INTO passport(id, series, num, issued_by, issue_date, subdivision, countr
 INSERT INTO passport(id, series, num, issued_by, issue_date, subdivision, country, bind_by)
     VALUES (nextval('passport_id_seq'), '3568', '001122', 'ОВД г.Уфы №153-34', '2000-05-22', '042-112', 'Россия', 'MASTER');
 INSERT INTO passport(id, series, num, issued_by, issue_date, subdivision, country, bind_by)
-    VALUES (nextval('passport_id_seq'), '0123', '102030', 'ОВД г.Калининграда', '1984-06-13', NULL, 'Россия', 'MASTER');
+    VALUES (nextval('passport_id_seq'), '0123', '102030', 'ОВД г.Калининграда', '1984-06-13', NULL, 'Россия', 'CLIENT');
 INSERT INTO passport(id, series, num, issued_by, issue_date, subdivision, country, bind_by)
-  VALUES (nextval('passport_id_seq'), '' , '123456', 'ОВД г.Москвы №113-32', '2003-03-19', NULL, 'Россия', 'MASTER');
+  VALUES (nextval('passport_id_seq'), '' , '123456', 'ОВД г.Москвы №113-32', '2003-03-19', NULL, 'Россия', 'CLIENT');
 
 INSERT INTO address(id, country, district, city, street, house, section, flat, zip)
     VALUES (nextval('address_id_seq'), 'Россия', 'Москва', 'Москва', 'пр-т Мира', '122', NULL, '37', '131677');
@@ -35,6 +35,14 @@ INSERT INTO address(id, country, district, city, street, house, section, flat, z
     VALUES (nextval('address_id_seq'), 'Россия', 'Московская обл.', 'Мытищи', 'Олимпийский пр-т', '43', 'Б', '99', NULL);
 INSERT INTO address(id, country, district, city, street, house, section, flat, zip)
     VALUES (nextval('address_id_seq'), 'Россия' , NULL, 'Москва', 'Солянка', '10', NULL, '3', NULL);
+INSERT INTO address(id, country, district, city, street, house, section, flat, zip)
+    VALUES (nextval('address_id_seq'), 'Россия' , 'Московская обл.', 'Королев', 'Макаренко', '3', NULL, '5', NULL);
+INSERT INTO address(id, country, district, city, street, house, section, flat, zip)
+    VALUES (nextval('address_id_seq'), 'Россия' , 'Московская обл.', 'Королев', 'Макаренко', '3', NULL, '5', NULL);
+INSERT INTO address(id, country, district, city, street, house, section, flat, zip)
+    VALUES (nextval('address_id_seq'), 'Россия' , 'Воронежская обл.', 'Воронеж', 'проспект Ленина', '27', 'А', '44', NULL);
+INSERT INTO address(id, country, district, city, street, house, section, flat, zip)
+    VALUES (nextval('address_id_seq'), 'Россия' , NULL, 'Москва', 'Сиреневый бульвар', '33', NULL, '24', NULL);
 
 INSERT INTO contacts(id, phone, email, vk, skype, facebook, twitter, icq, bind_by)
     VALUES (nextval('contacts_id_seq'), '+7(922)543-67-66', 'ivanov@mail.ru', NULL, NULL, NULL, NULL, NULL, 'MASTER');
@@ -43,11 +51,16 @@ INSERT INTO contacts(id, phone, email, vk, skype, facebook, twitter, icq, bind_b
 INSERT INTO contacts(id, phone, email, vk, skype, facebook, twitter, icq, bind_by)
     VALUES (nextval('contacts_id_seq'), '+7(917)444-62-62', NULL, NULL, NULL, NULL, NULL, NULL, 'MASTER');
 INSERT INTO contacts(id, phone, email, vk, skype, facebook, twitter, icq, bind_by)
-    VALUES (nextval('contacts_id_seq'), '+7(922)930-00-66', 'petrov@gmail.com', NULL, 'petushok', 'petya', NULL, NULL, 'MASTER');
+    VALUES (nextval('contacts_id_seq'), '+7(922)930-00-66', 'chutov@gmail.com', NULL, 'chutik', 'chut', NULL, NULL, 'CLIENT');
 INSERT INTO contacts(id, phone, email, vk, skype, facebook, twitter, icq, bind_by)
-    VALUES (nextval('contacts_id_seq'), '+7(916)777-00-00' , 'medvedev@kreml.ru', NULL, NULL, 'medved', 'medved', NULL, 'MASTER');
+    VALUES (nextval('contacts_id_seq'), '+7(916)777-00-00' , 'shvedov@sberbank.ru', NULL, NULL, 'sanyok', 'sancho', NULL, 'CLIENT');
 
 INSERT INTO masters(id, surname, name, patronymic, birth_date, hiring_date, id_passport, id_post, id_reg_address, id_live_address, id_contact, busy)
     VALUES (nextval('masters_id_seq'), 'Иванов', 'Иван', 'Николаевич', '1971-10-02', '2015-03-09', 1, 1, 1, NULL, 1, FALSE);
 INSERT INTO masters(id, surname, name, patronymic, birth_date, hiring_date, id_passport, id_post, id_reg_address, id_live_address, id_contact, busy)
     VALUES (nextval('masters_id_seq'), 'Морозова', 'Мария', 'Александровна', '1977-06-27', '2015-03-22', 3, 2, 3, 3, 2, FALSE);
+
+INSERT INTO clients(id, surname, name, patronymic, birth_date, registration_date, id_passport, id_reg_address, id_live_address, id_contact, id_discount, in_black)
+    VALUES (nextval('clients_id_seq'), 'Чутов', 'Сергей', 'Александрович', '1979-06-04', '2015-03-20', 4, 6, 7, 4, NULL, TRUE);
+INSERT INTO clients(id, surname, name, patronymic, birth_date, registration_date, id_passport, id_reg_address, id_live_address, id_contact, id_discount, in_black)
+    VALUES (nextval('clients_id_seq'), 'Шведов', 'Александр', 'Вячеславович', '1978-09-10', '2015-03-25', 5, 8, 9, 5, 1, FALSE);

@@ -28,7 +28,9 @@ public class RootPathServlet extends HttpServlet {
         if (user == null) {
             try {
                 user = userEJB.getUserByLogin(request.getRemoteUser());
-                if (user == null) throw new SecurityException("Not find user by login.");
+                if (user == null) {
+                    throw new SecurityException("Not find user by login.");
+                }
             } catch (Exception e) {
                 throw new ServletException("Unable get user info." + ExceptionUtils.parse(e), e);
             }
@@ -40,7 +42,7 @@ public class RootPathServlet extends HttpServlet {
         if (request.getServletPath().equals("/admin")) {
             forwardPath = "/admin/users";
         } else {
-            forwardPath = "/WEB-INF/jsp/index.jsp";
+            forwardPath = "/user/clients";
         }
         request.getRequestDispatcher(forwardPath).forward(request, response);
     }

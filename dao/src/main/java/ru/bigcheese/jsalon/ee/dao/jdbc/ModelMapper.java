@@ -122,7 +122,7 @@ public final class ModelMapper {
             if (postId > 0) {
                 result.setPost(new Post(postId, null));
             }
-            long regAddrId = rs.getLong("Id_reg_address");
+            long regAddrId = rs.getLong("id_reg_address");
             if (regAddrId > 0) {
                 Address address = new Address();
                 address.setId(regAddrId);
@@ -159,6 +159,102 @@ public final class ModelMapper {
             }
             if (result.getPost() != null) {
                 result.getPost().setName(rs.getString("post_name"));
+            }
+            if (result.getRegAddress() != null) {
+                Address reg = result.getRegAddress();
+                reg.setCountry(rs.getString("reg_country"));
+                reg.setDistrict(rs.getString("reg_district"));
+                reg.setCity(rs.getString("reg_city"));
+                reg.setStreet(rs.getString("reg_street"));
+                reg.setHouse(rs.getString("reg_house"));
+                reg.setSection(rs.getString("reg_section"));
+                reg.setFlat(rs.getString("reg_flat"));
+                reg.setZip(rs.getString("reg_zip"));
+            }
+            if (result.getLiveAddress() != null) {
+                Address live = result.getLiveAddress();
+                live.setCountry(rs.getString("live_country"));
+                live.setDistrict(rs.getString("live_district"));
+                live.setCity(rs.getString("live_city"));
+                live.setStreet(rs.getString("live_street"));
+                live.setHouse(rs.getString("live_house"));
+                live.setSection(rs.getString("live_section"));
+                live.setFlat(rs.getString("live_flat"));
+                live.setZip(rs.getString("live_zip"));
+            }
+            if (result.getContact() != null) {
+                Contact contact = result.getContact();
+                contact.setPhone(rs.getString("phone"));
+                contact.setEmail(rs.getString("email"));
+                contact.setVk(rs.getString("vk"));
+                contact.setSkype(rs.getString("skype"));
+                contact.setFacebook(rs.getString("facebook"));
+                contact.setTwitter(rs.getString("twitter"));
+                contact.setIcq(rs.getString("icq"));
+            }
+            return result;
+        }
+    };
+
+    public static final RowMapper<Client> CLIENT_MAPPER = new RowMapper<Client>() {
+        @Override
+        public Client mapRow(ResultSet rs) throws SQLException {
+            Client result = new Client();
+            result.setId(rs.getLong("id"));
+            result.setSurname(rs.getString("surname"));
+            result.setName(rs.getString("name"));
+            result.setPatronymic(rs.getString("patronymic"));
+            result.setBirthDate(DateUtils.toDate(rs.getDate("birth_date")));
+            result.setRegistrationDate(DateUtils.toDate(rs.getDate("registration_date")));
+            result.setInBlackList(rs.getBoolean("in_black"));
+            long passportId = rs.getLong("id_passport");
+            if (passportId > 0) {
+                Passport passport = new Passport();
+                passport.setId(passportId);
+                result.setPassport(passport);
+            }
+            long regAddrId = rs.getLong("id_reg_address");
+            if (regAddrId > 0) {
+                Address address = new Address();
+                address.setId(regAddrId);
+                result.setRegAddress(address);
+            }
+            long liveAddrId = rs.getLong("id_live_address");
+            if (liveAddrId > 0) {
+                Address address = new Address();
+                address.setId(liveAddrId);
+                result.setLiveAddress(address);
+            }
+            long contactId = rs.getLong("id_contact");
+            if (contactId > 0) {
+                Contact contact = new Contact();
+                contact.setId(contactId);
+                result.setContact(contact);
+            }
+            long discountId = rs.getLong("id_discount");
+            if (discountId > 0) {
+                result.setDiscount(new Discount(discountId, null, null));
+            }
+            return result;
+        }
+    };
+
+    public static final RowMapper<Client> CLIENT_FETCH_MAPPER = new RowMapper<Client>() {
+        @Override
+        public Client mapRow(ResultSet rs) throws SQLException {
+            Client result = CLIENT_MAPPER.mapRow(rs);
+            if (result.getPassport() != null) {
+                Passport passport = result.getPassport();
+                passport.setSeries(rs.getString("series"));
+                passport.setNumber(rs.getString("num"));
+                passport.setIssuedBy(rs.getString("issued_by"));
+                passport.setIssueDate(DateUtils.toDate(rs.getDate("issue_date")));
+                passport.setSubdivision(rs.getString("subdivision"));
+                passport.setCountry(rs.getString("passp_country"));
+            }
+            if (result.getDiscount() != null) {
+                result.getDiscount().setName(rs.getString("disc_name"));
+                result.getDiscount().setValue(rs.getInt("disc_value"));
             }
             if (result.getRegAddress() != null) {
                 Address reg = result.getRegAddress();

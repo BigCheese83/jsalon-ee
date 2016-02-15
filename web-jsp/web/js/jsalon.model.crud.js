@@ -73,6 +73,21 @@ $(function(){
                 { targets: [6], data: "post.id", render: function(data, type, row){return row.post.name;} },
                 { targets: [7], data: "busy", searchable: false, render: renderCheckbox } ];
             break;
+        case 'client':
+            colDefs = [
+                { targets: [1,2,3,4,5,6,7], className: "dt-col-center" },
+                { targets: [0], className: "details-control", orderable: false, searchable: false, data: null, defaultContent: "" },
+                { targets: [1], data: "surname" },
+                { targets: [2], data: "name" },
+                { targets: [3], data: "patronymic" },
+                { targets: [4], data: "birthDate", searchable: false },
+                { targets: [5], data: "registrationDate", searchable: false },
+                { targets: [6], data: "discount.id",
+                    render: function(data, type, row){
+                        return row.discount ? row.discount.name : null;
+                    } },
+                { targets: [7], data: "inBlackList", searchable: false, render: renderCheckbox } ];
+            break;
     }
 
     var $datatable = $table.DataTable({

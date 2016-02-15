@@ -54,4 +54,22 @@
         <put-attribute name="title" value="Консоль администратора - Системная информация"/>
         <put-attribute name="body" value="/WEB-INF/tiles/body_sysinfo.jsp"/>
     </definition>
+    <definition name="base.user.template" template="/WEB-INF/tiles/base_template.jsp">
+        <put-attribute name="title" value="Welcome to JSalon Page"/>
+        <put-attribute name="header" value="/WEB-INF/tiles/header_user.jsp"/>
+        <put-attribute name="menu" value="/WEB-INF/tiles/menu_user.jsp"/>
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"/>
+        <put-attribute name="scripts" value=""/>
+    </definition>
+    <definition name="user.clients" extends="base.user.template">
+        <put-attribute name="title" value="Все клиенты"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_clients_all.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_table_serverside.jsp"/>
+    </definition>
+    <definition name="user.client.crud" extends="base.user.template">
+        <put-attribute name="title" value="Поиск/Редактирование клиента"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_client_crud.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_model_crud.jsp"/>
+    </definition>
 </tiles-definitions>

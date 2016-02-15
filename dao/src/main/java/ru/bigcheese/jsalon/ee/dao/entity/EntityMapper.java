@@ -166,7 +166,50 @@ public final class EntityMapper {
         result.setLiveAddress(toAddressEntity(model.getLiveAddress()));
         result.setContact(toContactEntity(model.getContact()));
         result.setBusy(model.isBusy());
-        String bindBy = BindModel.getName(model);
+        String bindBy = BindModel.MASTER.name();
+        if (result.getPassport() != null) {
+            result.getPassport().setBindBy(bindBy);
+        }
+        if (result.getContact() != null) {
+            result.getContact().setBindBy(bindBy);
+        }
+        return result;
+    }
+
+    public static Client toClientModel(ClientEntity entity) {
+        if (entity == null) return null;
+        Client client = new Client();
+        client.setId(entity.getId());
+        client.setSurname(entity.getSurname());
+        client.setName(entity.getName());
+        client.setPatronymic(entity.getPatronymic());
+        client.setBirthDate(entity.getBirthDate());
+        client.setRegistrationDate(entity.getRegistrationDate());
+        client.setPassport(toPassportModel(entity.getPassport()));
+        client.setDiscount(toDiscountModel(entity.getDiscount()));
+        client.setRegAddress(toAddressModel(entity.getRegAddress()));
+        client.setLiveAddress(toAddressModel(entity.getLiveAddress()));
+        client.setContact(toContactModel(entity.getContact()));
+        client.setInBlackList(entity.getInBlackList());
+        return client;
+    }
+
+    public static ClientEntity toClientEntity(Client model) {
+        if (model == null) return null;
+        ClientEntity result = new ClientEntity();
+        result.setId(model.getId());
+        result.setSurname(model.getSurname());
+        result.setName(model.getName());
+        result.setPatronymic(model.getPatronymic());
+        result.setBirthDate(model.getBirthDate());
+        result.setRegistrationDate(model.getRegistrationDate());
+        result.setPassport(toPassportEntity(model.getPassport()));
+        result.setRegAddress(toAddressEntity(model.getRegAddress()));
+        result.setLiveAddress(toAddressEntity(model.getLiveAddress()));
+        result.setContact(toContactEntity(model.getContact()));
+        result.setDiscount(toDiscountEntity(model.getDiscount()));
+        result.setInBlackList(model.isInBlackList());
+        String bindBy = BindModel.CLIENT.name();
         if (result.getPassport() != null) {
             result.getPassport().setBindBy(bindBy);
         }
