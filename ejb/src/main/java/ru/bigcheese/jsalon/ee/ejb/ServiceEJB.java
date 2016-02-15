@@ -21,10 +21,10 @@ import static ru.bigcheese.jsalon.ee.ejb.result.ActionResult.*;
 public class ServiceEJB implements ServiceEJBLocal {
 
     @Resource
-    SessionContext context;
+    private SessionContext context;
 
     @Inject
-    ServiceDao serviceDao;
+    private ServiceDao serviceDao;
 
     @Override
     public CrudEntityResult<Service> createService(Service service) {

@@ -22,10 +22,10 @@ import static ru.bigcheese.jsalon.ee.ejb.result.ActionResult.*;
 public class MasterEJB implements MasterEJBLocal {
 
     @Resource
-    SessionContext context;
+    private SessionContext context;
 
     @Inject
-    MasterDao masterDao;
+    private MasterDao masterDao;
 
     @Override
     public CrudEntityResult<Master> createMaster(Master master) {

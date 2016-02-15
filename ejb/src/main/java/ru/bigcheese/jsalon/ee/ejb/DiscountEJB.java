@@ -20,10 +20,10 @@ import static ru.bigcheese.jsalon.ee.ejb.result.ActionResult.*;
 public class DiscountEJB implements DiscountEJBLocal {
 
     @Resource
-    SessionContext context;
+    private SessionContext context;
 
     @Inject
-    DiscountDao discountDao;
+    private DiscountDao discountDao;
 
     @Override
     public CrudEntityResult<Discount> createDiscount(Discount discount) {

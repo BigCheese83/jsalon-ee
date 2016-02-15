@@ -111,7 +111,7 @@ public class MasterTestStrategy {
         passport.setIssuedBy("ОВД г. Тольятти");
         passport.setIssueDate(new GregorianCalendar(2006, 4, 21).getTime());
         master.setPassport(passport);
-        master.setPost(new Post(2L, "Парикмахер"));
+        master.setPost(new Post(4L, "Косметолог"));
         Address address = new Address();
         address.setCountry("Россия");
         address.setCity("Москва");

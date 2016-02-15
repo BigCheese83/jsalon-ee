@@ -12,7 +12,7 @@ import javax.enterprise.inject.Produces;
  */
 public class MasterDaoProducer {
     @Produces
-    MasterDao createDiscountDao(@JDBC MasterDao jdbcDao, @JPA MasterDao jpaDao) {
+    MasterDao createMasterDao(@JDBC MasterDao jdbcDao, @JPA MasterDao jpaDao) {
         if ("jpa".equalsIgnoreCase(Constants.DAO_IMPLEMENTATION)) {
             return jpaDao;
         } else {

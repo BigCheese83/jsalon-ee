@@ -20,10 +20,10 @@ import static ru.bigcheese.jsalon.ee.ejb.result.ActionResult.*;
 public class PostEJB implements PostEJBLocal {
 
     @Resource
-    SessionContext context;
+    private SessionContext context;
 
     @Inject
-    PostDao postDao;
+    private PostDao postDao;
 
     @Override
     public CrudEntityResult<Post> createPost(Post post) {

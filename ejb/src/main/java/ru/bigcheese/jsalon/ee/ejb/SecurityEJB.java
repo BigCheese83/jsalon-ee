@@ -66,9 +66,8 @@ public class SecurityEJB {
     }
 
     public DBMetadata getDatabaseMetaData() {
-        try {
-            DatabaseMetaData data = dataSource.getConnection().getMetaData();
-            return new DBMetadata(data);
+        try (Connection conn = dataSource.getConnection()) {
+            return new DBMetadata(conn.getMetaData());
         } catch (Exception e) {
             return null;
         }
