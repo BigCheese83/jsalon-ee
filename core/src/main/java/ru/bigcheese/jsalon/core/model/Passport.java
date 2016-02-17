@@ -44,11 +44,13 @@ public class Passport extends BaseModel {
     }
 
     public Date getIssueDate() {
-        return new Date(issueDate.getTime());
+        return issueDate != null ? new Date(issueDate.getTime()) : null;
     }
 
     public void setIssueDate(Date issueDate) {
-        this.issueDate = new Date(issueDate.getTime());
+        if (issueDate != null) {
+            this.issueDate = new Date(issueDate.getTime());
+        }
     }
 
     public String getSubdivision() {

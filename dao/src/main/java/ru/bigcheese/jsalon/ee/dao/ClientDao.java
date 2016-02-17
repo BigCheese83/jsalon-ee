@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface ClientDao extends BaseDao<Client, Long> {
     boolean existsByPassport(Passport passport);
+    boolean existsByPhone(String phone);
     List<Client> findClientsByCriteria(QueryCriteria criteria);
     List<Client> findLimitClientsByCriteria(int count, QueryCriteria criteria);
 }

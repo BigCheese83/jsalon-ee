@@ -86,6 +86,11 @@ public class ClientTestStrategy {
         assertFalse(clientDao.existsByPassport(getClient().getPassport()));
     }
 
+    public void testExistsByPhone() {
+        assertTrue(clientDao.existsByPhone(clientDao.findById(2L).getContact().getPhone()));
+        assertFalse(clientDao.existsByPhone(getClient().getContact().getPhone()));
+    }
+
     private void beginTransaction() {
         if (clientDao instanceof ClientDaoJpa) {
             ((ClientDaoJpa)clientDao).getEntityManager().getTransaction().begin();

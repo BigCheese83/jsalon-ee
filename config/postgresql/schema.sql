@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.4.4
 -- Dumped by pg_dump version 9.4.0
--- Started on 2016-02-09 14:56:21 MSK
+-- Started on 2016-02-17 18:18:35 MSK
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -100,10 +100,10 @@ CREATE TABLE clients (
     surname character varying(30) NOT NULL,
     name character varying(20) NOT NULL,
     patronymic character varying(30),
-    birth_date date NOT NULL,
-    registration_date date NOT NULL,
-    id_passport integer NOT NULL,
-    id_reg_address integer NOT NULL,
+    birth_date date,
+    registration_date date,
+    id_passport integer,
+    id_reg_address integer,
     id_live_address integer,
     id_contact integer NOT NULL,
     id_discount integer,
@@ -1003,7 +1003,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-02-09 14:56:21 MSK
+-- Completed on 2016-02-17 18:18:35 MSK
 
 --
 -- PostgreSQL database dump complete

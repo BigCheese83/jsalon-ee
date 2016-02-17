@@ -14,11 +14,15 @@ import java.util.Date;
 @NamedQueries({
     @NamedQuery(
             name = ClientEntity.EXISTS_BY_PASSPORT,
-            query = "SELECT p.id FROM PassportEntity p WHERE p.series = ?1 AND p.number = ?2 AND p.bindBy = ?3")
+            query = "SELECT p.id FROM PassportEntity p WHERE p.series = ?1 AND p.number = ?2 AND p.bindBy = ?3"),
+    @NamedQuery(
+            name = ClientEntity.EXISTS_BY_PHONE,
+            query = "SELECT c.id FROM ContactEntity c WHERE c.phone = ?1 AND c.bindBy = ?2")
 })
 public class ClientEntity extends BaseEntity {
 
     public static final String EXISTS_BY_PASSPORT = "Client.existsByPassport";
+    public static final String EXISTS_BY_PHONE = "Client.existsByPhone";
 
     private String surname;
     private String name;
@@ -66,7 +70,7 @@ public class ClientEntity extends BaseEntity {
     }
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "birth_date", nullable = false)
+    @Column(name = "birth_date")
     public Date getBirthDate() {
         return birthDate;
     }
@@ -76,7 +80,7 @@ public class ClientEntity extends BaseEntity {
     }
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "registration_date", nullable = false)
+    @Column(name = "registration_date")
     public Date getRegistrationDate() {
         return registrationDate;
     }
@@ -85,8 +89,8 @@ public class ClientEntity extends BaseEntity {
         this.registrationDate = registrationDate;
     }
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_passport", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_passport")
     @BatchFetch(BatchFetchType.JOIN)
     public PassportEntity getPassport() {
         return passport;
@@ -96,8 +100,8 @@ public class ClientEntity extends BaseEntity {
         this.passport = passport;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_reg_address", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_reg_address")
     @BatchFetch(BatchFetchType.JOIN)
     public AddressEntity getRegAddress() {
         return regAddress;
@@ -118,7 +122,7 @@ public class ClientEntity extends BaseEntity {
         this.liveAddress = liveAddress;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_contact", nullable = false)
     @BatchFetch(BatchFetchType.JOIN)
     public ContactEntity getContact() {

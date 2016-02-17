@@ -43,11 +43,13 @@ public class Person extends BaseModel {
     }
 
     public Date getBirthDate() {
-        return new Date(birthDate.getTime());
+        return birthDate != null ? new Date(birthDate.getTime()) : null;
     }
 
     public void setBirthDate(Date birthDate) {
-        this.birthDate = new Date(birthDate.getTime());
+        if (birthDate != null) {
+            this.birthDate = new Date(birthDate.getTime());
+        }
     }
 
     public Passport getPassport() {

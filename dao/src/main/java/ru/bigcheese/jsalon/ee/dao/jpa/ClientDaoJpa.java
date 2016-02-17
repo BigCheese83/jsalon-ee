@@ -48,6 +48,14 @@ public class ClientDaoJpa extends AbstractBaseDaoJpa<Client, Long, ClientEntity>
     }
 
     @Override
+    public boolean existsByPhone(String phone) {
+        return phone != null &&
+                !executeNamedQuery(ClientEntity.EXISTS_BY_PHONE, Long.class,
+                        phone, CLIENT.name())
+                        .isEmpty();
+    }
+
+    @Override
     public List<Client> findClientsByCriteria(QueryCriteria criteria) {
         String sql = "SELECT * FROM clients";
         if (criteria != null) {

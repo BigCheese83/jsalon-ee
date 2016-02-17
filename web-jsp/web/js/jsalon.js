@@ -59,12 +59,21 @@ function getAjaxUrlCrud(page) {
 function getDetailInfo(url, data) {
     //get person detail info
     if (strStartsWith(url, "/jsalon/admin/master") || strStartsWith(url, "/jsalon/user/client")) {
-        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="nested-table">' +
-            '<tr>'+'<td>Паспорт:</td>'+'<td>'+ getPassportInfo(data.passport) +'</td>'+'</tr>' +
-            '<tr>'+'<td>Адрес регистрации:</td>'+'<td>'+ getAddressInfo(data.regAddress) +'</td>'+'</tr>' +
-            '<tr>'+'<td>Адрес проживания:</td>'+'<td>'+ getAddressInfo(data.liveAddress) +'</td>'+'</tr>' +
-            '<tr>'+'<td>Контакты:</td>'+'<td>'+ getContactInfo(data.contact) +'</td>'+'</tr>' +
-            '</table>';
+        var str = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="nested-table">';
+        if (data.passport) {
+            str = str + '<tr>'+'<td>Паспорт:</td>'+'<td>'+ getPassportInfo(data.passport) +'</td>'+'</tr>';
+        }
+        if (data.regAddress) {
+            str = str + '<tr>'+'<td>Адрес регистрации:</td>'+'<td>'+ getAddressInfo(data.regAddress) +'</td>'+'</tr>';
+        }
+        if (data.liveAddress) {
+            str = str + '<tr>'+'<td>Адрес проживания:</td>'+'<td>'+ getAddressInfo(data.liveAddress) +'</td>'+'</tr>';
+        }
+        if (data.contact) {
+            str = str + '<tr>'+'<td>Контакты:</td>'+'<td>'+ getContactInfo(data.contact) +'</td>'+'</tr>';
+        }
+        str += '</table>';
+        return str;
     }
 }
 

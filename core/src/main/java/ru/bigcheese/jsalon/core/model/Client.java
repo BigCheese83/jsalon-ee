@@ -1,5 +1,7 @@
 package ru.bigcheese.jsalon.core.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.*;
 
 /**
@@ -12,11 +14,13 @@ public class Client extends Person {
     private boolean inBlackList;
 
     public Date getRegistrationDate() {
-        return new Date(registrationDate.getTime());
+        return registrationDate != null ? new Date(registrationDate.getTime()) : null;
     }
 
     public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = new Date(registrationDate.getTime());
+        if (registrationDate != null) {
+            this.registrationDate = new Date(registrationDate.getTime());
+        }
     }
 
     public Discount getDiscount() {
@@ -37,7 +41,7 @@ public class Client extends Person {
 
     @Override
     public String toString() {
-        return "Клиент " + getFullFIO() + " [паспорт " + getPassport().getShortStr() + "]";
+        return "Клиент " + getFullFIO() + " [телефон " + getContact().getPhone() + "]";
     }
 
     @Override
@@ -59,9 +63,16 @@ public class Client extends Person {
     @Override
     protected List<String> getValidateErrors() {
         List<String> errors = new ArrayList<String>();
-        errors.addAll(super.getValidateErrors());
-        if (registrationDate == null) {
-            errors.add("Укажите дату регистрации");
+        if (StringUtils.isBlank(getName())) {
+            errors.add("Введите имя");
+        }
+        if (StringUtils.isBlank(getSurname())) {
+            errors.add("Введите фамилию");
+        }
+        if (getContact() == null) {
+            errors.add("Необходимо указать контактные данные");
+        } else {
+            errors.addAll(getContact().getValidateErrors());
         }
         if (discount != null) {
             errors.addAll(discount.getValidateErrors());

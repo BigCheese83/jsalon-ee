@@ -29,16 +29,19 @@ public class ClientEJB implements ClientEJBLocal {
     @Override
     public CrudEntityResult<Client> createClient(Client client) {
         try {
-            if (client.getPassport() == null) {
-                throw new IllegalArgumentException("Не заданы паспортные данные!");
+            if (client.getContact() == null) {
+                throw new IllegalArgumentException("Не заданы контактные данные!");
             }
-            if (!clientDao.existsByPassport(client.getPassport())) {
-                clientDao.persist(client);
-                return new CrudEntityResult<>(NORMAL, client.toString() + " успешно создан.", client);
-            } else {
+            if (clientDao.existsByPhone(client.getContact().getPhone())) {
+                return new CrudEntityResult<>(WARNING, "Телефон \"" + client.getContact().getPhone() +
+                        "\" уже привязан к другому клиенту.");
+            }
+            if (clientDao.existsByPassport(client.getPassport())) {
                 return new CrudEntityResult<>(WARNING, "Паспорт \"" + client.getPassport().getShortStr() +
                         "\" уже привязан к другому клиенту.");
             }
+            clientDao.persist(client);
+            return new CrudEntityResult<>(NORMAL, client.toString() + " успешно создан.", client);
         } catch (Throwable e) {
             context.setRollbackOnly();
             return new CrudEntityResult<>(FATAL_ERROR, "Ошибка создания клиента. " + ExceptionUtils.parse(e));

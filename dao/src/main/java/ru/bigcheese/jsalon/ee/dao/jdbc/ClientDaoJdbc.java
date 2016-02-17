@@ -39,6 +39,7 @@ public class ClientDaoJdbc extends PersonDaoJdbc<Client>
 
     private static final String EXISTS_BY_ID =   "SELECT id FROM clients WHERE id = ?";
     private static final String EXISTS_BY_PASSPORT = "SELECT id FROM passport WHERE series = ? AND num = ? AND bind_by = ?";
+    private static final String EXISTS_BY_PHONE = "SELECT id FROM contacts WHERE phone = ? AND bind_by = ?";
 
     private static final String SELECT_BY_ID_FETCH =
             "SELECT c.id, c.birth_date, c.in_black, c.name, c.patronymic, c.registration_date, c.surname, c.id_contact, c.id_discount, c.id_live_address, c.id_reg_address, c.id_passport, " +
@@ -119,6 +120,14 @@ public class ClientDaoJdbc extends PersonDaoJdbc<Client>
     public boolean existsById(Long id) {
         return null != executeQuerySQL(EXISTS_BY_ID, Long.class, new Object[]
                 { getParam(id, Long.class) } );
+    }
+
+    @Override
+    public boolean existsByPhone(String phone) {
+        return phone != null &&
+                null != executeQuerySQL(EXISTS_BY_PHONE, Long.class, new Object[]
+                        { getParam(phone, String.class),
+                          BindModel.CLIENT.name() } );
     }
 
     @Override

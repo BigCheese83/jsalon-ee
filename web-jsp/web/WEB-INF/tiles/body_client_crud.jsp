@@ -77,11 +77,11 @@
                 <td>
                     <div class="form-field inline-field">
                         <label for="birthDate">Дата рождения</label>
-                        <input type="text" id="birthDate" name="birthDate" class="datepicker" required>
+                        <input type="text" id="birthDate" name="birthDate" class="datepicker">
                     </div>
                     <div class="form-field inline-field">
                         <label for="registrationDate">Дата регистрации</label>
-                        <input type="text" id="registrationDate" name="registrationDate" class="datepicker" required>
+                        <input type="text" id="registrationDate" name="registrationDate" class="datepicker">
                     </div>
                     <div class="inline-field">
                         <label for="inBlackList">BlackList</label>
@@ -113,11 +113,11 @@
                         </div>
                         <div class="form-field inline-field">
                             <label for="passportNumber">Номер</label>
-                            <input type="text" id="passportNumber" name="passport.number" style="width:100px" required>
+                            <input type="text" id="passportNumber" name="passport.number" style="width:100px">
                         </div>
                         <div class="form-field inline-field">
                             <label for="passportCountry">Страна выдачи</label>
-                            <select id="passportCountry" name="passport.country" required>
+                            <select id="passportCountry" name="passport.country">
                                 <option></option>
                             <c:forEach var="country" items="${applicationScope.countriesList}">
                                 <option>${country.value}</option>
@@ -128,13 +128,13 @@
                     <div>
                         <div class="form-field inline-field">
                             <label for="passportIssuedBy">Выдан</label>
-                            <input type="text" id="passportIssuedBy" name="passport.issuedBy" style="width:570px" required>
+                            <input type="text" id="passportIssuedBy" name="passport.issuedBy" style="width:570px">
                         </div>
                     </div>
                     <div>
                         <div class="form-field inline-field">
                             <label for="passportIssueDate">Дата выдачи</label>
-                            <input type="text" id="passportIssueDate" name="passport.issueDate" class="datepicker" required>
+                            <input type="text" id="passportIssueDate" name="passport.issueDate" class="datepicker">
                         </div>
                         <div class="form-field inline-field">
                             <label for="passportSubdivision">Код подразделения</label>
@@ -151,7 +151,7 @@
                     <div>
                         <div class="form-field inline-field">
                             <label for="regAddressCountry">Страна</label>
-                            <select id="regAddressCountry" name="regAddress.country" required>
+                            <select id="regAddressCountry" name="regAddress.country">
                                 <option></option>
                             <c:forEach var="country" items="${applicationScope.countriesList}">
                                 <option>${country.value}</option>
@@ -170,17 +170,17 @@
                         </div>
                         <div class="form-field inline-field">
                             <label for="regAddressCity">Город</label>
-                            <input type="text" id="regAddressCity" name="regAddress.city" required>
+                            <input type="text" id="regAddressCity" name="regAddress.city">
                         </div>
                     </div>
                     <div>
                         <div class="form-field inline-field">
                             <label for="regAddressStreet">Улица</label>
-                            <input type="text" id="regAddressStreet" name="regAddress.street" required>
+                            <input type="text" id="regAddressStreet" name="regAddress.street">
                         </div>
                         <div class="form-field inline-field">
                             <label for="regAddressHouse">Дом</label>
-                            <input type="text" id="regAddressHouse" name="regAddress.house" style="width:50px" required>
+                            <input type="text" id="regAddressHouse" name="regAddress.house" style="width:50px">
                         </div>
                         <div class="form-field inline-field">
                             <label for="regAddressSection">Корпус</label>
@@ -188,7 +188,7 @@
                         </div>
                         <div class="form-field inline-field">
                             <label for="regAddressFlat">Квартира</label>
-                            <input type="text" id="regAddressFlat" name="regAddress.flat" style="width:50px" required>
+                            <input type="text" id="regAddressFlat" name="regAddress.flat" style="width:50px">
                         </div>
                     </div>
                     </fieldset>
@@ -201,7 +201,7 @@
                     <div>
                         <div class="form-field inline-field">
                             <label for="liveAddressCountry">Страна</label>
-                            <select id="liveAddressCountry" name="liveAddress.country" required>
+                            <select id="liveAddressCountry" name="liveAddress.country">
                                 <option></option>
                             <c:forEach var="country" items="${applicationScope.countriesList}">
                                 <option>${country.value}</option>
@@ -220,17 +220,17 @@
                         </div>
                         <div class="form-field inline-field">
                             <label for="liveAddressCity">Город</label>
-                            <input type="text" id="liveAddressCity" name="liveAddress.city" required>
+                            <input type="text" id="liveAddressCity" name="liveAddress.city">
                         </div>
                     </div>
                     <div>
                         <div class="form-field inline-field">
                             <label for="liveAddressStreet">Улица</label>
-                            <input type="text" id="liveAddressStreet" name="liveAddress.street" required>
+                            <input type="text" id="liveAddressStreet" name="liveAddress.street">
                         </div>
                         <div class="form-field inline-field">
                             <label for="liveAddressHouse">Дом</label>
-                            <input type="text" id="liveAddressHouse" name="liveAddress.house" style="width:50px" required>
+                            <input type="text" id="liveAddressHouse" name="liveAddress.house" style="width:50px">
                         </div>
                         <div class="form-field inline-field">
                             <label for="liveAddressSection">Корпус</label>
@@ -238,7 +238,7 @@
                         </div>
                         <div class="form-field inline-field">
                             <label for="liveAddressFlat">Квартира</label>
-                            <input type="text" id="liveAddressFlat" name="liveAddress.flat" style="width:50px" required>
+                            <input type="text" id="liveAddressFlat" name="liveAddress.flat" style="width:50px">
                         </div>
                     </div>
                     <div>

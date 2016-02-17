@@ -129,7 +129,7 @@ public class MasterEntity extends BaseEntity {
         this.liveAddress = liveAddress;
     }
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_contact", nullable = false)
     @BatchFetch(BatchFetchType.JOIN)
     public ContactEntity getContact() {

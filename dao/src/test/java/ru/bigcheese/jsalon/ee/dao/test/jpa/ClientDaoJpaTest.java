@@ -57,4 +57,9 @@ public class ClientDaoJpaTest extends AbstractDaoJpaTest {
     public void testExistsByPassport() {
         testStrategy.testExistsByPassport();
     }
+
+    @Test
+    public void testExistsByPhone() {
+        testStrategy.testExistsByPhone();
+    }
 }

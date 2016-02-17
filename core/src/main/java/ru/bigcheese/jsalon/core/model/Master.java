@@ -12,11 +12,13 @@ public class Master extends Person {
     private boolean busy;
 
     public Date getHiringDate() {
-        return new Date(hiringDate.getTime());
+        return hiringDate != null ? new Date(hiringDate.getTime()) : null;
     }
 
     public void setHiringDate(Date hiringDate) {
-        this.hiringDate = new Date(hiringDate.getTime());
+        if (hiringDate != null) {
+            this.hiringDate = new Date(hiringDate.getTime());
+        }
     }
 
     public Post getPost() {
