@@ -1,6 +1,8 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.bigcheese.jsalon.core.exception.ValidationException;
 import ru.bigcheese.jsalon.core.model.Discount;
 import ru.bigcheese.jsalon.core.util.NumberUtils;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @WebServlet(name = "DiscountCrudAjaxServlet", urlPatterns = {"/admin/discounts/ajax"})
 public class DiscountCrudAjaxServlet extends AbstractAjaxServlet {
+    private static final Logger LOG = LoggerFactory.getLogger(DiscountCrudAjaxServlet.class);
 
     @EJB
     private DiscountEJBLocal discountEJB;
@@ -43,8 +46,10 @@ public class DiscountCrudAjaxServlet extends AbstractAjaxServlet {
             }
             json = JsonUtils.getGson().toJson(result);
         } catch (ValidationException e) {
+            LOG.error("Validation failed. {}.", e.getMessage());
             json = JsonUtils.getJsonValidateErrors(e);
         } catch (Throwable e) {
+            LOG.error("", e);
             json = JsonUtils.getJsonException(e);
         }
         return json;

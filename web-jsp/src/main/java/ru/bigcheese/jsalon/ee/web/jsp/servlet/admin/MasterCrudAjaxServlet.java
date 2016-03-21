@@ -2,6 +2,8 @@ package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.bigcheese.jsalon.core.exception.ValidationException;
 import ru.bigcheese.jsalon.core.model.*;
 import ru.bigcheese.jsalon.core.util.DateUtils;
@@ -29,6 +31,7 @@ import static ru.bigcheese.jsalon.core.Constants.ISO_DATE_FORMAT;
  */
 @WebServlet(name = "MasterCrudAjaxServlet", urlPatterns = {"/admin/master/ajax"})
 public class MasterCrudAjaxServlet extends AbstractAjaxServlet {
+    private static final Logger LOG = LoggerFactory.getLogger(MasterCrudAjaxServlet.class);
 
     @EJB
     private MasterEJBLocal masterEJB;
@@ -58,8 +61,10 @@ public class MasterCrudAjaxServlet extends AbstractAjaxServlet {
                 json = JsonUtils.getGson().toJson(result);
             }
         } catch (ValidationException e) {
+            LOG.error("Validation failed. {}.", e.getMessage());
             json = JsonUtils.getJsonValidateErrors(e);
         } catch (Throwable e) {
+            LOG.error("Error.", e);
             json = JsonUtils.getJsonException(e);
         }
         return json;

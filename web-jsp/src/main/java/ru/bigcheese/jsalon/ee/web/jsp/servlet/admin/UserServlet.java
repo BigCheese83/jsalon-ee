@@ -1,5 +1,7 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 import ru.bigcheese.jsalon.ee.ejb.UserEJBLocal;
 
@@ -13,10 +15,11 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by aleksey.shulchenkov on 05.11.15.
+ * Created by BigCheese on 05.11.15.
  */
 @WebServlet(name = "UserServlet", urlPatterns = {"/admin/user"})
 public class UserServlet extends HttpServlet {
+    private static final Logger LOG = LoggerFactory.getLogger(DiscountCrudAjaxServlet.class);
 
     @EJB
     private UserEJBLocal userEJB;
@@ -27,6 +30,7 @@ public class UserServlet extends HttpServlet {
             try {
                 request.getSession().setAttribute("allRoles", userEJB.getAllRoles());
             } catch (Exception e) {
+                LOG.error("Error.", e);
                 throw new ServletException("Unable get roles for user." + ExceptionUtils.parse(e), e);
             }
         }

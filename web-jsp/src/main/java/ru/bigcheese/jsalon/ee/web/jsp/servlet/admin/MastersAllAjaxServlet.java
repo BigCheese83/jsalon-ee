@@ -1,6 +1,8 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.bigcheese.jsalon.core.model.Master;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
@@ -22,7 +24,7 @@ import java.util.List;
  */
 @WebServlet(name = "MastersAllAjaxServlet", urlPatterns = {"/admin/masters/ajax"})
 public class MastersAllAjaxServlet extends AbstractAjaxServlet {
-
+    private static final Logger LOG = LoggerFactory.getLogger(MastersAllAjaxServlet.class);
     @EJB
     private MasterEJBLocal masterEJB;
 
@@ -46,6 +48,7 @@ public class MastersAllAjaxServlet extends AbstractAjaxServlet {
             resp.setRecordsTotal(masters.size());
             resp.setRecordsFiltered(masters.size());
         } catch (Exception e) {
+            LOG.error("Error.", e);
             resp = DatatablesResponse.buildErrorResponse(req.getDraw(), ExceptionUtils.parse(e));
         }
         return JsonUtils.getGson().toJson(resp);

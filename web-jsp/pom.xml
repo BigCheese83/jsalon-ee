@@ -30,6 +30,10 @@
             <artifactId>gson</artifactId>
         </dependency>
         <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.main.extras</groupId>
             <artifactId>glassfish-embedded-all</artifactId>
         </dependency>

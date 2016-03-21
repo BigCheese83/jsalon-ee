@@ -1,11 +1,15 @@
 package ru.bigcheese.jsalon.core.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
 
 /**
  * Created by BigCheese on 26.08.15.
  */
 public final class NumberUtils {
+    private static final Logger LOG = LoggerFactory.getLogger(NumberUtils.class);
 
     public static Integer toInteger(String str) {
         return toInteger(str, null);
@@ -26,6 +30,7 @@ public final class NumberUtils {
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException e) {
+            LOG.error("Error convert \"{}\" to Integer, return {}.", str, defaultValue);
             return defaultValue;
         }
     }

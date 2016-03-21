@@ -1,3 +1,7 @@
+*.log
+*.tmp
+logs/
+
 #IntelliJIDEA files
 .idea/
 *.iml

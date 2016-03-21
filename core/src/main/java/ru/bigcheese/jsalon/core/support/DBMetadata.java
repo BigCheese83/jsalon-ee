@@ -1,5 +1,8 @@
 package ru.bigcheese.jsalon.core.support;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
@@ -7,6 +10,7 @@ import java.sql.SQLException;
  * Created by BigCheese on 14.12.15.
  */
 public class DBMetadata {
+    private static final Logger LOG = LoggerFactory.getLogger(DBMetadata.class);
 
     private String databaseProductName;
     private String databaseProductVersion;
@@ -32,7 +36,8 @@ public class DBMetadata {
             this.maxConnections = metaData.getMaxConnections();
             this.url = metaData.getURL();
             this.username = metaData.getUserName();
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
+            LOG.error("Error in constructor DBMetadata class.", e);
         }
         int idx = this.url.indexOf('?');
         if (idx != -1) {

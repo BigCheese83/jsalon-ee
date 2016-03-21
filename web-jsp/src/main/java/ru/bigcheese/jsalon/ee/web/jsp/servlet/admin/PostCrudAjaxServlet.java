@@ -1,6 +1,8 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.bigcheese.jsalon.core.exception.ValidationException;
 import ru.bigcheese.jsalon.core.model.Post;
 import ru.bigcheese.jsalon.core.util.NumberUtils;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @WebServlet(name = "PostCrudAjaxServlet", urlPatterns = {"/admin/posts/ajax"})
 public class PostCrudAjaxServlet extends AbstractAjaxServlet {
+    private static final Logger LOG = LoggerFactory.getLogger(PostCrudAjaxServlet.class);
 
     @EJB
     private PostEJBLocal postEJB;
@@ -43,8 +46,10 @@ public class PostCrudAjaxServlet extends AbstractAjaxServlet {
             }
             json = JsonUtils.getGson().toJson(result);
         } catch (ValidationException e) {
+            LOG.error("Validation failed. {}.", e.getMessage());
             json = JsonUtils.getJsonValidateErrors(e);
         } catch (Throwable e) {
+            LOG.error("Error.", e);
             json = JsonUtils.getJsonException(e);
         }
         return json;
