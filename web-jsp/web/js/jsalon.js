@@ -50,6 +50,7 @@ function getAjaxUrlCrud(page) {
         case 'discounts': return "/jsalon/admin/discounts/ajax";
         case 'posts': return "/jsalon/admin/posts/ajax";
         case 'services': return "/jsalon/admin/services/ajax";
+        case 'postservice': return "/jsalon/admin/postservice/ajax";
         case 'user': return "/jsalon/admin/user/ajax";
         case 'master': return "/jsalon/admin/master/ajax";
         case 'client': return "/jsalon/user/client/ajax";

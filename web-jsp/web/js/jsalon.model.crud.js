@@ -52,6 +52,13 @@ $(function(){
                 { targets: [3], data: "duration" },
                 { targets: [4], data: "description" } ];
             break;
+        case 'postservice':
+            colDefs = [
+                { targets: [0,1,2], className: "dt-col-center" },
+                { targets: [0], data: "id", width: "15px", searchable: false },
+                { targets: [1], data: "postName" },
+                { targets: [2], data: "serviceName" } ];
+            break;
         case 'user':
             colDefs = [
                 { targets: [0,1,2,3,4], className: "dt-col-center" },
@@ -182,6 +189,7 @@ $(function(){
             type: "POST",
             data: $form.serialize(),
             success: function(data) {
+                if (!data) return;
                 if (data.hasOwnProperty('err')) {
                     data.err.forEach(function(item){
                         $actMessage.append(item + '<br/>');

@@ -36,6 +36,11 @@
         <put-attribute name="body" value="/WEB-INF/tiles/body_table_services.jsp"/>
         <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_model_crud.jsp"/>
     </definition>
+    <definition name="admin.table.postservice" extends="base.admin.template">
+        <put-attribute name="title" value="Консоль администратора - Справочники/Связь Должности-Услуги"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_table_post_service.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_model_crud.jsp"/>
+    </definition>
     <definition name="admin.masters" extends="base.admin.template">
         <put-attribute name="title" value="Консоль администратора - Все мастера"/>
         <put-attribute name="body" value="/WEB-INF/tiles/body_masters_all.jsp"/>

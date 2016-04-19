@@ -15,6 +15,7 @@
                 <li><a href="<c:url value="/admin/discounts"/>">Скидки</a></li>
                 <li><a href="<c:url value="/admin/posts"/>">Должности</a></li>
                 <li><a href="<c:url value="/admin/services"/>">Услуги</a></li>
+                <li><a href="<c:url value="/admin/postservice"/>">Связь Должности-Услуги</a></li>
             </ul>
         </li>
         <li>

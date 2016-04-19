@@ -10,6 +10,7 @@
         <class>ru.bigcheese.jsalon.ee.dao.entity.PassportEntity</class>
         <class>ru.bigcheese.jsalon.ee.dao.entity.PostEntity</class>
         <class>ru.bigcheese.jsalon.ee.dao.entity.ServiceEntity</class>
+        <class>ru.bigcheese.jsalon.ee.dao.entity.PostServiceEntity</class>
         <properties>
             <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.H2Platform"/>
             <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
@@ -21,7 +22,8 @@
             <property name="javax.persistence.jdbc.user" value="sa"/>
             <property name="javax.persistence.jdbc.password" value=""/>
             <!--<property name="javax.persistence.sql-load-script-source" value="insert.sql"/>-->
-            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.weaving" value="static"/>
             <!--<property name="eclipselink.canonicalmodel.subpackage" value="test"/>-->
         </properties>
     </persistence-unit>

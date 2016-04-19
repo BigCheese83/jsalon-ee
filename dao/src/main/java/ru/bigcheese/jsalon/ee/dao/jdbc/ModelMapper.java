@@ -39,6 +39,19 @@ public final class ModelMapper {
         }
     };
 
+    public static final RowMapper<PostServiceBind> POST_SERVICE_MAPPER = new RowMapper<PostServiceBind>() {
+        @Override
+        public PostServiceBind mapRow(ResultSet rs) throws SQLException {
+            PostServiceBind result = new PostServiceBind();
+            result.setId(rs.getLong("id"));
+            result.setPostId(rs.getLong("post_id"));
+            result.setServiceId(rs.getLong("service_id"));
+            result.setPostName(rs.getString("post_name"));
+            result.setServiceName(rs.getString("service_name"));
+            return result;
+        }
+    };
+
     public static final RowMapper<User> USER_MAPPER = new RowMapper<User>() {
         @Override
         public User mapRow(ResultSet rs) throws SQLException {

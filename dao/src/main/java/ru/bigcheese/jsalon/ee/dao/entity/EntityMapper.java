@@ -218,4 +218,21 @@ public final class EntityMapper {
         }
         return result;
     }
+
+    public static PostServiceBind toPostServiceBind(PostServiceEntity entity) {
+        if (entity == null) return null;
+        PostServiceBind result = new PostServiceBind();
+        result.setId(entity.getId());
+        if (entity.getPost() != null) {
+            result.setPostId(entity.getPost().getId());
+            result.setPostName(entity.getPost().getName());
+        }
+        if (entity.getService() != null) {
+            result.setServiceId(entity.getService().getId());
+            result.setServiceName(entity.getService().getName());
+        }
+        return result;
+    }
+
+
 }

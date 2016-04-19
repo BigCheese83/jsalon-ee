@@ -14,6 +14,10 @@ INSERT INTO services(id, name, cost, duration, description) VALUES (nextval('ser
 INSERT INTO services(id, name, cost, duration, description) VALUES (nextval('services_id_seq'), 'Фотоомоложение лица', 6400, 40, null);
 INSERT INTO services(id, name, cost, duration, description) VALUES (nextval('services_id_seq'), 'Окрашивание волос', 5400, 55, 'краска Loreal');
 
+INSERT INTO posts_services(id, post_id, service_id) VALUES (nextval('posts_services_id_seq'), 2, 3);
+INSERT INTO posts_services(id, post_id, service_id) VALUES (nextval('posts_services_id_seq'), 2, 5);
+INSERT INTO posts_services(id, post_id, service_id) VALUES (nextval('posts_services_id_seq'), 1, 5);
+
 INSERT INTO passport(id, series, num, issued_by, issue_date, subdivision, country, bind_by)
     VALUES (nextval('passport_id_seq'), '0123', '123456', 'ОВД г.Москвы №113-32', '1995-05-12', '033-235', 'Россия', 'MASTER');
 INSERT INTO passport(id, series, num, issued_by, issue_date, subdivision, country, bind_by)
