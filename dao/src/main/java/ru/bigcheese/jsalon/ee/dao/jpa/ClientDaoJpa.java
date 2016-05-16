@@ -1,13 +1,17 @@
 package ru.bigcheese.jsalon.ee.dao.jpa;
 
+import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.Client;
 import ru.bigcheese.jsalon.core.model.Passport;
 import ru.bigcheese.jsalon.ee.dao.ClientDao;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaType;
 import ru.bigcheese.jsalon.ee.dao.entity.ClientEntity;
 import ru.bigcheese.jsalon.ee.dao.entity.EntityMapper;
 import ru.bigcheese.jsalon.ee.dao.qualifier.JPA;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.bigcheese.jsalon.core.model.BindModel.CLIENT;
@@ -67,6 +71,18 @@ public class ClientDaoJpa extends AbstractBaseDaoJpa<Client, Long, ClientEntity>
     @Override
     public List<Client> findLimitClientsByCriteria(int count, QueryCriteria criteria) {
         return findClientsByCriteria(criteria);
+    }
+
+    @Override
+    public List<String> filterClientsByNames(String... names) {
+        String sql = "SELECT surname, name, patronymic FROM clients";
+        String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.PERSON_NAMES, names);
+        List<Object[]> list = (List<Object[]>) getEntityManager().createNativeQuery(sql + criteriaPart).getResultList();
+        List<String> result = new ArrayList<>(list.size());
+        for (Object[] row : list) {
+            result.add(StringUtils.join(row, " ").trim());
+        }
+        return result;
     }
 
     @Override

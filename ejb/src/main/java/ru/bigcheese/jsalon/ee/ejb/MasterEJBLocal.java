@@ -17,4 +17,6 @@ public interface MasterEJBLocal {
     CrudEntityResult<Master> deleteMaster(Long id);
     List<Master> findLimitMastersByCriteria(int count, QueryCriteria criteria);
     List<Master> findMastersByCriteria(QueryCriteria criteria);
+    List<String> filterMastersByNames(String fio);
+    List<String> filterMastersByNamesAndService(String fio, String service);
 }

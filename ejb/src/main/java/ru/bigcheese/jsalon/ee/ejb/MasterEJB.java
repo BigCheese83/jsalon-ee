@@ -1,7 +1,9 @@
 package ru.bigcheese.jsalon.ee.ejb;
 
+import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.Master;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
+import ru.bigcheese.jsalon.core.util.ModelUtils;
 import ru.bigcheese.jsalon.ee.dao.MasterDao;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
@@ -11,7 +13,10 @@ import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import static ru.bigcheese.jsalon.ee.ejb.result.ActionResult.*;
 
@@ -85,5 +90,24 @@ public class MasterEJB implements MasterEJBLocal {
     @Override
     public List<Master> findMastersByCriteria(QueryCriteria criteria) {
         return masterDao.findMastersByCriteria(criteria);
+    }
+
+    @Override
+    public List<String> filterMastersByNames(String fio) {
+        if (StringUtils.isBlank(fio)) {
+            return Collections.emptyList();
+        }
+        return masterDao.filterMastersByNames(ModelUtils.parseFIO(fio.toLowerCase()));
+    }
+
+    @Override
+    public List<String> filterMastersByNamesAndService(String fio, String service) {
+        if (StringUtils.isBlank(fio)) {
+            return Collections.emptyList();
+        }
+        if (StringUtils.isBlank(service)) {
+            return filterMastersByNames(fio);
+        }
+        return masterDao.filterMastersByNamesAndService(service, ModelUtils.parseFIO(fio.toLowerCase()));
     }
 }

@@ -1,5 +1,6 @@
 package ru.bigcheese.jsalon.ee.dao.jdbc;
 
+import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.*;
 import ru.bigcheese.jsalon.core.util.DateUtils;
 
@@ -302,6 +303,22 @@ public final class ModelMapper {
                 contact.setIcq(rs.getString("icq"));
             }
             return result;
+        }
+    };
+
+    public static final RowMapper<String> PERSON_NAMES_MAPPER = new RowMapper<String>() {
+        @Override
+        public String mapRow(ResultSet rs) throws SQLException {
+            return StringUtils.defaultString(rs.getString("surname")) + " " +
+                    StringUtils.defaultString(rs.getString("name")) + " " +
+                    StringUtils.defaultString(rs.getString("patronymic"));
+        }
+    };
+
+    public static final RowMapper<String> NAME_MAPPER = new RowMapper<String>() {
+        @Override
+        public String mapRow(ResultSet rs) throws SQLException {
+            return rs.getString("name");
         }
     };
 }

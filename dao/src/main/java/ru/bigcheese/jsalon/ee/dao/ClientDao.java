@@ -13,4 +13,5 @@ public interface ClientDao extends BaseDao<Client, Long> {
     boolean existsByPhone(String phone);
     List<Client> findClientsByCriteria(QueryCriteria criteria);
     List<Client> findLimitClientsByCriteria(int count, QueryCriteria criteria);
+    List<String> filterClientsByNames(String... names);
 }

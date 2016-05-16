@@ -3,6 +3,10 @@ body {
     margin: 0;
 }
 
+textarea {
+    resize: none;
+}
+
 #header {
     background: #662c62;
     background: linear-gradient(to right, #ae1db1, #662c62);
@@ -108,13 +112,46 @@ div.form-field label {
     padding-right: 20px;
 }
 
-div.form-field input {
+div.form-field input,textarea {
     width: 205px;
 }
 
 div.form-field select {
     width: 210px;
     font-size: 10pt;
+}
+
+div.form-field label i.fa {
+    margin-right: 10px;
+}
+
+div.center-block div.form-field input,textarea {
+    width: 300px;
+}
+
+div.center-block div.form-field label {
+    margin-bottom: 15px;
+}
+
+div.center-block button {
+    margin-top: 10px;
+}
+
+div.center-block {
+    margin: 0 auto;
+    text-align: center;
+    display: table;
+    font-size: 11pt;
+}
+
+div.border-gray {
+    border: 1px lightgrey solid;
+    margin-bottom: 5px;
+    padding: 15px;
+}
+
+.ui-autocomplete-loading {
+    background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
 }
 
 #deleteConfirm {

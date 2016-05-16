@@ -4,6 +4,8 @@ import ru.bigcheese.jsalon.core.model.*;
 import ru.bigcheese.jsalon.core.util.ModelUtils;
 import ru.bigcheese.jsalon.ee.dao.MasterDao;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaType;
 import ru.bigcheese.jsalon.ee.dao.qualifier.JDBC;
 
 import java.util.Date;
@@ -49,6 +51,12 @@ public class MasterDaoJdbc extends PersonDaoJdbc<Master>
     private static final String EXISTS_BY_ID = "SELECT id FROM masters WHERE id = ?";
     private static final String EXISTS_BY_PASSPORT = "SELECT id FROM passport WHERE series = ? AND num = ? AND bind_by = ?";
 
+    private static final String SELECT_NAMES = "SELECT surname, name, patronymic FROM masters";
+    private static final String SELECT_NAMES_SERVICE =
+            "SELECT m.surname, m.name, m.patronymic FROM masters m " +
+                    "JOIN posts p ON p.id = m.id_post " +
+                    "JOIN posts_services ps ON p.id = ps.post_id " +
+                    "JOIN services s ON s.id = ps.service_id";
 
     @Override
     public void persist(Master model) {
@@ -141,6 +149,18 @@ public class MasterDaoJdbc extends PersonDaoJdbc<Master>
     public List<Master> findLimitMastersByCriteria(int count, QueryCriteria criteria) {
         String criteriaPart = criteria != null ? criteria.buildSQL() : "";
         return fetchMasters(executeLimitQuerySQL(SELECT_ALL + criteriaPart, count, MASTER_MAPPER, null));
+    }
+
+    @Override
+    public List<String> filterMastersByNames(String... names) {
+        String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.PERSON_NAMES, names);
+        return executeQuerySQL(SELECT_NAMES + criteriaPart, PERSON_NAMES_MAPPER, null);
+    }
+
+    @Override
+    public List<String> filterMastersByNamesAndService(String service, String... names) {
+        String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.MASTER_NAMES_SERVICE, service, names);
+        return executeQuerySQL(SELECT_NAMES_SERVICE + criteriaPart, PERSON_NAMES_MAPPER, null);
     }
 
     private List<Master> fetchAllMasters(List<Master> masters) {

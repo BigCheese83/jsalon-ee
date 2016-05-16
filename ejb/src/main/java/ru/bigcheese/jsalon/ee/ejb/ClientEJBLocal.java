@@ -17,4 +17,5 @@ public interface ClientEJBLocal {
     CrudEntityResult<Client> deleteClient(Long id);
     List<Client> findLimitClientsByCriteria(int count, QueryCriteria criteria);
     List<Client> findClientsByCriteria(QueryCriteria criteria);
+    List<String> filterClientsByNames(String fio);
 }

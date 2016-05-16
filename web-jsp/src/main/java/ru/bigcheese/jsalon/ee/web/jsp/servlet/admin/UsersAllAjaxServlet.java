@@ -41,7 +41,8 @@ public class UsersAllAjaxServlet extends AbstractAjaxServlet {
                         .like("firstname", req.getSearchValue(), "x%").or()
                         .like("middlename", req.getSearchValue(), "x%");
             }
-            criteria.orderBy(transformIndex(req.getOrderColumn()), req.getOrderDir())
+            String orderIndex = Integer.toString(transformIndex(req.getOrderColumn()));
+            criteria.orderBy(orderIndex, req.getOrderDir())
                     .limit(req.getLength(), req.getStart());
             List<User> users = userEJB.findLimitUsersByCriteria(req.getLength(), criteria);
             resp.setData(users.toArray());

@@ -128,3 +128,13 @@ function getPropertyOfObject(obj, name) {
     });
     return prop;
 }
+
+function extendObjectFromFormParams(object, form) {
+    if (!object) object = {};
+    if (!form) return object;
+    var arr = form.serializeArray();
+    arr.forEach(function(param){
+        object[param.name] = param.value;
+    });
+    return object;
+}

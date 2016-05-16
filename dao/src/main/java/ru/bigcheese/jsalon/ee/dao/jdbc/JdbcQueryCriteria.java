@@ -17,9 +17,9 @@ public class JdbcQueryCriteria implements QueryCriteria {
     }
 
     @Override
-    public QueryCriteria orderBy(int colNumber, String dir) {
-        if (colNumber > 0) {
-            sb.append(" ORDER BY ").append(colNumber);
+    public QueryCriteria orderBy(String col, String dir) {
+        if (StringUtils.isNotBlank(col)) {
+            sb.append(" ORDER BY ").append(col);
             if ("desc".equalsIgnoreCase(dir)) {
                 sb.append(" ").append(dir);
             }
@@ -59,6 +59,22 @@ public class JdbcQueryCriteria implements QueryCriteria {
     public QueryCriteria or() {
         sb.append(" OR ");
         return this;
+    }
+
+    @Override
+    public String lower(String colName) {
+        if (StringUtils.isBlank(colName)) {
+            return "";
+        }
+        return "lower(" + colName + ")";
+    }
+
+    @Override
+    public String upper(String colName) {
+        if (StringUtils.isBlank(colName)) {
+            return "";
+        }
+        return "upper(" + colName + ")";
     }
 
     @Override

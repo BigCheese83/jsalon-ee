@@ -77,4 +77,9 @@
         <put-attribute name="body" value="/WEB-INF/tiles/body_client_crud.jsp"/>
         <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_model_crud.jsp"/>
     </definition>
+    <definition name="user.appointment" extends="base.user.template">
+        <put-attribute name="title" value="Запись"/>
+        <put-attribute name="body" value="/WEB-INF/tiles/body_appointment.jsp"/>
+        <put-attribute name="scripts" value="/WEB-INF/tiles/scripts_appointment.jsp"/>
+    </definition>
 </tiles-definitions>

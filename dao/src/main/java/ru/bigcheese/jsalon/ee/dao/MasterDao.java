@@ -12,4 +12,6 @@ public interface MasterDao extends BaseDao<Master, Long> {
     boolean existsByPassport(Passport passport);
     List<Master> findMastersByCriteria(QueryCriteria criteria);
     List<Master> findLimitMastersByCriteria(int count, QueryCriteria criteria);
+    List<String> filterMastersByNames(String... names);
+    List<String> filterMastersByNamesAndService(String service, String... names);
 }

@@ -1,13 +1,17 @@
 package ru.bigcheese.jsalon.ee.dao.jpa;
 
+import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.Master;
 import ru.bigcheese.jsalon.core.model.Passport;
 import ru.bigcheese.jsalon.ee.dao.MasterDao;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaType;
 import ru.bigcheese.jsalon.ee.dao.entity.EntityMapper;
 import ru.bigcheese.jsalon.ee.dao.entity.MasterEntity;
 import ru.bigcheese.jsalon.ee.dao.qualifier.JPA;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.bigcheese.jsalon.core.model.BindModel.MASTER;
@@ -60,6 +64,33 @@ public class MasterDaoJpa extends AbstractBaseDaoJpa<Master, Long, MasterEntity>
     @Override
     public List<Master> findLimitMastersByCriteria(int count, QueryCriteria criteria) {
         return findMastersByCriteria(criteria);
+    }
+
+    @Override
+    public List<String> filterMastersByNames(String... names) {
+        String sql = "SELECT surname, name, patronymic FROM masters";
+        String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.PERSON_NAMES, names);
+        List<Object[]> list = (List<Object[]>) getEntityManager().createNativeQuery(sql + criteriaPart).getResultList();
+        return joinNamesList(list);
+    }
+
+    @Override
+    public List<String> filterMastersByNamesAndService(String service, String... names) {
+        String sql = "SELECT m.surname, m.name, m.patronymic FROM masters m " +
+                        "JOIN posts p ON p.id = m.id_post " +
+                        "JOIN posts_services ps ON p.id = ps.post_id " +
+                        "JOIN services s ON s.id = ps.service_id";
+        String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.MASTER_NAMES_SERVICE, service, names);
+        List<Object[]> list = (List<Object[]>) getEntityManager().createNativeQuery(sql + criteriaPart).getResultList();
+        return joinNamesList(list);
+    }
+
+    private List<String> joinNamesList(List<Object[]> list) {
+        List<String> result = new ArrayList<>(list.size());
+        for (Object[] row : list) {
+            result.add(StringUtils.join(row, " ").trim());
+        }
+        return result;
     }
 
     @Override

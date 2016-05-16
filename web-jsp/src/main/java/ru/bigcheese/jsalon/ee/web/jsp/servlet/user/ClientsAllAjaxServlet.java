@@ -41,7 +41,8 @@ public class ClientsAllAjaxServlet extends AbstractAjaxServlet {
                         .like("name", req.getSearchValue(), "x%").or()
                         .like("patronymic", req.getSearchValue(), "x%");
             }
-            criteria.orderBy(transformIndex(req.getOrderColumn()), req.getOrderDir())
+            String orderIndex = Integer.toString(transformIndex(req.getOrderColumn()));
+            criteria.orderBy(orderIndex, req.getOrderDir())
                     .limit(req.getLength(), req.getStart());
             List<Client> clients = clientEJB.findLimitClientsByCriteria(req.getLength(), criteria);
             resp.setData(ClientTO.toList(clients).toArray());

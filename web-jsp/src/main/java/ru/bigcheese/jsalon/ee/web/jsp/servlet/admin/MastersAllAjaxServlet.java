@@ -40,7 +40,8 @@ public class MastersAllAjaxServlet extends AbstractAjaxServlet {
                         .like("name", req.getSearchValue(), "x%").or()
                         .like("patronymic", req.getSearchValue(), "x%");
             }
-            criteria.orderBy(transformIndex(req.getOrderColumn()), req.getOrderDir())
+            String orderIndex = Integer.toString(transformIndex(req.getOrderColumn()));
+            criteria.orderBy(orderIndex, req.getOrderDir())
                     .limit(req.getLength(), req.getStart());
             List<Master> masters = masterEJB.findLimitMastersByCriteria(req.getLength(), criteria);
             resp.setData(MasterTO.toList(masters).toArray());

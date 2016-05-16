@@ -41,4 +41,17 @@ public final class DBUtils {
         }
         return result;
     }
+
+    /**
+     * Escape special characters that matter to LIKE statement
+     * Default escape symbol is '!'
+     * @param input String param for LIKE statement
+     * @return Escaped string param
+     */
+    public static String likeSanitize(String input) {
+        return input.replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+    }
 }

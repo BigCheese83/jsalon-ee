@@ -1,7 +1,9 @@
 package ru.bigcheese.jsalon.ee.ejb;
 
+import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.Service;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
+import ru.bigcheese.jsalon.core.util.ModelUtils;
 import ru.bigcheese.jsalon.ee.dao.ServiceDao;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 import ru.bigcheese.jsalon.ee.ejb.result.FindResult;
@@ -10,6 +12,7 @@ import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.Collections;
 import java.util.List;
 
 import static ru.bigcheese.jsalon.ee.ejb.result.ActionResult.*;
@@ -79,5 +82,24 @@ public class ServiceEJB implements ServiceEJBLocal {
         } catch (Throwable e) {
             return new FindResult<>(FATAL_ERROR, ExceptionUtils.parse(e));
         }
+    }
+
+    @Override
+    public List<String> filterServicesByName(String name) {
+        if (StringUtils.isBlank(name)) {
+            return Collections.emptyList();
+        }
+        return serviceDao.filterServicesByName(name.toLowerCase());
+    }
+
+    @Override
+    public List<String> filterServicesByNameAndMaster(String name, String fio) {
+        if (StringUtils.isBlank(name)) {
+            return Collections.emptyList();
+        }
+        if (StringUtils.isBlank(fio)) {
+            return filterServicesByName(name);
+        }
+        return serviceDao.filterServicesByNameAndMaster(name.toLowerCase(), ModelUtils.parseFIO(fio));
     }
 }

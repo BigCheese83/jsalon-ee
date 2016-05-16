@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -131,14 +132,5 @@ public abstract class AbstractBaseDaoJpa<T extends BaseModel, K extends Serializ
             query.setParameter(pos++, param);
         }
         return toModelList((List<E>)query.getResultList());
-    }
-
-    <X> List<X> executeNativeQuery(String sql, Class<X> targetClass, Object... params) {
-        Query query = entityManager.createNativeQuery(sql, targetClass);
-        int pos = 1;
-        for (Object param : params) {
-            query.setParameter(pos++, param);
-        }
-        return query.getResultList();
     }
 }

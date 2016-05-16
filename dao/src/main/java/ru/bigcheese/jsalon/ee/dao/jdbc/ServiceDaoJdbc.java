@@ -1,12 +1,16 @@
 package ru.bigcheese.jsalon.ee.dao.jdbc;
 
 import ru.bigcheese.jsalon.core.model.Service;
+import ru.bigcheese.jsalon.core.util.DBUtils;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaType;
 import ru.bigcheese.jsalon.ee.dao.ServiceDao;
 import ru.bigcheese.jsalon.ee.dao.qualifier.JDBC;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+import static ru.bigcheese.jsalon.ee.dao.jdbc.ModelMapper.NAME_MAPPER;
 import static ru.bigcheese.jsalon.ee.dao.jdbc.ModelMapper.SERVICE_MAPPER;
 
 /**
@@ -29,6 +33,12 @@ public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
     private static final String SELECT_BY_NAME = "SELECT * FROM services WHERE name = ?";
     private static final String EXISTS_BY_ID =   "SELECT id FROM services WHERE id = ?";
     private static final String EXISTS_BY_NAME = "SELECT name FROM services WHERE name = ?";
+    private static final String FILTER_BY_NAME = "SELECT name FROM services WHERE lower(name) LIKE ? ESCAPE '!' ORDER BY name";
+    private static final String FILTER_BY_NAME_MASTER =
+            "SELECT s.name FROM services s " +
+                "JOIN posts_services ps ON s.id = ps.service_id " +
+                "JOIN posts p ON p.id = ps.post_id " +
+                "JOIN masters m ON p.id = m.id_post ";
 
     @Override
     public void persist(Service model) {
@@ -94,5 +104,17 @@ public class ServiceDaoJdbc extends AbstractBaseDaoJdbc<Service, Long>
     public boolean existsByName(String name) {
         return null != executeQuerySQL(EXISTS_BY_NAME, String.class, new Object[]{
                 getParam(name, String.class)});
+    }
+
+    @Override
+    public List<String> filterServicesByName(String name) {
+        String param = DBUtils.likeSanitize(name) + "%";
+        return executeQuerySQL(FILTER_BY_NAME, NAME_MAPPER, new Object[]{param});
+    }
+
+    @Override
+    public List<String> filterServicesByNameAndMaster(String name, String... fio) {
+        String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.SERVICE_NAME_MASTER, name, fio);
+        return executeQuerySQL(FILTER_BY_NAME_MASTER + criteriaPart, NAME_MAPPER, null);
     }
 }

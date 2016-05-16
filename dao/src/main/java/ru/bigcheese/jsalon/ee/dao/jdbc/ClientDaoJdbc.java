@@ -4,9 +4,12 @@ import ru.bigcheese.jsalon.core.model.*;
 import ru.bigcheese.jsalon.core.util.ModelUtils;
 import ru.bigcheese.jsalon.ee.dao.ClientDao;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
+import ru.bigcheese.jsalon.ee.dao.QueryCriteriaType;
 import ru.bigcheese.jsalon.ee.dao.qualifier.JDBC;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +52,8 @@ public class ClientDaoJdbc extends PersonDaoJdbc<Client>
                 "p.country as passp_country, p.issue_date, p.issued_by, p.num, p.series, p.subdivision " +
             "FROM {oj clients c LEFT OUTER JOIN discounts d ON (d.id = c.id_discount) LEFT OUTER JOIN address live ON (live.id = c.id_live_address)}, passport p, address reg, contacts cont " +
             "WHERE ((c.id = ?) AND (((cont.id = c.id_contact) AND (reg.id = c.id_reg_address)) AND (p.id = c.id_passport)))";
+
+    private static final String SELECT_NAMES = "SELECT surname, name, patronymic FROM clients";
 
     @Override
     public void persist(Client model) {
@@ -149,6 +154,12 @@ public class ClientDaoJdbc extends PersonDaoJdbc<Client>
     public List<Client> findLimitClientsByCriteria(int count, QueryCriteria criteria) {
         String criteriaPart = criteria != null ? criteria.buildSQL() : "";
         return fetchClients(executeLimitQuerySQL(SELECT_ALL + criteriaPart, count, CLIENT_MAPPER, null));
+    }
+
+    @Override
+    public List<String> filterClientsByNames(String... names) {
+        String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.PERSON_NAMES, names);
+        return executeQuerySQL(SELECT_NAMES + criteriaPart, PERSON_NAMES_MAPPER, null);
     }
 
     private List<Client> fetchAllClients(List<Client> clients) {

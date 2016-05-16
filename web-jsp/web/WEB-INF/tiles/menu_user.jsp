@@ -9,5 +9,6 @@
                 <li><a href="<c:url value="/user/client"/>">Поиск/Редактирование</a></li>
             </ul>
         </li>
+        <li><a href="<c:url value="/user/appointment"/>"><i class="fa fa-calendar-check-o"></i> Запись</a></li>
     </ul>
 </div><!-- End div menu -->

@@ -1,5 +1,6 @@
 package ru.bigcheese.jsalon.ee.ejb;
 
+import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.Client;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 import ru.bigcheese.jsalon.ee.dao.ClientDao;
@@ -10,7 +11,10 @@ import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import static ru.bigcheese.jsalon.ee.ejb.result.ActionResult.*;
 
@@ -87,5 +91,18 @@ public class ClientEJB implements ClientEJBLocal {
     @Override
     public List<Client> findClientsByCriteria(QueryCriteria criteria) {
         return clientDao.findClientsByCriteria(criteria);
+    }
+
+    @Override
+    public List<String> filterClientsByNames(String fio) {
+        if (StringUtils.isBlank(fio)) {
+            return Collections.emptyList();
+        }
+        List<String> names = new ArrayList<>(3);
+        StringTokenizer tokenizer = new StringTokenizer(fio.toLowerCase(), " ");
+        while (tokenizer.hasMoreTokens() && names.size() < 3) {
+            names.add(tokenizer.nextToken());
+        }
+        return clientDao.filterClientsByNames(names.toArray(new String[names.size()]));
     }
 }
