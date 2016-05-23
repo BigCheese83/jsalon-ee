@@ -2,6 +2,7 @@ package ru.bigcheese.jsalon.ee.ejb;
 
 import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.Master;
+import ru.bigcheese.jsalon.core.model.ModelTO;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 import ru.bigcheese.jsalon.core.util.ModelUtils;
 import ru.bigcheese.jsalon.ee.dao.MasterDao;
@@ -93,7 +94,7 @@ public class MasterEJB implements MasterEJBLocal {
     }
 
     @Override
-    public List<String> filterMastersByNames(String fio) {
+    public List<ModelTO> filterMastersByNames(String fio) {
         if (StringUtils.isBlank(fio)) {
             return Collections.emptyList();
         }
@@ -101,7 +102,7 @@ public class MasterEJB implements MasterEJBLocal {
     }
 
     @Override
-    public List<String> filterMastersByNamesAndService(String fio, String service) {
+    public List<ModelTO> filterMastersByNamesAndService(String fio, String service) {
         if (StringUtils.isBlank(fio)) {
             return Collections.emptyList();
         }

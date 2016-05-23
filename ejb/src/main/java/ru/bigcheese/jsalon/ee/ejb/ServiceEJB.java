@@ -1,6 +1,7 @@
 package ru.bigcheese.jsalon.ee.ejb;
 
 import org.apache.commons.lang3.StringUtils;
+import ru.bigcheese.jsalon.core.model.ModelTO;
 import ru.bigcheese.jsalon.core.model.Service;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 import ru.bigcheese.jsalon.core.util.ModelUtils;
@@ -85,7 +86,7 @@ public class ServiceEJB implements ServiceEJBLocal {
     }
 
     @Override
-    public List<String> filterServicesByName(String name) {
+    public List<ModelTO> filterServicesByName(String name) {
         if (StringUtils.isBlank(name)) {
             return Collections.emptyList();
         }
@@ -93,7 +94,7 @@ public class ServiceEJB implements ServiceEJBLocal {
     }
 
     @Override
-    public List<String> filterServicesByNameAndMaster(String name, String fio) {
+    public List<ModelTO> filterServicesByNameAndMaster(String name, String fio) {
         if (StringUtils.isBlank(name)) {
             return Collections.emptyList();
         }

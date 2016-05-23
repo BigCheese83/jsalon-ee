@@ -11,10 +11,12 @@
             <class>ru.bigcheese.jsalon.ee.dao.entity.PostEntity</class>
             <class>ru.bigcheese.jsalon.ee.dao.entity.ServiceEntity</class>
             <class>ru.bigcheese.jsalon.ee.dao.entity.PostServiceEntity</class>
+            <class>ru.bigcheese.jsalon.ee.dao.entity.AppointmentEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.target-database" value="PostgreSQL"/>
             <property name="eclipselink.logging.level" value="INFO"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
             <property name="eclipselink.weaving" value="static"/>
             <!--<property name="eclipselink.canonicalmodel.subpackage" value="release"/>-->
         </properties>

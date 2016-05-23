@@ -53,7 +53,7 @@ public class ClientDaoJdbc extends PersonDaoJdbc<Client>
             "FROM {oj clients c LEFT OUTER JOIN discounts d ON (d.id = c.id_discount) LEFT OUTER JOIN address live ON (live.id = c.id_live_address)}, passport p, address reg, contacts cont " +
             "WHERE ((c.id = ?) AND (((cont.id = c.id_contact) AND (reg.id = c.id_reg_address)) AND (p.id = c.id_passport)))";
 
-    private static final String SELECT_NAMES = "SELECT surname, name, patronymic FROM clients";
+    private static final String SELECT_NAMES = "SELECT id, surname, name, patronymic FROM clients";
 
     @Override
     public void persist(Client model) {
@@ -157,7 +157,7 @@ public class ClientDaoJdbc extends PersonDaoJdbc<Client>
     }
 
     @Override
-    public List<String> filterClientsByNames(String... names) {
+    public List<ModelTO> filterClientsByNames(String... names) {
         String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.PERSON_NAMES, names);
         return executeQuerySQL(SELECT_NAMES + criteriaPart, PERSON_NAMES_MAPPER, null);
     }

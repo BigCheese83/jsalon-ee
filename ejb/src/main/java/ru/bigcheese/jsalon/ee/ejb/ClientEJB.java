@@ -2,6 +2,7 @@ package ru.bigcheese.jsalon.ee.ejb;
 
 import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.Client;
+import ru.bigcheese.jsalon.core.model.ModelTO;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 import ru.bigcheese.jsalon.ee.dao.ClientDao;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
@@ -94,7 +95,7 @@ public class ClientEJB implements ClientEJBLocal {
     }
 
     @Override
-    public List<String> filterClientsByNames(String fio) {
+    public List<ModelTO> filterClientsByNames(String fio) {
         if (StringUtils.isBlank(fio)) {
             return Collections.emptyList();
         }

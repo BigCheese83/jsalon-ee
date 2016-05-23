@@ -68,3 +68,14 @@ INSERT INTO clients(id, surname, name, patronymic, birth_date, registration_date
     VALUES (nextval('clients_id_seq'), 'Чутов', 'Сергей', 'Александрович', '1979-06-04', '2015-03-20', 4, 6, 7, 4, NULL, TRUE);
 INSERT INTO clients(id, surname, name, patronymic, birth_date, registration_date, id_passport, id_reg_address, id_live_address, id_contact, id_discount, in_black)
     VALUES (nextval('clients_id_seq'), 'Шведов', 'Александр', 'Вячеславович', '1978-09-10', '2015-03-25', 5, 8, 9, 5, 1, FALSE);
+
+INSERT INTO schedule(id, appoint_date, appoint_time, master_id, client_id, service_id, note, status)
+    VALUES (nextval('schedule_id_seq'), '2016-05-10', 750, 1, 1, 5, 'Отменен клиентом', 'CANCELLED');
+INSERT INTO schedule(id, appoint_date, appoint_time, master_id, client_id, service_id, note, status)
+    VALUES (nextval('schedule_id_seq'), '2016-05-10', 600, 1, 1, 5, NULL, 'DONE');
+INSERT INTO schedule(id, appoint_date, appoint_time, master_id, client_id, service_id, note, status)
+    VALUES (nextval('schedule_id_seq'), '2016-05-10', 930, 2, 2, 3, NULL, 'DONE');
+INSERT INTO schedule(id, appoint_date, appoint_time, master_id, client_id, service_id, note, status)
+    VALUES (nextval('schedule_id_seq'), '2016-05-11', 840, 1, 2, 5, NULL, 'CREATED');
+INSERT INTO schedule(id, appoint_date, appoint_time, master_id, client_id, service_id, note, status)
+    VALUES (nextval('schedule_id_seq'), '2016-05-11', 870, 2, 1, 3, NULL, 'CREATED');

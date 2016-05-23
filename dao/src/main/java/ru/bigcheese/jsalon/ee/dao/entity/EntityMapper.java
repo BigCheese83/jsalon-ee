@@ -1,6 +1,9 @@
 package ru.bigcheese.jsalon.ee.dao.entity;
 
 import ru.bigcheese.jsalon.core.model.*;
+import ru.bigcheese.jsalon.core.util.DateUtils;
+
+import java.util.Calendar;
 
 /**
  * Created by BigCheese on 06.08.15.
@@ -234,5 +237,34 @@ public final class EntityMapper {
         return result;
     }
 
+    public static Appointment toAppointmentModel(AppointmentEntity entity) {
+        if (entity == null) return null;
+        Appointment result = new Appointment();
+        result.setId(entity.getId());
+        result.setAppointmentDate(DateUtils.addMinutes(entity.getAppointmentDate(), entity.getAppointmentTime()));
+        result.setClientId(entity.getClientId());
+        result.setMasterId(entity.getMasterId());
+        result.setServiceId(entity.getServiceId());
+        result.setNote(entity.getNote());
+        result.setStatus(entity.getStatus());
+        return result;
+    }
 
+    public static AppointmentEntity toAppointmentEntity(Appointment model) {
+        if (model == null) return null;
+        AppointmentEntity result = new AppointmentEntity();
+        result.setId(model.getId());
+        if (model.getAppointmentDate() != null) {
+            result.setAppointmentDate(model.getAppointmentDate());
+            int hours = model.getAppointmentDate().get(Calendar.HOUR_OF_DAY);
+            int minutes = model.getAppointmentDate().get(Calendar.MINUTE);
+            result.setAppointmentTime(hours*60 + minutes);
+        }
+        result.setClientId(model.getClientId());
+        result.setMasterId(model.getMasterId());
+        result.setServiceId(model.getServiceId());
+        result.setNote(model.getNote());
+        result.setStatus(model.getStatus());
+        return result;
+    }
 }

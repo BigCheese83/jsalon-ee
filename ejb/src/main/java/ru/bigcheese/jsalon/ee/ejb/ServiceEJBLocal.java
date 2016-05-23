@@ -1,5 +1,6 @@
 package ru.bigcheese.jsalon.ee.ejb;
 
+import ru.bigcheese.jsalon.core.model.ModelTO;
 import ru.bigcheese.jsalon.core.model.Service;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 import ru.bigcheese.jsalon.ee.ejb.result.FindResult;
@@ -16,6 +17,6 @@ public interface ServiceEJBLocal {
     CrudEntityResult<Service> updateService(Service service);
     CrudEntityResult<Service> deleteService(Long id);
     FindResult<Service> getAllServices();
-    List<String> filterServicesByName(String name);
-    List<String> filterServicesByNameAndMaster(String name, String fio);
+    List<ModelTO> filterServicesByName(String name);
+    List<ModelTO> filterServicesByNameAndMaster(String name, String fio);
 }

@@ -6,6 +6,7 @@ import ru.bigcheese.jsalon.core.util.DateUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 
 /**
  * Default Row-to-Model Mappers
@@ -306,19 +307,37 @@ public final class ModelMapper {
         }
     };
 
-    public static final RowMapper<String> PERSON_NAMES_MAPPER = new RowMapper<String>() {
+    public static final RowMapper<ModelTO> PERSON_NAMES_MAPPER = new RowMapper<ModelTO>() {
         @Override
-        public String mapRow(ResultSet rs) throws SQLException {
-            return StringUtils.defaultString(rs.getString("surname")) + " " +
-                    StringUtils.defaultString(rs.getString("name")) + " " +
-                    StringUtils.defaultString(rs.getString("patronymic"));
+        public ModelTO mapRow(ResultSet rs) throws SQLException {
+            String surname = StringUtils.defaultString(rs.getString("surname"));
+            String name = StringUtils.defaultString(rs.getString("name"));
+            String patronymic = StringUtils.defaultString(rs.getString("patronymic"));
+            return new ModelTO(rs.getLong("id"), surname, name, patronymic);
+
         }
     };
 
-    public static final RowMapper<String> NAME_MAPPER = new RowMapper<String>() {
+    public static final RowMapper<ModelTO> NAME_MAPPER = new RowMapper<ModelTO>() {
         @Override
-        public String mapRow(ResultSet rs) throws SQLException {
-            return rs.getString("name");
+        public ModelTO mapRow(ResultSet rs) throws SQLException {
+            return new ModelTO(rs.getLong("id"), rs.getString("name"));
+        }
+    };
+
+    public static final RowMapper<Appointment> APPOINTMENT_MAPPER = new RowMapper<Appointment>() {
+        @Override
+        public Appointment mapRow(ResultSet rs) throws SQLException {
+            Appointment result = new Appointment();
+            Calendar date = DateUtils.toCalendar(rs.getDate("appoint_date"));
+            result.setAppointmentDate(DateUtils.addMinutes(date, rs.getInt("appoint_time")));
+            result.setId(rs.getLong("id"));
+            result.setClientId(rs.getLong("client_id"));
+            result.setMasterId(rs.getLong("master_id"));
+            result.setServiceId(rs.getLong("service_id"));
+            result.setNote(rs.getString("note"));
+            result.setStatus(AppointmentStatus.fromName(rs.getString("status")));
+            return result;
         }
     };
 }

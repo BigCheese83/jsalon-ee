@@ -1,6 +1,7 @@
 package ru.bigcheese.jsalon.ee.dao;
 
 import ru.bigcheese.jsalon.core.model.Master;
+import ru.bigcheese.jsalon.core.model.ModelTO;
 import ru.bigcheese.jsalon.core.model.Passport;
 
 import java.util.List;
@@ -12,6 +13,6 @@ public interface MasterDao extends BaseDao<Master, Long> {
     boolean existsByPassport(Passport passport);
     List<Master> findMastersByCriteria(QueryCriteria criteria);
     List<Master> findLimitMastersByCriteria(int count, QueryCriteria criteria);
-    List<String> filterMastersByNames(String... names);
-    List<String> filterMastersByNamesAndService(String service, String... names);
+    List<ModelTO> filterMastersByNames(String... names);
+    List<ModelTO> filterMastersByNamesAndService(String service, String... names);
 }

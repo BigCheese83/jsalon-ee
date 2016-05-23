@@ -51,9 +51,9 @@ public class MasterDaoJdbc extends PersonDaoJdbc<Master>
     private static final String EXISTS_BY_ID = "SELECT id FROM masters WHERE id = ?";
     private static final String EXISTS_BY_PASSPORT = "SELECT id FROM passport WHERE series = ? AND num = ? AND bind_by = ?";
 
-    private static final String SELECT_NAMES = "SELECT surname, name, patronymic FROM masters";
+    private static final String SELECT_NAMES = "SELECT id, surname, name, patronymic FROM masters";
     private static final String SELECT_NAMES_SERVICE =
-            "SELECT m.surname, m.name, m.patronymic FROM masters m " +
+            "SELECT m.id, m.surname, m.name, m.patronymic FROM masters m " +
                     "JOIN posts p ON p.id = m.id_post " +
                     "JOIN posts_services ps ON p.id = ps.post_id " +
                     "JOIN services s ON s.id = ps.service_id";
@@ -152,13 +152,13 @@ public class MasterDaoJdbc extends PersonDaoJdbc<Master>
     }
 
     @Override
-    public List<String> filterMastersByNames(String... names) {
+    public List<ModelTO> filterMastersByNames(String... names) {
         String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.PERSON_NAMES, names);
         return executeQuerySQL(SELECT_NAMES + criteriaPart, PERSON_NAMES_MAPPER, null);
     }
 
     @Override
-    public List<String> filterMastersByNamesAndService(String service, String... names) {
+    public List<ModelTO> filterMastersByNamesAndService(String service, String... names) {
         String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.MASTER_NAMES_SERVICE, service, names);
         return executeQuerySQL(SELECT_NAMES_SERVICE + criteriaPart, PERSON_NAMES_MAPPER, null);
     }

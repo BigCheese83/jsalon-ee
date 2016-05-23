@@ -3,6 +3,7 @@ package ru.bigcheese.jsalon.core.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -22,7 +23,29 @@ public final class DateUtils {
     }
 
     public static java.util.Date toDate(java.sql.Date sqlDate) {
+        return (sqlDate == null) ? null : new Date(sqlDate.getTime());
+    }
+
+    public static java.util.Date toDate(Calendar calendar) {
+        return (calendar == null) ? null : calendar.getTime();
+    }
+
+    public static Calendar toCalendar(java.sql.Date sqlDate) {
         if (sqlDate == null) return null;
-        return new Date(sqlDate.getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(sqlDate.getTime()));
+        return calendar;
+    }
+
+    public static Calendar addMinutes(Calendar date, Integer time) {
+        if (date == null) return null;
+        if (time == null) return date;
+        date.add(Calendar.MINUTE, time);
+        return date;
+    }
+
+    public static Integer getMinutes(Calendar calendar) {
+        if (calendar == null) return null;
+        return calendar.get(Calendar.HOUR_OF_DAY)*60 + calendar.get(Calendar.MINUTE);
     }
 }

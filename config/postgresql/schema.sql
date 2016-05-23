@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.4.4
 -- Dumped by pg_dump version 9.4.0
--- Started on 2016-02-18 11:14:31 MSK
+-- Started on 2016-05-23 15:49:41 MSK
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -24,7 +24,7 @@ CREATE SCHEMA security;
 ALTER SCHEMA security OWNER TO postgres;
 
 --
--- TOC entry 199 (class 3079 OID 12123)
+-- TOC entry 201 (class 3079 OID 12123)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -32,8 +32,8 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2409 (class 0 OID 0)
--- Dependencies: 199
+-- TOC entry 2423 (class 0 OID 0)
+-- Dependencies: 201
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -82,7 +82,7 @@ CREATE SEQUENCE address_id_seq
 ALTER TABLE address_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2410 (class 0 OID 0)
+-- TOC entry 2424 (class 0 OID 0)
 -- Dependencies: 174
 -- Name: address_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -129,7 +129,7 @@ CREATE SEQUENCE clients_id_seq
 ALTER TABLE clients_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2411 (class 0 OID 0)
+-- TOC entry 2425 (class 0 OID 0)
 -- Dependencies: 176
 -- Name: clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -173,7 +173,7 @@ CREATE SEQUENCE contacts_id_seq
 ALTER TABLE contacts_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2412 (class 0 OID 0)
+-- TOC entry 2426 (class 0 OID 0)
 -- Dependencies: 178
 -- Name: contacts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -211,7 +211,7 @@ CREATE SEQUENCE discounts_id_seq
 ALTER TABLE discounts_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2413 (class 0 OID 0)
+-- TOC entry 2427 (class 0 OID 0)
 -- Dependencies: 180
 -- Name: discounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -258,7 +258,7 @@ CREATE SEQUENCE masters_id_seq
 ALTER TABLE masters_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2414 (class 0 OID 0)
+-- TOC entry 2428 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: masters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -301,7 +301,7 @@ CREATE SEQUENCE passport_id_seq
 ALTER TABLE passport_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2415 (class 0 OID 0)
+-- TOC entry 2429 (class 0 OID 0)
 -- Dependencies: 184
 -- Name: passport_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -338,12 +338,50 @@ CREATE SEQUENCE posts_id_seq
 ALTER TABLE posts_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2416 (class 0 OID 0)
+-- TOC entry 2430 (class 0 OID 0)
 -- Dependencies: 186
 -- Name: posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE posts_id_seq OWNED BY posts.id;
+
+
+--
+-- TOC entry 198 (class 1259 OID 28134)
+-- Name: posts_services; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE posts_services (
+    id bigint NOT NULL,
+    post_id integer NOT NULL,
+    service_id integer NOT NULL
+);
+
+
+ALTER TABLE posts_services OWNER TO postgres;
+
+--
+-- TOC entry 197 (class 1259 OID 28132)
+-- Name: posts_services_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE posts_services_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE posts_services_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2431 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: posts_services_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE posts_services_id_seq OWNED BY posts_services.id;
 
 
 --
@@ -381,12 +419,55 @@ CREATE SEQUENCE reception_id_seq
 ALTER TABLE reception_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2417 (class 0 OID 0)
+-- TOC entry 2432 (class 0 OID 0)
 -- Dependencies: 188
 -- Name: reception_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE reception_id_seq OWNED BY reception.id;
+
+
+--
+-- TOC entry 199 (class 1259 OID 28251)
+-- Name: schedule; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE schedule (
+    id bigint NOT NULL,
+    appoint_date date NOT NULL,
+    appoint_time integer NOT NULL,
+    master_id integer,
+    client_id integer,
+    service_id integer,
+    note character varying(100),
+    status character varying(20) NOT NULL
+);
+
+
+ALTER TABLE schedule OWNER TO postgres;
+
+--
+-- TOC entry 200 (class 1259 OID 28271)
+-- Name: schedule_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE schedule_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE schedule_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2433 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: schedule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE schedule_id_seq OWNED BY schedule.id;
 
 
 --
@@ -421,7 +502,7 @@ CREATE SEQUENCE services_id_seq
 ALTER TABLE services_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2418 (class 0 OID 0)
+-- TOC entry 2434 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: services_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -429,52 +510,10 @@ ALTER TABLE services_id_seq OWNER TO postgres;
 ALTER SEQUENCE services_id_seq OWNED BY services.id;
 
 
---
--- TOC entry 191 (class 1259 OID 19233)
--- Name: shedule; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE shedule (
-    id bigint NOT NULL,
-    record_date date NOT NULL,
-    id_master integer,
-    id_client integer,
-    id_service integer,
-    note character varying(50),
-    record_time character varying(5) NOT NULL
-);
-
-
-ALTER TABLE shedule OWNER TO postgres;
-
---
--- TOC entry 192 (class 1259 OID 19236)
--- Name: shedule_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE shedule_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE shedule_id_seq OWNER TO postgres;
-
---
--- TOC entry 2419 (class 0 OID 0)
--- Dependencies: 192
--- Name: shedule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE shedule_id_seq OWNED BY shedule.id;
-
-
 SET search_path = security, pg_catalog;
 
 --
--- TOC entry 193 (class 1259 OID 19238)
+-- TOC entry 191 (class 1259 OID 19238)
 -- Name: groups; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
 --
 
@@ -488,7 +527,7 @@ CREATE TABLE groups (
 ALTER TABLE groups OWNER TO postgres;
 
 --
--- TOC entry 194 (class 1259 OID 19241)
+-- TOC entry 192 (class 1259 OID 19241)
 -- Name: groups_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
 --
 
@@ -503,8 +542,8 @@ CREATE SEQUENCE groups_id_seq
 ALTER TABLE groups_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2420 (class 0 OID 0)
--- Dependencies: 194
+-- TOC entry 2435 (class 0 OID 0)
+-- Dependencies: 192
 -- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
 --
 
@@ -512,7 +551,7 @@ ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
 
 
 --
--- TOC entry 195 (class 1259 OID 19243)
+-- TOC entry 193 (class 1259 OID 19243)
 -- Name: user_groups; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
 --
 
@@ -525,7 +564,7 @@ CREATE TABLE user_groups (
 ALTER TABLE user_groups OWNER TO postgres;
 
 --
--- TOC entry 196 (class 1259 OID 19246)
+-- TOC entry 194 (class 1259 OID 19246)
 -- Name: users; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
 --
 
@@ -542,7 +581,7 @@ CREATE TABLE users (
 ALTER TABLE users OWNER TO postgres;
 
 --
--- TOC entry 197 (class 1259 OID 19249)
+-- TOC entry 195 (class 1259 OID 19249)
 -- Name: users_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
 --
 
@@ -557,8 +596,8 @@ CREATE SEQUENCE users_id_seq
 ALTER TABLE users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2421 (class 0 OID 0)
--- Dependencies: 197
+-- TOC entry 2436 (class 0 OID 0)
+-- Dependencies: 195
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
 --
 
@@ -566,7 +605,7 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- TOC entry 198 (class 1259 OID 19560)
+-- TOC entry 196 (class 1259 OID 19560)
 -- Name: v_user_role; Type: VIEW; Schema: security; Owner: postgres
 --
 
@@ -589,7 +628,7 @@ ALTER TABLE v_user_role OWNER TO postgres;
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2224 (class 2604 OID 19255)
+-- TOC entry 2230 (class 2604 OID 19255)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -597,7 +636,7 @@ ALTER TABLE ONLY address ALTER COLUMN id SET DEFAULT nextval('address_id_seq'::r
 
 
 --
--- TOC entry 2225 (class 2604 OID 19256)
+-- TOC entry 2231 (class 2604 OID 19256)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -605,7 +644,7 @@ ALTER TABLE ONLY clients ALTER COLUMN id SET DEFAULT nextval('clients_id_seq'::r
 
 
 --
--- TOC entry 2227 (class 2604 OID 19257)
+-- TOC entry 2233 (class 2604 OID 19257)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -613,7 +652,7 @@ ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq':
 
 
 --
--- TOC entry 2228 (class 2604 OID 19258)
+-- TOC entry 2234 (class 2604 OID 19258)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -621,7 +660,7 @@ ALTER TABLE ONLY discounts ALTER COLUMN id SET DEFAULT nextval('discounts_id_seq
 
 
 --
--- TOC entry 2229 (class 2604 OID 19259)
+-- TOC entry 2235 (class 2604 OID 19259)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -629,7 +668,7 @@ ALTER TABLE ONLY masters ALTER COLUMN id SET DEFAULT nextval('masters_id_seq'::r
 
 
 --
--- TOC entry 2232 (class 2604 OID 19260)
+-- TOC entry 2238 (class 2604 OID 19260)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -637,7 +676,7 @@ ALTER TABLE ONLY passport ALTER COLUMN id SET DEFAULT nextval('passport_id_seq':
 
 
 --
--- TOC entry 2233 (class 2604 OID 19261)
+-- TOC entry 2239 (class 2604 OID 19261)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -645,7 +684,15 @@ ALTER TABLE ONLY posts ALTER COLUMN id SET DEFAULT nextval('posts_id_seq'::regcl
 
 
 --
--- TOC entry 2234 (class 2604 OID 19262)
+-- TOC entry 2244 (class 2604 OID 28137)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY posts_services ALTER COLUMN id SET DEFAULT nextval('posts_services_id_seq'::regclass);
+
+
+--
+-- TOC entry 2240 (class 2604 OID 19262)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -653,25 +700,17 @@ ALTER TABLE ONLY reception ALTER COLUMN id SET DEFAULT nextval('reception_id_seq
 
 
 --
--- TOC entry 2235 (class 2604 OID 19263)
+-- TOC entry 2241 (class 2604 OID 19263)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY services ALTER COLUMN id SET DEFAULT nextval('services_id_seq'::regclass);
 
 
---
--- TOC entry 2236 (class 2604 OID 19264)
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY shedule ALTER COLUMN id SET DEFAULT nextval('shedule_id_seq'::regclass);
-
-
 SET search_path = security, pg_catalog;
 
 --
--- TOC entry 2237 (class 2604 OID 19265)
+-- TOC entry 2242 (class 2604 OID 19265)
 -- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
 --
 
@@ -679,7 +718,7 @@ ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::reg
 
 
 --
--- TOC entry 2238 (class 2604 OID 19266)
+-- TOC entry 2243 (class 2604 OID 19266)
 -- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
 --
 
@@ -689,7 +728,7 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2240 (class 2606 OID 19268)
+-- TOC entry 2246 (class 2606 OID 19268)
 -- Name: address_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -698,7 +737,7 @@ ALTER TABLE ONLY address
 
 
 --
--- TOC entry 2242 (class 2606 OID 19270)
+-- TOC entry 2248 (class 2606 OID 19270)
 -- Name: clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -707,7 +746,7 @@ ALTER TABLE ONLY clients
 
 
 --
--- TOC entry 2244 (class 2606 OID 28018)
+-- TOC entry 2250 (class 2606 OID 28018)
 -- Name: contacts_phone_bind_by_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -716,7 +755,7 @@ ALTER TABLE ONLY contacts
 
 
 --
--- TOC entry 2246 (class 2606 OID 19274)
+-- TOC entry 2252 (class 2606 OID 19274)
 -- Name: contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -725,7 +764,7 @@ ALTER TABLE ONLY contacts
 
 
 --
--- TOC entry 2248 (class 2606 OID 19276)
+-- TOC entry 2254 (class 2606 OID 19276)
 -- Name: discounts_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -734,7 +773,7 @@ ALTER TABLE ONLY discounts
 
 
 --
--- TOC entry 2250 (class 2606 OID 19278)
+-- TOC entry 2256 (class 2606 OID 19278)
 -- Name: discounts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -743,7 +782,7 @@ ALTER TABLE ONLY discounts
 
 
 --
--- TOC entry 2252 (class 2606 OID 19280)
+-- TOC entry 2258 (class 2606 OID 19280)
 -- Name: masters_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -752,7 +791,7 @@ ALTER TABLE ONLY masters
 
 
 --
--- TOC entry 2254 (class 2606 OID 19282)
+-- TOC entry 2260 (class 2606 OID 19282)
 -- Name: passport_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -761,7 +800,7 @@ ALTER TABLE ONLY passport
 
 
 --
--- TOC entry 2256 (class 2606 OID 28016)
+-- TOC entry 2262 (class 2606 OID 28016)
 -- Name: passport_series_num_bind_by_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -770,7 +809,7 @@ ALTER TABLE ONLY passport
 
 
 --
--- TOC entry 2258 (class 2606 OID 19286)
+-- TOC entry 2264 (class 2606 OID 19286)
 -- Name: post_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -779,7 +818,7 @@ ALTER TABLE ONLY posts
 
 
 --
--- TOC entry 2260 (class 2606 OID 19288)
+-- TOC entry 2266 (class 2606 OID 19288)
 -- Name: posts_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -788,7 +827,25 @@ ALTER TABLE ONLY posts
 
 
 --
--- TOC entry 2262 (class 2606 OID 19290)
+-- TOC entry 2284 (class 2606 OID 28139)
+-- Name: posts_services_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY posts_services
+    ADD CONSTRAINT posts_services_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2286 (class 2606 OID 28151)
+-- Name: posts_services_post_id_service_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY posts_services
+    ADD CONSTRAINT posts_services_post_id_service_id_key UNIQUE (post_id, service_id);
+
+
+--
+-- TOC entry 2268 (class 2606 OID 19290)
 -- Name: reception_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -797,7 +854,16 @@ ALTER TABLE ONLY reception
 
 
 --
--- TOC entry 2264 (class 2606 OID 19292)
+-- TOC entry 2288 (class 2606 OID 28255)
+-- Name: schedule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY schedule
+    ADD CONSTRAINT schedule_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2270 (class 2606 OID 19292)
 -- Name: service_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -806,7 +872,7 @@ ALTER TABLE ONLY services
 
 
 --
--- TOC entry 2266 (class 2606 OID 19294)
+-- TOC entry 2272 (class 2606 OID 19294)
 -- Name: services_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -814,19 +880,10 @@ ALTER TABLE ONLY services
     ADD CONSTRAINT services_name_key UNIQUE (name);
 
 
---
--- TOC entry 2268 (class 2606 OID 19296)
--- Name: shedule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY shedule
-    ADD CONSTRAINT shedule_pkey PRIMARY KEY (id);
-
-
 SET search_path = security, pg_catalog;
 
 --
--- TOC entry 2270 (class 2606 OID 19298)
+-- TOC entry 2274 (class 2606 OID 19298)
 -- Name: groups_name_key; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
 --
 
@@ -835,7 +892,7 @@ ALTER TABLE ONLY groups
 
 
 --
--- TOC entry 2272 (class 2606 OID 19300)
+-- TOC entry 2276 (class 2606 OID 19300)
 -- Name: groups_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
 --
 
@@ -844,7 +901,7 @@ ALTER TABLE ONLY groups
 
 
 --
--- TOC entry 2274 (class 2606 OID 19302)
+-- TOC entry 2278 (class 2606 OID 19302)
 -- Name: user_groups_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
 --
 
@@ -853,7 +910,7 @@ ALTER TABLE ONLY user_groups
 
 
 --
--- TOC entry 2276 (class 2606 OID 19304)
+-- TOC entry 2280 (class 2606 OID 19304)
 -- Name: users_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
 --
 
@@ -862,7 +919,7 @@ ALTER TABLE ONLY users
 
 
 --
--- TOC entry 2278 (class 2606 OID 19306)
+-- TOC entry 2282 (class 2606 OID 19306)
 -- Name: users_username_key; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
 --
 
@@ -873,7 +930,7 @@ ALTER TABLE ONLY users
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2279 (class 2606 OID 19307)
+-- TOC entry 2289 (class 2606 OID 19307)
 -- Name: clients_id_contact_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -882,7 +939,7 @@ ALTER TABLE ONLY clients
 
 
 --
--- TOC entry 2280 (class 2606 OID 19312)
+-- TOC entry 2290 (class 2606 OID 19312)
 -- Name: clients_id_discount_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -891,7 +948,7 @@ ALTER TABLE ONLY clients
 
 
 --
--- TOC entry 2281 (class 2606 OID 19317)
+-- TOC entry 2291 (class 2606 OID 19317)
 -- Name: clients_id_live_address_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -900,7 +957,7 @@ ALTER TABLE ONLY clients
 
 
 --
--- TOC entry 2282 (class 2606 OID 19322)
+-- TOC entry 2292 (class 2606 OID 19322)
 -- Name: clients_id_passport_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -909,7 +966,7 @@ ALTER TABLE ONLY clients
 
 
 --
--- TOC entry 2283 (class 2606 OID 19327)
+-- TOC entry 2293 (class 2606 OID 19327)
 -- Name: clients_id_reg_address_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -918,7 +975,7 @@ ALTER TABLE ONLY clients
 
 
 --
--- TOC entry 2285 (class 2606 OID 19803)
+-- TOC entry 2295 (class 2606 OID 19803)
 -- Name: masters_id_contact_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -927,7 +984,7 @@ ALTER TABLE ONLY masters
 
 
 --
--- TOC entry 2287 (class 2606 OID 19813)
+-- TOC entry 2297 (class 2606 OID 19813)
 -- Name: masters_id_live_address_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -936,7 +993,7 @@ ALTER TABLE ONLY masters
 
 
 --
--- TOC entry 2288 (class 2606 OID 19818)
+-- TOC entry 2298 (class 2606 OID 19818)
 -- Name: masters_id_passport_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -945,7 +1002,7 @@ ALTER TABLE ONLY masters
 
 
 --
--- TOC entry 2284 (class 2606 OID 19347)
+-- TOC entry 2294 (class 2606 OID 19347)
 -- Name: masters_id_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -954,7 +1011,7 @@ ALTER TABLE ONLY masters
 
 
 --
--- TOC entry 2286 (class 2606 OID 19808)
+-- TOC entry 2296 (class 2606 OID 19808)
 -- Name: masters_id_reg_address_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -963,18 +1020,54 @@ ALTER TABLE ONLY masters
 
 
 --
--- TOC entry 2289 (class 2606 OID 19357)
--- Name: shedule_id_service_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2301 (class 2606 OID 28140)
+-- Name: posts_services_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY shedule
-    ADD CONSTRAINT shedule_id_service_fkey FOREIGN KEY (id_service) REFERENCES services(id);
+ALTER TABLE ONLY posts_services
+    ADD CONSTRAINT posts_services_post_id_fkey FOREIGN KEY (post_id) REFERENCES posts(id);
+
+
+--
+-- TOC entry 2302 (class 2606 OID 28145)
+-- Name: posts_services_service_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY posts_services
+    ADD CONSTRAINT posts_services_service_id_fkey FOREIGN KEY (service_id) REFERENCES services(id);
+
+
+--
+-- TOC entry 2303 (class 2606 OID 28256)
+-- Name: schedule_client_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY schedule
+    ADD CONSTRAINT schedule_client_id_fkey FOREIGN KEY (client_id) REFERENCES clients(id);
+
+
+--
+-- TOC entry 2304 (class 2606 OID 28261)
+-- Name: schedule_master_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY schedule
+    ADD CONSTRAINT schedule_master_id_fkey FOREIGN KEY (master_id) REFERENCES masters(id);
+
+
+--
+-- TOC entry 2305 (class 2606 OID 28266)
+-- Name: schedule_service_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY schedule
+    ADD CONSTRAINT schedule_service_id_fkey FOREIGN KEY (service_id) REFERENCES services(id);
 
 
 SET search_path = security, pg_catalog;
 
 --
--- TOC entry 2290 (class 2606 OID 19362)
+-- TOC entry 2299 (class 2606 OID 19362)
 -- Name: user_groups_group_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
 --
 
@@ -983,7 +1076,7 @@ ALTER TABLE ONLY user_groups
 
 
 --
--- TOC entry 2291 (class 2606 OID 19367)
+-- TOC entry 2300 (class 2606 OID 19367)
 -- Name: user_groups_user_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
 --
 
@@ -992,7 +1085,7 @@ ALTER TABLE ONLY user_groups
 
 
 --
--- TOC entry 2406 (class 0 OID 0)
+-- TOC entry 2422 (class 0 OID 0)
 -- Dependencies: 7
 -- Name: public; Type: ACL; Schema: -; Owner: aleksey.shulchenkov
 --
@@ -1003,7 +1096,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-02-18 11:14:31 MSK
+-- Completed on 2016-05-23 15:49:41 MSK
 
 --
 -- PostgreSQL database dump complete

@@ -1,6 +1,7 @@
 package ru.bigcheese.jsalon.ee.ejb;
 
 import ru.bigcheese.jsalon.core.model.Master;
+import ru.bigcheese.jsalon.core.model.ModelTO;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 
@@ -17,6 +18,6 @@ public interface MasterEJBLocal {
     CrudEntityResult<Master> deleteMaster(Long id);
     List<Master> findLimitMastersByCriteria(int count, QueryCriteria criteria);
     List<Master> findMastersByCriteria(QueryCriteria criteria);
-    List<String> filterMastersByNames(String fio);
-    List<String> filterMastersByNamesAndService(String fio, String service);
+    List<ModelTO> filterMastersByNames(String fio);
+    List<ModelTO> filterMastersByNamesAndService(String fio, String service);
 }

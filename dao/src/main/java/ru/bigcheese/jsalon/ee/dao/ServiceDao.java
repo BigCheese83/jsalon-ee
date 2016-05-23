@@ -1,5 +1,6 @@
 package ru.bigcheese.jsalon.ee.dao;
 
+import ru.bigcheese.jsalon.core.model.ModelTO;
 import ru.bigcheese.jsalon.core.model.Service;
 
 import java.util.List;
@@ -10,6 +11,6 @@ import java.util.List;
 public interface ServiceDao extends BaseDao<Service, Long> {
     Service getServiceByName(String name);
     boolean existsByName(String name);
-    List<String> filterServicesByName(String name);
-    List<String> filterServicesByNameAndMaster(String name, String... fio);
+    List<ModelTO> filterServicesByName(String name);
+    List<ModelTO> filterServicesByNameAndMaster(String name, String... fio);
 }

@@ -1,7 +1,7 @@
 package ru.bigcheese.jsalon.ee.dao.jpa;
 
-import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.Master;
+import ru.bigcheese.jsalon.core.model.ModelTO;
 import ru.bigcheese.jsalon.core.model.Passport;
 import ru.bigcheese.jsalon.ee.dao.MasterDao;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
@@ -67,16 +67,16 @@ public class MasterDaoJpa extends AbstractBaseDaoJpa<Master, Long, MasterEntity>
     }
 
     @Override
-    public List<String> filterMastersByNames(String... names) {
-        String sql = "SELECT surname, name, patronymic FROM masters";
+    public List<ModelTO> filterMastersByNames(String... names) {
+        String sql = "SELECT id, surname, name, patronymic FROM masters";
         String criteriaPart = QueryCriteriaFactory.buildSQL(QueryCriteriaType.PERSON_NAMES, names);
         List<Object[]> list = (List<Object[]>) getEntityManager().createNativeQuery(sql + criteriaPart).getResultList();
         return joinNamesList(list);
     }
 
     @Override
-    public List<String> filterMastersByNamesAndService(String service, String... names) {
-        String sql = "SELECT m.surname, m.name, m.patronymic FROM masters m " +
+    public List<ModelTO> filterMastersByNamesAndService(String service, String... names) {
+        String sql = "SELECT m.id, m.surname, m.name, m.patronymic FROM masters m " +
                         "JOIN posts p ON p.id = m.id_post " +
                         "JOIN posts_services ps ON p.id = ps.post_id " +
                         "JOIN services s ON s.id = ps.service_id";
@@ -85,10 +85,10 @@ public class MasterDaoJpa extends AbstractBaseDaoJpa<Master, Long, MasterEntity>
         return joinNamesList(list);
     }
 
-    private List<String> joinNamesList(List<Object[]> list) {
-        List<String> result = new ArrayList<>(list.size());
+    private List<ModelTO> joinNamesList(List<Object[]> list) {
+        List<ModelTO> result = new ArrayList<>(list.size());
         for (Object[] row : list) {
-            result.add(StringUtils.join(row, " ").trim());
+            result.add(new ModelTO(row));
         }
         return result;
     }

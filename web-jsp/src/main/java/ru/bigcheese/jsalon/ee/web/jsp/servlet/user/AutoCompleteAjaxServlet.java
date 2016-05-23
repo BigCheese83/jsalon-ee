@@ -1,8 +1,10 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.user;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.bigcheese.jsalon.core.model.ModelTO;
 import ru.bigcheese.jsalon.ee.ejb.ClientEJBLocal;
 import ru.bigcheese.jsalon.ee.ejb.MasterEJBLocal;
 import ru.bigcheese.jsalon.ee.ejb.PostServiceEJBLocal;
@@ -13,7 +15,6 @@ import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
 import javax.ejb.EJB;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,17 +45,17 @@ public class AutoCompleteAjaxServlet extends AbstractAjaxServlet {
         }
         try {
             String id = request.getParameter("id");
-            List<String> list;
+            List<ModelTO> list;
             if (CLIENT_AC.equals(id)) {
                 list = clientEJB.filterClientsByNames(request.getParameter("client"));
             } else if (MASTER_AC.equals(id)) {
-                if ("true".equals(request.getParameter("service-valid"))) {
+                if (NumberUtils.isNumber(request.getParameter("service-id"))) {
                     list = masterEJB.filterMastersByNamesAndService(request.getParameter("master"), request.getParameter("service"));
                 } else {
                     list = masterEJB.filterMastersByNames(request.getParameter("master"));
                 }
             } else if (SERVICE_AC.equals(id)) {
-                if ("true".equals(request.getParameter("master-valid"))) {
+                if (NumberUtils.isNumber(request.getParameter("master-id"))) {
                     list = serviceEJB.filterServicesByNameAndMaster(request.getParameter("service"), request.getParameter("master"));
                 } else {
                     list = serviceEJB.filterServicesByName(request.getParameter("service"));
@@ -62,7 +63,9 @@ public class AutoCompleteAjaxServlet extends AbstractAjaxServlet {
             } else {
                 throw new Exception("Unknown id autocomplete!");
             }
-            json = JsonUtils.getGson().toJson(list);
+            json = JsonUtils.getGsonBuilder()
+                    .registerTypeAdapter(ModelTO.class, JsonUtils.MODEL_TO_SERIALIZER)
+                    .create().toJson(list);
         } catch (Throwable e) {
             LOG.error("Error.", e);
             json = JsonUtils.getJsonException(e);
