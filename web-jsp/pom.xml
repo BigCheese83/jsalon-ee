@@ -65,11 +65,11 @@
                                     <goal>run</goal>
                                 </goals>
                                 <configuration>
-                                    <tasks>
+                                    <target>
                                         <delete file="${project.build.outputDirectory}/env.properties"/>
                                         <copy file="env/env.properties"
                                               tofile="${project.build.outputDirectory}/env.properties"/>
-                                    </tasks>
+                                    </target>
                                 </configuration>
                             </execution>
                         </executions>
@@ -77,10 +77,41 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>PROD</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>com.samaxes.maven</groupId>
+                        <artifactId>minify-maven-plugin</artifactId>
+                        <version>1.7.4</version>
+                        <executions>
+                            <execution>
+                                <id>default-minify</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>minify</goal>
+                                </goals>
+                                <configuration>
+                                    <webappSourceDir>web</webappSourceDir>
+                                    <webappTargetDir>${project.build.directory}/web</webappTargetDir>
+                                    <skipMerge>true</skipMerge>
+                                    <nosuffix>true</nosuffix>
+                                    <verbose>true</verbose>
+                                    <cssSourceDir>css/</cssSourceDir>
+                                    <cssSourceIncludes>
+                                        <cssSourceInclude>*.css</cssSourceInclude>
+                                    </cssSourceIncludes>
+                                    <jsSourceDir>js</jsSourceDir>
+                                    <jsSourceIncludes>
+                                        <jsSourceInclude>*.js</jsSourceInclude>
+                                    </jsSourceIncludes>
+                                    <jsEngine>CLOSURE</jsEngine>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
@@ -90,14 +121,47 @@
                                     <goal>run</goal>
                                 </goals>
                                 <configuration>
-                                    <tasks>
+                                    <target>
                                         <delete file="${project.build.outputDirectory}/env.properties"/>
                                         <copy file="env/env.prod.properties"
                                               tofile="${project.build.outputDirectory}/env.properties"/>
-                                    </tasks>
+                                    </target>
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-resources</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/web</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>web</directory>
+                                            <excludes>
+                                                <exclude>/compressed/**</exclude>
+                                            </excludes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>${project.build.directory}/web</directory>
+                                </resource>
+                            </webResources>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
