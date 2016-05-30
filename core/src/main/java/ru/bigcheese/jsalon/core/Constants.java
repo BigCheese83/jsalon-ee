@@ -18,12 +18,14 @@ public final class Constants {
     /* JVM System Properties */
     public static final Properties JSALON_SYSTEM_PROPERTIES;
     private static final String DAO_IMPLEMENTATION_PROPERTY = "jsalon.dao.implementation";
+    private static final String LOG_PATH_PROPERTY = "jsalon.log.path";
 
     /* JNDI */
     public static final String SALON_JNDI_NAME = "jdbc/salon";
 
     /* DAO Implementation */
     public static final String DAO_IMPLEMENTATION;
+    public static final String LOG_PATH;
 
     /* JPA Persistence Unit */
     public static final String SALON_JPA_PU = "Salon_PU";
@@ -37,22 +39,26 @@ public final class Constants {
     /* Date/Time Formats */
     public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
     public static final String CASUAL_DATE_FORMAT = "dd.MM.yyyy";
+    public static final String CASUAL_DATETIME_FORMAT = "dd.MM.yyyy HH:mm";
 
     static {
         DAO_IMPLEMENTATION = StringUtils.defaultIfBlank(System.getProperty(DAO_IMPLEMENTATION_PROPERTY), "jdbc");
+        LOG_PATH = StringUtils.defaultIfBlank(System.getProperty(LOG_PATH_PROPERTY), "");
         COPYRIGHT_STRING = "\u00a9" + " " + SOFTWARE_NAME + " " + Calendar.getInstance().get(Calendar.YEAR) + " г.";
         ALL_COUNTRIES = initCountries();
         JSALON_SYSTEM_PROPERTIES = initProperties();
+
     }
 
     private static Properties initProperties() {
         Properties props = new Properties();
         props.setProperty(DAO_IMPLEMENTATION_PROPERTY, DAO_IMPLEMENTATION);
+        props.setProperty(LOG_PATH_PROPERTY, LOG_PATH);
         return props;
     }
 
     private static Map<String, String> initCountries() {
-        Map<String, String> map = new LinkedHashMap<String, String>(200);
+        Map<String, String> map = new LinkedHashMap<>(200);
         map.put("AUS", "Австралия");
         map.put("AUT", "Австрия");
         map.put("ALB", "Албания");

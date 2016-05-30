@@ -1,7 +1,6 @@
 package ru.bigcheese.jsalon.ee.web.jsp.tag;
 
-import com.google.gson.GsonBuilder;
-import ru.bigcheese.jsalon.core.Constants;
+import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
@@ -22,10 +21,7 @@ public class JsonObjectTag extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         if (object != null) {
             // Use object from attribute
-            getJspContext().getOut().print(new GsonBuilder()
-                    .serializeNulls()
-                    .setDateFormat(Constants.ISO_DATE_FORMAT)
-                    .create().toJson(object));
+            getJspContext().getOut().print(JsonUtils.getGson().toJson(object));
         }
     }
 }

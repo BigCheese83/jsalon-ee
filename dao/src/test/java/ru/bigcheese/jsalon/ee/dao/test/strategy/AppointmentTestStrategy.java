@@ -1,7 +1,6 @@
 package ru.bigcheese.jsalon.ee.dao.test.strategy;
 
 import ru.bigcheese.jsalon.core.model.Appointment;
-import ru.bigcheese.jsalon.core.model.AppointmentStatus;
 import ru.bigcheese.jsalon.ee.dao.AppointmentDao;
 import ru.bigcheese.jsalon.ee.dao.jdbc.AppointmentDaoJdbc;
 import ru.bigcheese.jsalon.ee.dao.jpa.AppointmentDaoJpa;

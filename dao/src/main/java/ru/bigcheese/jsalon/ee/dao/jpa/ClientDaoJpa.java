@@ -1,7 +1,7 @@
 package ru.bigcheese.jsalon.ee.dao.jpa;
 
 import ru.bigcheese.jsalon.core.model.Client;
-import ru.bigcheese.jsalon.core.model.ModelTO;
+import ru.bigcheese.jsalon.core.model.to.ModelTO;
 import ru.bigcheese.jsalon.core.model.Passport;
 import ru.bigcheese.jsalon.ee.dao.ClientDao;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
@@ -14,7 +14,7 @@ import ru.bigcheese.jsalon.ee.dao.qualifier.JPA;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.bigcheese.jsalon.core.model.BindModel.CLIENT;
+import static ru.bigcheese.jsalon.core.model.enums.BindModel.CLIENT;
 
 /**
  * Created by BigCheese on 11.02.16.

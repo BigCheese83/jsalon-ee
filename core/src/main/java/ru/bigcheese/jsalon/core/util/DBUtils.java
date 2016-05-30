@@ -14,6 +14,12 @@ import java.util.StringTokenizer;
  */
 public final class DBUtils {
 
+    /**
+     * Return list of messages of SQLException
+     *
+     * @param e SQLException
+     * @return list of messages
+     */
     public static List<String> extractSQLMessages(SQLException e) {
         List<String> messages = new ArrayList<>();
         if (e != null) {
@@ -24,6 +30,14 @@ public final class DBUtils {
         return messages;
     }
 
+    /**
+     * Parses text file, contains sql commands. Empty lines is ignored.
+     * Return List of sql queries.
+     *
+     * @param filename file path
+     * @return list of sql queries
+     * @throws IOException
+     */
     public static List<String> parseSQLQueries(String filename) throws IOException {
         List<String> result = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
@@ -45,6 +59,7 @@ public final class DBUtils {
     /**
      * Escape special characters that matter to LIKE statement
      * Default escape symbol is '!'
+     *
      * @param input String param for LIKE statement
      * @return Escaped string param
      */

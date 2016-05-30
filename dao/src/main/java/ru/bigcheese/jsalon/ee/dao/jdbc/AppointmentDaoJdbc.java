@@ -1,7 +1,7 @@
 package ru.bigcheese.jsalon.ee.dao.jdbc;
 
 import ru.bigcheese.jsalon.core.model.Appointment;
-import ru.bigcheese.jsalon.core.model.AppointmentStatus;
+import ru.bigcheese.jsalon.core.model.enums.AppointmentStatus;
 import ru.bigcheese.jsalon.core.util.DateUtils;
 import ru.bigcheese.jsalon.ee.dao.AppointmentDao;
 import ru.bigcheese.jsalon.ee.dao.qualifier.JDBC;

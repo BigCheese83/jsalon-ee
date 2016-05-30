@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @NamedQueries({
     @NamedQuery(name = ServiceEntity.FIND_BY_NAME, query = "SELECT s FROM ServiceEntity s WHERE s.name = ?1"),
     @NamedQuery(name = ServiceEntity.EXISTS_BY_NAME, query = "SELECT s.name FROM ServiceEntity s WHERE s.name = ?1"),
-    @NamedQuery(name = ServiceEntity.FILTER_BY_NAME, query = "SELECT new ru.bigcheese.jsalon.core.model.ModelTO(s.id, s.name) FROM ServiceEntity s WHERE LOWER(s.name) LIKE ?1 ESCAPE '!'")
+    @NamedQuery(name = ServiceEntity.FILTER_BY_NAME, query = "SELECT new ru.bigcheese.jsalon.core.model.to.ModelTO(s.id, s.name) FROM ServiceEntity s WHERE LOWER(s.name) LIKE ?1 ESCAPE '!'")
 })
 public class ServiceEntity extends BaseEntity {
 

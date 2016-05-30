@@ -8,7 +8,7 @@ import ru.bigcheese.jsalon.core.model.User;
 import ru.bigcheese.jsalon.core.util.NumberUtils;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
-import ru.bigcheese.jsalon.ee.ejb.UserEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.UserFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
@@ -29,14 +29,14 @@ public class UserCrudAjaxServlet extends AbstractAjaxServlet {
     private static final Logger LOG = LoggerFactory.getLogger(UserCrudAjaxServlet.class);
 
     @EJB
-    private UserEJBLocal userEJB;
+    private UserFacade userFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
         String json;
         try {
             if ("true".equals(request.getParameter("searchRequest"))) {
-                List<User> users = userEJB.findUsersByCriteria(buildCriteria(request));
+                List<User> users = userFacade.findUsersByCriteria(buildCriteria(request));
                 json = JsonUtils.getGson().toJson(users);
             } else {
                 String radioId = request.getParameter("radioID");
@@ -47,7 +47,7 @@ public class UserCrudAjaxServlet extends AbstractAjaxServlet {
                     String newPassword = request.getParameter("newPassword");
                     String newPassword2 = request.getParameter("newPassword2");
                     validatePassword(newPassword, newPassword2);
-                    result = userEJB.createUser(user, newPassword);
+                    result = userFacade.createUser(user, newPassword);
                 } else if ("editRadio".equals(radioId)) {
                     User user = parseRequest(request);
                     user.validate();
@@ -55,9 +55,9 @@ public class UserCrudAjaxServlet extends AbstractAjaxServlet {
                     String newPassword = request.getParameter("newPassword");
                     String newPassword2 = request.getParameter("newPassword2");
                     validatePassword(newPassword, newPassword2);
-                    result = userEJB.updateUser(user, oldPassword, newPassword);
+                    result = userFacade.updateUser(user, oldPassword, newPassword);
                 } else if ("delRadio".equals(radioId)) {
-                    result = userEJB.deleteUser(NumberUtils.toLong(request.getParameter("id")));
+                    result = userFacade.deleteUser(NumberUtils.toLong(request.getParameter("id")));
                 } else {
                     throw new Exception("Unknown operation");
                 }

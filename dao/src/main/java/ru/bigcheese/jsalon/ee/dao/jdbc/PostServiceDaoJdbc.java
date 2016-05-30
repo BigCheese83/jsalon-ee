@@ -1,6 +1,6 @@
 package ru.bigcheese.jsalon.ee.dao.jdbc;
 
-import ru.bigcheese.jsalon.core.model.PostServiceBind;
+import ru.bigcheese.jsalon.core.model.bind.PostServiceBind;
 import ru.bigcheese.jsalon.ee.dao.PostServiceDao;
 import ru.bigcheese.jsalon.ee.dao.qualifier.JDBC;
 

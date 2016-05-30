@@ -29,14 +29,9 @@
         </fieldset>
         <fieldset>
             <legend><i class="fa fa-file-text-o"></i> System properties</legend>
-            <p>
-                <%
-                    List<String> list = CollectionUtils.listProperties(Constants.JSALON_SYSTEM_PROPERTIES);
-                    for (String s : list) {
-                        out.println(s);
-                    }
-                %>
-            </p>
+            <div>
+                <jsalon:sysprops/>
+            </div>
         </fieldset>
     </fieldset>
 </div><!-- End div content -->

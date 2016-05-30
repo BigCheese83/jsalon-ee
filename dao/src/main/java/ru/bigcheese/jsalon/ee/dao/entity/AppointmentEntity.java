@@ -1,6 +1,6 @@
 package ru.bigcheese.jsalon.ee.dao.entity;
 
-import ru.bigcheese.jsalon.core.model.AppointmentStatus;
+import ru.bigcheese.jsalon.core.model.enums.AppointmentStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;

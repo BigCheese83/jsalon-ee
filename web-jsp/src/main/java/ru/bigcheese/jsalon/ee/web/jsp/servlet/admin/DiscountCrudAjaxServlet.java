@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import ru.bigcheese.jsalon.core.exception.ValidationException;
 import ru.bigcheese.jsalon.core.model.Discount;
 import ru.bigcheese.jsalon.core.util.NumberUtils;
-import ru.bigcheese.jsalon.ee.ejb.DiscountEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.DiscountFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
@@ -23,7 +23,7 @@ public class DiscountCrudAjaxServlet extends AbstractAjaxServlet {
     private static final Logger LOG = LoggerFactory.getLogger(DiscountCrudAjaxServlet.class);
 
     @EJB
-    private DiscountEJBLocal discountEJB;
+    private DiscountFacade discountFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
@@ -34,13 +34,13 @@ public class DiscountCrudAjaxServlet extends AbstractAjaxServlet {
             if ("newRadio".equals(radioId)) {
                 Discount discount = parseRequest(request);
                 discount.validate();
-                result = discountEJB.createDiscount(discount);
+                result = discountFacade.createDiscount(discount);
             } else if ("editRadio".equals(radioId)) {
                 Discount discount = parseRequest(request);
                 discount.validate();
-                result = discountEJB.updateDiscount(discount);
+                result = discountFacade.updateDiscount(discount);
             } else if ("delRadio".equals(radioId)) {
-                result = discountEJB.deleteDiscount(NumberUtils.toLong(request.getParameter("id")));
+                result = discountFacade.deleteDiscount(NumberUtils.toLong(request.getParameter("id")));
             } else {
                 throw new Exception("Unknown operation");
             }

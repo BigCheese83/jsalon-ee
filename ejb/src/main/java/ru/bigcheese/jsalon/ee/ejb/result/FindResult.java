@@ -10,10 +10,6 @@ public class FindResult<T> extends ActionResult {
 
     List<T> result = new ArrayList<>();
 
-    public FindResult() {
-        super();
-    }
-
     public FindResult(int code, String message) {
         super(code, message);
     }
@@ -24,9 +20,5 @@ public class FindResult<T> extends ActionResult {
 
     public List<T> getResult() {
         return result;
-    }
-
-    public void setResult(List<T> result) {
-        this.result = result;
     }
 }

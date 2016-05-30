@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
  */
 public class MasterTestStrategy {
 
-    private static final int NUMBER_OF_MASTERS = 2;
+    private static final int NUMBER_OF_MASTERS = 3;
     private MasterDao masterDao;
 
     public MasterTestStrategy(String name) {
@@ -66,7 +66,7 @@ public class MasterTestStrategy {
 
     public void testDelete() {
         beginTransaction();
-        masterDao.delete(2L);
+        masterDao.delete(3L);
         commitTransaction();
         assertEquals(NUMBER_OF_MASTERS - 1, masterDao.countAll().intValue());
     }

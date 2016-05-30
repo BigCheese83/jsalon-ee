@@ -62,13 +62,12 @@ public class Service extends BaseModel {
         Service service = (Service) o;
         return Objects.equals(name, service.name) &&
                 Objects.equals(cost, service.cost) &&
-                Objects.equals(duration, service.duration) &&
-                Objects.equals(description, service.description);
+                Objects.equals(duration, service.duration);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, cost, duration, description);
+        return Objects.hash(name, cost, duration);
     }
 
     @Override

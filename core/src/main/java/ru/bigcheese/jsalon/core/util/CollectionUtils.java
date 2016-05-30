@@ -7,6 +7,13 @@ import java.util.*;
  */
 public final class CollectionUtils {
 
+    /**
+     * Transform Properties to string List.
+     * String has format "key=value"
+     *
+     * @param properties
+     * @return list of strings
+     */
     public static List<String> listProperties(Properties properties) {
         if (properties == null) return null;
         List<String> result = new ArrayList<>(properties.size());

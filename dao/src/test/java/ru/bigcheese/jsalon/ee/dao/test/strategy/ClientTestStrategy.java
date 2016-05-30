@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
  */
 public class ClientTestStrategy {
 
-    private static final int NUMBER_OF_CLIENTS = 2;
+    private static final int NUMBER_OF_CLIENTS = 3;
     private ClientDao clientDao;
 
     public ClientTestStrategy(String name) {
@@ -66,7 +66,7 @@ public class ClientTestStrategy {
 
     public void testDelete() {
         beginTransaction();
-        clientDao.delete(2L);
+        clientDao.delete(3L);
         commitTransaction();
         assertEquals(NUMBER_OF_CLIENTS - 1, clientDao.countAll().intValue());
     }

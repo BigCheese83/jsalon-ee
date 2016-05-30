@@ -1,7 +1,7 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
 import ru.bigcheese.jsalon.core.model.Post;
-import ru.bigcheese.jsalon.ee.ejb.PostEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.PostFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.ActionResult;
 import ru.bigcheese.jsalon.ee.ejb.result.FindResult;
 import ru.bigcheese.jsalon.ee.web.jsp.util.EJBUtils;
@@ -21,10 +21,10 @@ import java.io.IOException;
 public class PostsServlet extends HttpServlet {
 
     @EJB
-    private PostEJBLocal postEJB;
+    private PostFacade postFacade;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FindResult<Post> result = postEJB.getAllPosts();
+        FindResult<Post> result = postFacade.getAllPosts();
         request.setAttribute("errMessages", EJBUtils.getMessages(ActionResult.FATAL_ERROR, result));
         request.getSession().setAttribute("postsList", result.getResult());
         request.getRequestDispatcher("/WEB-INF/jsp/admin/posts.jsp").forward(request, response);

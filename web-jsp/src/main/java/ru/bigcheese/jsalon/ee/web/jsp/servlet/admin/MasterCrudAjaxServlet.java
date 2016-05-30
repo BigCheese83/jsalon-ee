@@ -11,7 +11,7 @@ import ru.bigcheese.jsalon.core.util.ModelUtils;
 import ru.bigcheese.jsalon.core.util.NumberUtils;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
-import ru.bigcheese.jsalon.ee.ejb.MasterEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.MasterFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
@@ -34,27 +34,27 @@ public class MasterCrudAjaxServlet extends AbstractAjaxServlet {
     private static final Logger LOG = LoggerFactory.getLogger(MasterCrudAjaxServlet.class);
 
     @EJB
-    private MasterEJBLocal masterEJB;
+    private MasterFacade masterFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
         String json;
         try {
             if ("true".equals(request.getParameter("searchRequest"))) {
-                json = JsonUtils.getGson().toJson(masterEJB.findMastersByCriteria(buildCriteria(request)));
+                json = JsonUtils.getGson().toJson(masterFacade.findMastersByCriteria(buildCriteria(request)));
             } else {
                 String radioId = request.getParameter("radioID");
                 CrudEntityResult<Master> result;
                 if ("newRadio".equals(radioId)) {
                     Master master = parseRequest(request);
                     master.validate();
-                    result = masterEJB.createMaster(master);
+                    result = masterFacade.createMaster(master);
                 } else if ("editRadio".equals(radioId)) {
                     Master master = parseRequest(request);
                     master.validate();
-                    result = masterEJB.updateMaster(master);
+                    result = masterFacade.updateMaster(master);
                 } else if ("delRadio".equals(radioId)) {
-                    result = masterEJB.deleteMaster(NumberUtils.toLong(request.getParameter("id")));
+                    result = masterFacade.deleteMaster(NumberUtils.toLong(request.getParameter("id")));
                 } else {
                     throw new Exception("Unknown operation");
                 }

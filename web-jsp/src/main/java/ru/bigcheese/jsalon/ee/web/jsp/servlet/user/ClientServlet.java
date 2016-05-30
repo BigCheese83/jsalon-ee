@@ -1,6 +1,6 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.user;
 
-import ru.bigcheese.jsalon.ee.ejb.DiscountEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.DiscountFacade;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -17,10 +17,10 @@ import java.io.IOException;
 public class ClientServlet extends HttpServlet {
 
     @EJB
-    private DiscountEJBLocal discountEJB;
+    private DiscountFacade discountFacade;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession().setAttribute("discountsList", discountEJB.getAllDiscounts().getResult());
+        request.getSession().setAttribute("discountsList", discountFacade.getAllDiscounts().getResult());
         request.getRequestDispatcher("/WEB-INF/jsp/user/client_crud.jsp").forward(request, response);
     }
 }

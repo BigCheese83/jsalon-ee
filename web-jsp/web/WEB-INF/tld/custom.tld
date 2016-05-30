@@ -23,4 +23,9 @@
         <tag-class>ru.bigcheese.jsalon.ee.web.jsp.tag.OsTag</tag-class>
         <body-content>empty</body-content>
     </tag>
+    <tag>
+        <name>sysprops</name>
+        <tag-class>ru.bigcheese.jsalon.ee.web.jsp.tag.SysPropsTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
 </taglib>

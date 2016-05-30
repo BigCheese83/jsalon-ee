@@ -1,6 +1,6 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
-import ru.bigcheese.jsalon.ee.ejb.PostEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.PostFacade;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -17,10 +17,10 @@ import java.io.IOException;
 public class MasterServlet extends HttpServlet {
 
     @EJB
-    private PostEJBLocal postEJB;
+    private PostFacade postFacade;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession().setAttribute("postsList", postEJB.getAllPosts().getResult());
+        request.getSession().setAttribute("postsList", postFacade.getAllPosts().getResult());
         request.getRequestDispatcher("/WEB-INF/jsp/admin/master_crud.jsp").forward(request, response);
     }
 }

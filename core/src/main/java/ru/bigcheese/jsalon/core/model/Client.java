@@ -9,9 +9,9 @@ import java.util.*;
  */
 public class Client extends Person {
 
-    private Date registrationDate;
-    private Discount discount;
-    private boolean inBlackList;
+    private Date registrationDate;  //Дата регистрации
+    private Discount discount;      //Скидка
+    private boolean inBlackList;    //содержится ли в BlackList
 
     public Date getRegistrationDate() {
         return registrationDate != null ? new Date(registrationDate.getTime()) : null;
@@ -41,7 +41,8 @@ public class Client extends Person {
 
     @Override
     public String toString() {
-        return "Клиент " + getFullFIO() + " [телефон " + getContact().getPhone() + "]";
+        return "Клиент " + getFullFIO() +
+                (getContact() != null ? " [телефон " + getContact().getPhone() + "]" : "");
     }
 
     @Override

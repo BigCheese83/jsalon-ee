@@ -7,11 +7,11 @@ import ru.bigcheese.jsalon.core.model.Master;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
-import ru.bigcheese.jsalon.ee.ejb.MasterEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.MasterFacade;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.support.DatatablesRequest;
 import ru.bigcheese.jsalon.ee.web.jsp.support.DatatablesResponse;
-import ru.bigcheese.jsalon.ee.web.jsp.to.MasterTO;
+import ru.bigcheese.jsalon.core.model.to.MasterTO;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
 
 import javax.ejb.EJB;
@@ -26,7 +26,7 @@ import java.util.List;
 public class MastersAllAjaxServlet extends AbstractAjaxServlet {
     private static final Logger LOG = LoggerFactory.getLogger(MastersAllAjaxServlet.class);
     @EJB
-    private MasterEJBLocal masterEJB;
+    private MasterFacade masterFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
@@ -43,7 +43,7 @@ public class MastersAllAjaxServlet extends AbstractAjaxServlet {
             String orderIndex = Integer.toString(transformIndex(req.getOrderColumn()));
             criteria.orderBy(orderIndex, req.getOrderDir())
                     .limit(req.getLength(), req.getStart());
-            List<Master> masters = masterEJB.findLimitMastersByCriteria(req.getLength(), criteria);
+            List<Master> masters = masterFacade.findLimitMastersByCriteria(req.getLength(), criteria);
             resp.setData(MasterTO.toList(masters).toArray());
             resp.setDraw(req.getDraw());
             resp.setRecordsTotal(masters.size());

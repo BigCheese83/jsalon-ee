@@ -2,21 +2,16 @@ package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
 import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.exception.ValidationException;
-import ru.bigcheese.jsalon.core.model.PostServiceBind;
+import ru.bigcheese.jsalon.core.model.bind.PostServiceBind;
 import ru.bigcheese.jsalon.core.util.NumberUtils;
-import ru.bigcheese.jsalon.ee.ejb.PostServiceEJB;
-import ru.bigcheese.jsalon.ee.ejb.PostServiceEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.PostServiceFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
 
 import javax.ejb.EJB;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Created by BigCheese on 19.04.16.
@@ -25,7 +20,7 @@ import java.io.IOException;
 public class PostServiceAjaxServlet extends AbstractAjaxServlet {
 
     @EJB
-    private PostServiceEJBLocal postServiceEJB;
+    private PostServiceFacade postServiceFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
@@ -36,13 +31,13 @@ public class PostServiceAjaxServlet extends AbstractAjaxServlet {
             if ("newRadio".equals(radioId)) {
                 PostServiceBind bind = parseRequest(request);
                 bind.validate();
-                result = postServiceEJB.createPostServiceBind(bind);
+                result = postServiceFacade.createPostServiceBind(bind);
             } else if ("editRadio".equals(radioId)) {
                 PostServiceBind bind = parseRequest(request);
                 bind.validate();
-                result = postServiceEJB.updatePostServiceBind(bind);
+                result = postServiceFacade.updatePostServiceBind(bind);
             } else if ("delRadio".equals(radioId)) {
-                result = postServiceEJB.deletePostServiceBind(NumberUtils.toLong(request.getParameter("id")));
+                result = postServiceFacade.deletePostServiceBind(NumberUtils.toLong(request.getParameter("id")));
             } else {
                 throw new Exception("Unknown operation");
             }

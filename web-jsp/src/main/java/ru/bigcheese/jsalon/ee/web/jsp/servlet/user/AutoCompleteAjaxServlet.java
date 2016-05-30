@@ -4,11 +4,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.bigcheese.jsalon.core.model.ModelTO;
-import ru.bigcheese.jsalon.ee.ejb.ClientEJBLocal;
-import ru.bigcheese.jsalon.ee.ejb.MasterEJBLocal;
-import ru.bigcheese.jsalon.ee.ejb.PostServiceEJBLocal;
-import ru.bigcheese.jsalon.ee.ejb.ServiceEJBLocal;
+import ru.bigcheese.jsalon.core.model.to.ModelTO;
+import ru.bigcheese.jsalon.ee.ejb.ClientFacade;
+import ru.bigcheese.jsalon.ee.ejb.MasterFacade;
+import ru.bigcheese.jsalon.ee.ejb.PostServiceFacade;
+import ru.bigcheese.jsalon.ee.ejb.ServiceFacade;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
 
@@ -28,13 +28,13 @@ public class AutoCompleteAjaxServlet extends AbstractAjaxServlet {
     private static final String SERVICE_AC = "service-ac";
 
     @EJB
-    private ClientEJBLocal clientEJB;
+    private ClientFacade clientFacade;
     @EJB
-    private MasterEJBLocal masterEJB;
+    private MasterFacade masterFacade;
     @EJB
-    private ServiceEJBLocal serviceEJB;
+    private ServiceFacade serviceFacade;
     @EJB
-    private PostServiceEJBLocal postServiceEJB;
+    private PostServiceFacade postServiceFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
@@ -47,18 +47,18 @@ public class AutoCompleteAjaxServlet extends AbstractAjaxServlet {
             String id = request.getParameter("id");
             List<ModelTO> list;
             if (CLIENT_AC.equals(id)) {
-                list = clientEJB.filterClientsByNames(request.getParameter("client"));
+                list = clientFacade.filterClientsByNames(request.getParameter("client"));
             } else if (MASTER_AC.equals(id)) {
                 if (NumberUtils.isNumber(request.getParameter("service-id"))) {
-                    list = masterEJB.filterMastersByNamesAndService(request.getParameter("master"), request.getParameter("service"));
+                    list = masterFacade.filterMastersByNamesAndService(request.getParameter("master"), request.getParameter("service"));
                 } else {
-                    list = masterEJB.filterMastersByNames(request.getParameter("master"));
+                    list = masterFacade.filterMastersByNames(request.getParameter("master"));
                 }
             } else if (SERVICE_AC.equals(id)) {
                 if (NumberUtils.isNumber(request.getParameter("master-id"))) {
-                    list = serviceEJB.filterServicesByNameAndMaster(request.getParameter("service"), request.getParameter("master"));
+                    list = serviceFacade.filterServicesByNameAndMaster(request.getParameter("service"), request.getParameter("master"));
                 } else {
-                    list = serviceEJB.filterServicesByName(request.getParameter("service"));
+                    list = serviceFacade.filterServicesByName(request.getParameter("service"));
                 }
             } else {
                 throw new Exception("Unknown id autocomplete!");

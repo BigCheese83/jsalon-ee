@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import ru.bigcheese.jsalon.core.exception.ValidationException;
 import ru.bigcheese.jsalon.core.model.Service;
 import ru.bigcheese.jsalon.core.util.NumberUtils;
-import ru.bigcheese.jsalon.ee.ejb.ServiceEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.ServiceFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
@@ -23,7 +23,7 @@ public class ServiceCrudAjaxServlet extends AbstractAjaxServlet {
     private static final Logger LOG = LoggerFactory.getLogger(ServiceCrudAjaxServlet.class);
 
     @EJB
-    private ServiceEJBLocal serviceEJB;
+    private ServiceFacade serviceFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
@@ -34,13 +34,13 @@ public class ServiceCrudAjaxServlet extends AbstractAjaxServlet {
             if ("newRadio".equals(radioId)) {
                 Service service = parseRequest(request);
                 service.validate();
-                result = serviceEJB.createService(service);
+                result = serviceFacade.createService(service);
             } else if ("editRadio".equals(radioId)) {
                 Service service = parseRequest(request);
                 service.validate();
-                result = serviceEJB.updateService(service);
+                result = serviceFacade.updateService(service);
             } else if ("delRadio".equals(radioId)) {
-                result = serviceEJB.deleteService(NumberUtils.toLong(request.getParameter("id")));
+                result = serviceFacade.deleteService(NumberUtils.toLong(request.getParameter("id")));
             } else {
                 throw new Exception("Unknown operation");
             }

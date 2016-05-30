@@ -7,7 +7,7 @@ import ru.bigcheese.jsalon.core.model.User;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
-import ru.bigcheese.jsalon.ee.ejb.UserEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.UserFacade;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.support.DatatablesRequest;
 import ru.bigcheese.jsalon.ee.web.jsp.support.DatatablesResponse;
@@ -26,7 +26,7 @@ public class UsersAllAjaxServlet extends AbstractAjaxServlet {
     private static final Logger LOG = LoggerFactory.getLogger(UsersAllAjaxServlet.class);
 
     @EJB
-    private UserEJBLocal userEJB;
+    private UserFacade userFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
@@ -44,7 +44,7 @@ public class UsersAllAjaxServlet extends AbstractAjaxServlet {
             String orderIndex = Integer.toString(transformIndex(req.getOrderColumn()));
             criteria.orderBy(orderIndex, req.getOrderDir())
                     .limit(req.getLength(), req.getStart());
-            List<User> users = userEJB.findLimitUsersByCriteria(req.getLength(), criteria);
+            List<User> users = userFacade.findLimitUsersByCriteria(req.getLength(), criteria);
             resp.setData(users.toArray());
             resp.setDraw(req.getDraw());
             resp.setRecordsTotal(users.size());

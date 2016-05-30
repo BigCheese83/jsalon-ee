@@ -1,7 +1,7 @@
 package ru.bigcheese.jsalon.ee.dao.jpa;
 
 import ru.bigcheese.jsalon.core.model.Master;
-import ru.bigcheese.jsalon.core.model.ModelTO;
+import ru.bigcheese.jsalon.core.model.to.ModelTO;
 import ru.bigcheese.jsalon.core.model.Passport;
 import ru.bigcheese.jsalon.ee.dao.MasterDao;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
@@ -14,7 +14,7 @@ import ru.bigcheese.jsalon.ee.dao.qualifier.JPA;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.bigcheese.jsalon.core.model.BindModel.MASTER;
+import static ru.bigcheese.jsalon.core.model.enums.BindModel.MASTER;
 import static ru.bigcheese.jsalon.ee.dao.entity.MasterEntity.EXISTS_BY_PASSPORT;
 
 /**

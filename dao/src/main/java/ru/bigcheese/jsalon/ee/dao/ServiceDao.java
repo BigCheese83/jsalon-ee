@@ -1,6 +1,6 @@
 package ru.bigcheese.jsalon.ee.dao;
 
-import ru.bigcheese.jsalon.core.model.ModelTO;
+import ru.bigcheese.jsalon.core.model.to.ModelTO;
 import ru.bigcheese.jsalon.core.model.Service;
 
 import java.util.List;

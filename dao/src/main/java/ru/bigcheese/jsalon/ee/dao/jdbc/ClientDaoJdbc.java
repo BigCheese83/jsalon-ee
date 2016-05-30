@@ -1,6 +1,8 @@
 package ru.bigcheese.jsalon.ee.dao.jdbc;
 
 import ru.bigcheese.jsalon.core.model.*;
+import ru.bigcheese.jsalon.core.model.enums.BindModel;
+import ru.bigcheese.jsalon.core.model.to.ModelTO;
 import ru.bigcheese.jsalon.core.util.ModelUtils;
 import ru.bigcheese.jsalon.ee.dao.ClientDao;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
@@ -9,7 +11,6 @@ import ru.bigcheese.jsalon.ee.dao.QueryCriteriaType;
 import ru.bigcheese.jsalon.ee.dao.qualifier.JDBC;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

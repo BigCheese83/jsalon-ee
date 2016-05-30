@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import ru.bigcheese.jsalon.core.exception.ValidationException;
 import ru.bigcheese.jsalon.core.model.Post;
 import ru.bigcheese.jsalon.core.util.NumberUtils;
-import ru.bigcheese.jsalon.ee.ejb.PostEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.PostFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
@@ -23,7 +23,7 @@ public class PostCrudAjaxServlet extends AbstractAjaxServlet {
     private static final Logger LOG = LoggerFactory.getLogger(PostCrudAjaxServlet.class);
 
     @EJB
-    private PostEJBLocal postEJB;
+    private PostFacade postFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
@@ -34,13 +34,13 @@ public class PostCrudAjaxServlet extends AbstractAjaxServlet {
             if ("newRadio".equals(radioId)) {
                 Post post = parseRequest(request);
                 post.validate();
-                result = postEJB.createPost(post);
+                result = postFacade.createPost(post);
             } else if ("editRadio".equals(radioId)) {
                 Post post = parseRequest(request);
                 post.validate();
-                result = postEJB.updatePost(post);
+                result = postFacade.updatePost(post);
             } else if ("delRadio".equals(radioId)) {
-                result = postEJB.deletePost(NumberUtils.toLong(request.getParameter("id")));
+                result = postFacade.deletePost(NumberUtils.toLong(request.getParameter("id")));
             } else {
                 throw new Exception("Unknown operation");
             }

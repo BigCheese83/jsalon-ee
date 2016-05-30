@@ -29,6 +29,6 @@ public class ValidationException extends Exception {
 
     @Override
     public String getMessage() {
-        return StringUtils.join(messages.toArray(), ". ");
+        return StringUtils.join(messages.iterator(), ". ");
     }
 }

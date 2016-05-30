@@ -11,7 +11,7 @@ import ru.bigcheese.jsalon.core.util.ModelUtils;
 import ru.bigcheese.jsalon.core.util.NumberUtils;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
-import ru.bigcheese.jsalon.ee.ejb.ClientEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.ClientFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
@@ -34,27 +34,27 @@ public class ClientCrudAjaxServlet extends AbstractAjaxServlet {
     private static final Logger LOG = LoggerFactory.getLogger(ClientCrudAjaxServlet.class);
 
     @EJB
-    private ClientEJBLocal clientEJB;
+    private ClientFacade clientFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
         String json;
         try {
             if ("true".equals(request.getParameter("searchRequest"))) {
-                json = JsonUtils.getGson().toJson(clientEJB.findClientsByCriteria(buildCriteria(request)));
+                json = JsonUtils.getGson().toJson(clientFacade.findClientsByCriteria(buildCriteria(request)));
             } else {
                 String radioId = request.getParameter("radioID");
                 CrudEntityResult<Client> result;
                 if ("newRadio".equals(radioId)) {
                     Client client = parseRequest(request);
                     client.validate();
-                    result = clientEJB.createClient(client);
+                    result = clientFacade.createClient(client);
                 } else if ("editRadio".equals(radioId)) {
                     Client client = parseRequest(request);
                     client.validate();
-                    result = clientEJB.updateClient(client);
+                    result = clientFacade.updateClient(client);
                 } else if ("delRadio".equals(radioId)) {
-                    result = clientEJB.deleteClient(NumberUtils.toLong(request.getParameter("id")));
+                    result = clientFacade.deleteClient(NumberUtils.toLong(request.getParameter("id")));
                 } else {
                     throw new Exception("Unknown operation");
                 }

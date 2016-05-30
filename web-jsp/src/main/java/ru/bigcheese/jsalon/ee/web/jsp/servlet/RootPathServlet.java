@@ -4,11 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.bigcheese.jsalon.core.Constants;
 import ru.bigcheese.jsalon.core.model.User;
-import ru.bigcheese.jsalon.core.util.DBUtils;
-import ru.bigcheese.jsalon.core.util.DateUtils;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
-import ru.bigcheese.jsalon.core.util.NumberUtils;
-import ru.bigcheese.jsalon.ee.ejb.UserEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.UserFacade;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -27,14 +24,14 @@ public class RootPathServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(RootPathServlet.class);
 
     @EJB
-    private UserEJBLocal userEJB;
+    private UserFacade userFacade;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User)request.getSession().getAttribute("user");
         if (user == null) {
             try {
                 LOG.info("========== JSalon app started ==========");
-                user = userEJB.getUserByLogin(request.getRemoteUser());
+                user = userFacade.getUserByLogin(request.getRemoteUser());
                 if (user == null) {
                     throw new SecurityException("Not find user by login.");
                 }

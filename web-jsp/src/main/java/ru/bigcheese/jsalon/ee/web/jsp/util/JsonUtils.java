@@ -3,7 +3,7 @@ package ru.bigcheese.jsalon.ee.web.jsp.util;
 import com.google.gson.*;
 import ru.bigcheese.jsalon.core.Constants;
 import ru.bigcheese.jsalon.core.exception.ValidationException;
-import ru.bigcheese.jsalon.core.model.ModelTO;
+import ru.bigcheese.jsalon.core.model.to.ModelTO;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 
 import java.lang.reflect.Type;

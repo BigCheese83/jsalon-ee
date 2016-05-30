@@ -3,7 +3,7 @@ package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
-import ru.bigcheese.jsalon.ee.ejb.UserEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.UserFacade;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -22,13 +22,13 @@ public class UserServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(DiscountCrudAjaxServlet.class);
 
     @EJB
-    private UserEJBLocal userEJB;
+    private UserFacade userFacade;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<String> roles = (List<String>) request.getSession().getAttribute("allRoles");
         if (roles == null) {
             try {
-                request.getSession().setAttribute("allRoles", userEJB.getAllRoles());
+                request.getSession().setAttribute("allRoles", userFacade.getAllRoles());
             } catch (Exception e) {
                 LOG.error("Error.", e);
                 throw new ServletException("Unable get roles for user." + ExceptionUtils.parse(e), e);

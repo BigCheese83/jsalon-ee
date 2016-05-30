@@ -1,7 +1,7 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
 import ru.bigcheese.jsalon.core.model.Discount;
-import ru.bigcheese.jsalon.ee.ejb.DiscountEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.DiscountFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.ActionResult;
 import ru.bigcheese.jsalon.ee.ejb.result.FindResult;
 import ru.bigcheese.jsalon.ee.web.jsp.util.EJBUtils;
@@ -21,10 +21,10 @@ import java.io.IOException;
 public class DiscountsServlet extends HttpServlet {
 
     @EJB
-    private DiscountEJBLocal discountEJB;
+    private DiscountFacade discountFacade;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FindResult<Discount> result = discountEJB.getAllDiscounts();
+        FindResult<Discount> result = discountFacade.getAllDiscounts();
         request.setAttribute("errMessages", EJBUtils.getMessages(ActionResult.FATAL_ERROR, result));
         request.getSession().setAttribute("discountsList", result.getResult());
         request.getRequestDispatcher("/WEB-INF/jsp/admin/discounts.jsp").forward(request, response);

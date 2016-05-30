@@ -1,6 +1,7 @@
 package ru.bigcheese.jsalon.ee.dao.jdbc;
 
 import ru.bigcheese.jsalon.core.model.*;
+import ru.bigcheese.jsalon.core.model.enums.BindModel;
 import ru.bigcheese.jsalon.core.util.ModelUtils;
 
 import java.util.*;

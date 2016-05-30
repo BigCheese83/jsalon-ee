@@ -14,7 +14,7 @@ public abstract class BaseModel implements Serializable {
 
     public BaseModel() {}
 
-    BaseModel(Long id) {
+    protected BaseModel(Long id) {
         this.id = id;
     }
 

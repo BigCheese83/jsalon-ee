@@ -1,6 +1,11 @@
 package ru.bigcheese.jsalon.core.model;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+import ru.bigcheese.jsalon.core.model.enums.AppointmentStatus;
+
 import java.util.*;
+
+import static ru.bigcheese.jsalon.core.Constants.CASUAL_DATETIME_FORMAT;
 
 /**
  * Created by BigCheese on 16.05.16.
@@ -64,7 +69,7 @@ public class Appointment extends BaseModel {
 
     @Override
     public String toString() {
-        return "Запись " + (appointmentDate != null ? appointmentDate.getTime() : "null") +
+        return "Запись дата " + (appointmentDate != null ? DateFormatUtils.format(appointmentDate, CASUAL_DATETIME_FORMAT) : "null") +
                 " клиент id="  + clientId + ", мастер id=" + masterId + ", услуга id=" + serviceId;
     }
 

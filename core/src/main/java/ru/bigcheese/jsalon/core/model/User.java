@@ -27,7 +27,7 @@ public class User extends BaseModel {
     }
 
     public String getFirstName() {
-        return firstName != null ? firstName : "";
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -35,7 +35,7 @@ public class User extends BaseModel {
     }
 
     public String getLastName() {
-        return lastName != null ? lastName : "";
+        return lastName;
     }
 
     public void setLastName(String lastName) {
@@ -43,7 +43,7 @@ public class User extends BaseModel {
     }
 
     public String getMiddleName() {
-        return middleName != null ? middleName : "";
+        return middleName;
     }
 
     public void setMiddleName(String middleName) {
@@ -59,7 +59,9 @@ public class User extends BaseModel {
     }
 
     public String getFullFIO() {
-        return (getLastName() + " " + getFirstName() + " " + getMiddleName()).trim();
+        return ((StringUtils.isBlank(lastName) ? "" : lastName + " ") +
+                (StringUtils.isBlank(firstName) ? "" : firstName + " ") +
+                (StringUtils.isBlank(middleName) ? "" : middleName)).trim();
     }
 
     public String getShortFIO() {

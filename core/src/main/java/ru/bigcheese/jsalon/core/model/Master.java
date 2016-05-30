@@ -7,9 +7,9 @@ import java.util.*;
  */
 public class Master extends Person {
 
-    private Date hiringDate;
-    private Post post;
-    private boolean busy;
+    private Date hiringDate;    //Дата приема на работу
+    private Post post;          //Должность
+    private boolean busy;       //уволен
 
     public Date getHiringDate() {
         return hiringDate != null ? new Date(hiringDate.getTime()) : null;

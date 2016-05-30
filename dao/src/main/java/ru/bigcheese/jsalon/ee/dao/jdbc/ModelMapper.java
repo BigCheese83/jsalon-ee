@@ -2,6 +2,9 @@ package ru.bigcheese.jsalon.ee.dao.jdbc;
 
 import org.apache.commons.lang3.StringUtils;
 import ru.bigcheese.jsalon.core.model.*;
+import ru.bigcheese.jsalon.core.model.bind.PostServiceBind;
+import ru.bigcheese.jsalon.core.model.enums.AppointmentStatus;
+import ru.bigcheese.jsalon.core.model.to.ModelTO;
 import ru.bigcheese.jsalon.core.util.DateUtils;
 
 import java.sql.ResultSet;

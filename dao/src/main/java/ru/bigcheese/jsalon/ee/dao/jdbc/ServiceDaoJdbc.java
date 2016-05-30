@@ -1,6 +1,6 @@
 package ru.bigcheese.jsalon.ee.dao.jdbc;
 
-import ru.bigcheese.jsalon.core.model.ModelTO;
+import ru.bigcheese.jsalon.core.model.to.ModelTO;
 import ru.bigcheese.jsalon.core.model.Service;
 import ru.bigcheese.jsalon.core.util.DBUtils;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;

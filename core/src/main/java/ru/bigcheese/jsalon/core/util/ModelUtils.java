@@ -20,10 +20,6 @@ public final class ModelUtils {
         return map;
     }
 
-    public static <T extends BaseModel> Long getID(T model) {
-        return (model != null) ? model.getId() : null;
-    }
-
     public static String[] parseFIO(String fio) {
         if (StringUtils.isBlank(fio)) {
             return null;
@@ -34,9 +30,5 @@ public final class ModelUtils {
             names.add(tokenizer.nextToken());
         }
         return names.toArray(new String[names.size()]);
-    }
-
-    public static <T extends Person> String getFullFIO(T model) {
-        return (model == null) ? "null" : model.getFullFIO();
     }
 }

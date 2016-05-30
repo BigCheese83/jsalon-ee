@@ -1,12 +1,11 @@
 package ru.bigcheese.jsalon.ee.web.jsp.servlet.admin;
 
 import ru.bigcheese.jsalon.core.model.Post;
-import ru.bigcheese.jsalon.core.model.PostServiceBind;
 import ru.bigcheese.jsalon.core.model.Service;
-import ru.bigcheese.jsalon.ee.ejb.PostEJBLocal;
-import ru.bigcheese.jsalon.ee.ejb.PostServiceEJBLocal;
-import ru.bigcheese.jsalon.ee.ejb.ServiceEJBLocal;
-import ru.bigcheese.jsalon.ee.ejb.result.ActionResult;
+import ru.bigcheese.jsalon.core.model.bind.PostServiceBind;
+import ru.bigcheese.jsalon.ee.ejb.PostFacade;
+import ru.bigcheese.jsalon.ee.ejb.PostServiceFacade;
+import ru.bigcheese.jsalon.ee.ejb.ServiceFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.FindResult;
 import ru.bigcheese.jsalon.ee.web.jsp.util.EJBUtils;
 
@@ -20,6 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.bigcheese.jsalon.ee.ejb.result.ActionResult.FATAL_ERROR;
+
 /**
  * Created by BigCheese on 18.04.16.
  */
@@ -27,20 +28,20 @@ import java.util.List;
 public class PostServiceServlet extends HttpServlet {
 
     @EJB
-    private PostServiceEJBLocal postServiceEJB;
+    private PostServiceFacade postServiceFacade;
     @EJB
-    private PostEJBLocal postEJB;
+    private PostFacade postFacade;
     @EJB
-    private ServiceEJBLocal serviceEJB;
+    private ServiceFacade serviceFacade;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FindResult<PostServiceBind> result = postServiceEJB.getAllPostServiceBinds();
-        FindResult<Post> posts = postEJB.getAllPosts();
-        FindResult<Service> services = serviceEJB.getAllServices();
+        FindResult<PostServiceBind> result = postServiceFacade.getAllPostServiceBinds();
+        FindResult<Post> posts = postFacade.getAllPosts();
+        FindResult<Service> services = serviceFacade.getAllServices();
         List<String> errors = new ArrayList<>();
-        errors.addAll(EJBUtils.getMessages(ActionResult.FATAL_ERROR, result));
-        errors.addAll(EJBUtils.getMessages(ActionResult.FATAL_ERROR, posts));
-        errors.addAll(EJBUtils.getMessages(ActionResult.FATAL_ERROR, services));
+        errors.addAll(EJBUtils.getMessages(FATAL_ERROR, result));
+        errors.addAll(EJBUtils.getMessages(FATAL_ERROR, posts));
+        errors.addAll(EJBUtils.getMessages(FATAL_ERROR, services));
         request.setAttribute("errMessages", errors);
         request.getSession().setAttribute("postserviceList", result.getResult());
         request.getSession().setAttribute("postsList", posts.getResult());

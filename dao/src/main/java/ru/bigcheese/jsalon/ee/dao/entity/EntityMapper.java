@@ -1,6 +1,8 @@
 package ru.bigcheese.jsalon.ee.dao.entity;
 
 import ru.bigcheese.jsalon.core.model.*;
+import ru.bigcheese.jsalon.core.model.enums.BindModel;
+import ru.bigcheese.jsalon.core.model.bind.PostServiceBind;
 import ru.bigcheese.jsalon.core.util.DateUtils;
 
 import java.util.Calendar;

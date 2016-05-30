@@ -23,8 +23,4 @@ public class CrudEntityResult<T extends BaseModel> extends ActionResult {
     public T getResult() {
         return result;
     }
-
-    public void setResult(T result) {
-        this.result = result;
-    }
 }

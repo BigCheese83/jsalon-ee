@@ -7,11 +7,11 @@ import ru.bigcheese.jsalon.core.model.Client;
 import ru.bigcheese.jsalon.core.util.ExceptionUtils;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteria;
 import ru.bigcheese.jsalon.ee.dao.QueryCriteriaFactory;
-import ru.bigcheese.jsalon.ee.ejb.ClientEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.ClientFacade;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.support.DatatablesRequest;
 import ru.bigcheese.jsalon.ee.web.jsp.support.DatatablesResponse;
-import ru.bigcheese.jsalon.ee.web.jsp.to.ClientTO;
+import ru.bigcheese.jsalon.core.model.to.ClientTO;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
 
 import javax.ejb.EJB;
@@ -27,7 +27,7 @@ public class ClientsAllAjaxServlet extends AbstractAjaxServlet {
     private static final Logger LOG = LoggerFactory.getLogger(ClientsAllAjaxServlet.class);
 
     @EJB
-    private ClientEJBLocal clientEJB;
+    private ClientFacade clientFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
@@ -44,7 +44,7 @@ public class ClientsAllAjaxServlet extends AbstractAjaxServlet {
             String orderIndex = Integer.toString(transformIndex(req.getOrderColumn()));
             criteria.orderBy(orderIndex, req.getOrderDir())
                     .limit(req.getLength(), req.getStart());
-            List<Client> clients = clientEJB.findLimitClientsByCriteria(req.getLength(), criteria);
+            List<Client> clients = clientFacade.findLimitClientsByCriteria(req.getLength(), criteria);
             resp.setData(ClientTO.toList(clients).toArray());
             resp.setDraw(req.getDraw());
             resp.setRecordsTotal(clients.size());

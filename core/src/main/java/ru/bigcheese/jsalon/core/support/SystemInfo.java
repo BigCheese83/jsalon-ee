@@ -14,7 +14,7 @@ public class SystemInfo {
 
     public SystemInfo() {
         this.os = System.getProperty("os.name") + " v." + System.getProperty("os.version") + " " + System.getProperty("os.arch");
-        this.osFamily = detectOsFamily();
+        this.osFamily = OSValidator.detectOsFamily();
         this.javaVendor = System.getProperty("java.vendor");
         this.javaVendorUrl = System.getProperty("java.vendor.url");
         this.jre = System.getProperty("java.runtime.name") + " v." + System.getProperty("java.runtime.version");
@@ -52,22 +52,6 @@ public class SystemInfo {
                 "MB Max: " + Runtime.getRuntime().maxMemory()/1048576L + "MB";
     }
 
-    private String detectOsFamily() {
-        String result = "unknown";
-        if (OSValidator.isWindows()) {
-            result = "windows";
-        } else if (OSValidator.isMac()) {
-            result = "macos";
-        } else if (OSValidator.isLinux()) {
-            result = "linux";
-        } else if (OSValidator.isUnix()) {
-            result = "unix";
-        } else if (OSValidator.isSolaris()) {
-            result = "sunos";
-        }
-        return result;
-    }
-
     private static class OSValidator {
         private static String os = System.getProperty("os.name").toLowerCase();
 
@@ -85,6 +69,22 @@ public class SystemInfo {
         }
         public static boolean isSolaris() {
             return os.contains("sunos");
+        }
+
+        public static String detectOsFamily() {
+            String result = "unknown";
+            if (OSValidator.isWindows()) {
+                result = "windows";
+            } else if (OSValidator.isMac()) {
+                result = "macos";
+            } else if (OSValidator.isLinux()) {
+                result = "linux";
+            } else if (OSValidator.isUnix()) {
+                result = "unix";
+            } else if (OSValidator.isSolaris()) {
+                result = "sunos";
+            }
+            return result;
         }
     }
 }

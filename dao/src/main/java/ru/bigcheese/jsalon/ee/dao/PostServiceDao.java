@@ -1,6 +1,6 @@
 package ru.bigcheese.jsalon.ee.dao;
 
-import ru.bigcheese.jsalon.core.model.PostServiceBind;
+import ru.bigcheese.jsalon.core.model.bind.PostServiceBind;
 
 /**
  * Created by BigCheese on 18.02.16.

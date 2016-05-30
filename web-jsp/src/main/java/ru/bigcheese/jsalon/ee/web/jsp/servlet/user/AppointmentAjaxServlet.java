@@ -7,7 +7,7 @@ import ru.bigcheese.jsalon.core.exception.ValidationException;
 import ru.bigcheese.jsalon.core.model.Appointment;
 import ru.bigcheese.jsalon.core.util.DateUtils;
 import ru.bigcheese.jsalon.core.util.NumberUtils;
-import ru.bigcheese.jsalon.ee.ejb.AppointmentEJBLocal;
+import ru.bigcheese.jsalon.ee.ejb.AppointmentFacade;
 import ru.bigcheese.jsalon.ee.ejb.result.CrudEntityResult;
 import ru.bigcheese.jsalon.ee.web.jsp.servlet.AbstractAjaxServlet;
 import ru.bigcheese.jsalon.ee.web.jsp.util.JsonUtils;
@@ -28,7 +28,7 @@ public class AppointmentAjaxServlet extends AbstractAjaxServlet {
     private static final Logger LOG = LoggerFactory.getLogger(AppointmentAjaxServlet.class);
 
     @EJB
-    private AppointmentEJBLocal appointmentEJB;
+    private AppointmentFacade appointmentFacade;
 
     @Override
     protected String getJsonResponse(HttpServletRequest request) {
@@ -36,7 +36,7 @@ public class AppointmentAjaxServlet extends AbstractAjaxServlet {
         try {
             Appointment appointment = parseRequest(request);
             appointment.validate();
-            CrudEntityResult<Appointment> result = appointmentEJB.createAppointment(appointment);
+            CrudEntityResult<Appointment> result = appointmentFacade.createAppointment(appointment);
             json = JsonUtils.getGson().toJson(result);
         } catch (ValidationException e) {
             LOG.error("Validation failed. {}.", e.getMessage());
