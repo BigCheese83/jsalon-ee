@@ -29,9 +29,11 @@
         </fieldset>
         <fieldset>
             <legend><i class="fa fa-file-text-o"></i> System properties</legend>
-            <div>
-                <jsalon:sysprops/>
-            </div>
+            <p><jsalon:sysprops/></p>
+        </fieldset>
+        <fieldset>
+            <legend><i class="fa fa-file-text-o"></i> Environment properties</legend>
+            <p><jsalon:envprops/></p>
         </fieldset>
     </fieldset>
 </div><!-- End div content -->

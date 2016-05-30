@@ -2,6 +2,8 @@ package ru.bigcheese.jsalon.core;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -17,14 +19,19 @@ public final class Constants {
 
     /* JVM System Properties */
     public static final Properties JSALON_SYSTEM_PROPERTIES;
-    private static final String DAO_IMPLEMENTATION_PROPERTY = "jsalon.dao.implementation";
-    private static final String LOG_PATH_PROPERTY = "jsalon.log.path";
+    public static final Properties JSALON_ENVIRONMENT_PROPERTIES;
+
+    public static final String DAO_IMPLEMENTATION_PROPERTY = "jsalon.dao.implementation";
+    public static final String LOG_PATH_PROPERTY = "jsalon.log.path";
+
+    public static final String ENVIRONMENT_PROPERTY = "jsalon.environment";
 
     /* JNDI */
     public static final String SALON_JNDI_NAME = "jdbc/salon";
 
     /* DAO Implementation */
     public static final String DAO_IMPLEMENTATION;
+
     public static final String LOG_PATH;
 
     /* JPA Persistence Unit */
@@ -47,13 +54,24 @@ public final class Constants {
         COPYRIGHT_STRING = "\u00a9" + " " + SOFTWARE_NAME + " " + Calendar.getInstance().get(Calendar.YEAR) + " г.";
         ALL_COUNTRIES = initCountries();
         JSALON_SYSTEM_PROPERTIES = initProperties();
-
+        JSALON_ENVIRONMENT_PROPERTIES = initEnvironment();
     }
 
     private static Properties initProperties() {
         Properties props = new Properties();
         props.setProperty(DAO_IMPLEMENTATION_PROPERTY, DAO_IMPLEMENTATION);
         props.setProperty(LOG_PATH_PROPERTY, LOG_PATH);
+        return props;
+    }
+
+    private static Properties initEnvironment() {
+        Properties props = new Properties();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        try (InputStream is = classLoader.getResourceAsStream("env.properties")) {
+            props.load(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return props;
     }
 
